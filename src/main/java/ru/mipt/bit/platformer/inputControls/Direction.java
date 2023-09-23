@@ -1,16 +1,15 @@
-package ru.mipt.bit.platformer.direction;
+package ru.mipt.bit.platformer.inputControls;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-public enum Directions {
+public enum Direction {
     UP(new GridPoint2(0, 1), 90f),
     DOWN(new GridPoint2(0, -1), -90f),
     LEFT(new GridPoint2(-1, 0), 180f),
     RIGHT(new GridPoint2(1, 0), 0f),
-    STAY(new GridPoint2(0, 0), 0f)
     ;
 
-    Directions(GridPoint2 coordinates, float rotation) {
+    Direction(GridPoint2 coordinates, float rotation) {
         this.coordinates = coordinates;
         this.rotation = rotation;
     }
@@ -21,6 +20,10 @@ public enum Directions {
                 "rotation=" + rotation +
                 ", coordinates=" + coordinates +
                 '}';
+    }
+
+    public GridPoint2 apply(GridPoint2 point) {
+        return point.cpy().add(coordinates);
     }
 
     private final float rotation;

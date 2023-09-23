@@ -6,110 +6,141 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.direction.Directions;
-import ru.mipt.bit.platformer.gameEntity.GameEntity;
-import ru.mipt.bit.platformer.map.OneLevelMap;
-import ru.mipt.bit.platformer.gameEntity.Obstacle;
-import ru.mipt.bit.platformer.gameEntity.Player;
-import ru.mipt.bit.platformer.direction.DirectionController;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.math.Interpolation;
+import ru.mipt.bit.platformer.inputControls.Direction;
+import ru.mipt.bit.platformer.graphics.Graphics;
+import ru.mipt.bit.platformer.inputControls.InputController;
+import ru.mipt.bit.platformer.gameEntities.Obstacle;
+import ru.mipt.bit.platformer.gameEntities.Tank;
+import ru.mipt.bit.platformer.util.TileMovement;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
-import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class GameDesktopLauncher implements ApplicationListener {
+    private TiledMap level;
+    private MapRenderer levelRenderer;
+    private TileMovement tileMovement;
 
-    private static final float MOVEMENT_SPEED = 0.4f;
+    private TiledMapTileLayer groundLayer;
 
     private Batch batch;
 
-    private OneLevelMap oneLevelMap;
-
     private Obstacle obstacle;
-    private Player player;
-    private DirectionController directionController;
-    private final ArrayList<GameEntity> gameEntities = new ArrayList<>();
+    private Tank tank;
+    private InputController inputController;
 
-    public GameDesktopLauncher() {
-    }
+    private Graphics tankGraphics;
+    private Graphics obstacleGraphics;
+
 
     @Override
     public void create() {
         batch = new SpriteBatch();
 
-        // load level tiles
-        oneLevelMap = new OneLevelMap("level.tmx", batch);
+        initLevelGraphics();
 
-        player = new Player(
-                "images/tank_blue.png",
+        initGameEntities();
+
+        inputController = new InputController();
+        inputController.initKeyBoardMappings();
+
+    }
+
+    private void initLevelGraphics() {
+        // load level tiles
+        level = new TmxMapLoader().load("level.tmx");
+        levelRenderer = createSingleLayerMapRenderer(level, batch);
+        groundLayer = getSingleLayer(level);
+        tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
+    }
+
+    private void initGameEntities() {
+        tank = new Tank(
                 new GridPoint2(1, 1)
         );
-        gameEntities.add(player);
+        tankGraphics = new Graphics("images/tank_blue.png", tank);
 
-        obstacle = new Obstacle(
-                "images/greenTree.png",
-                new GridPoint2(1, 3),
-                oneLevelMap  // как лучше? кидать map или map.getGroundLayer()
+
+        obstacle = new Obstacle(new GridPoint2(1, 3));
+        obstacleGraphics = new Graphics("images/greenTree.png", obstacle);
+        moveRectangleAtTileCenter(
+                groundLayer,
+                obstacleGraphics.getRectangle(),
+                obstacle.getCurrentCoordinates()
         );
-        gameEntities.add(obstacle);
-
-        directionController = new DirectionController();
     }
+
 
     @Override
     public void render() {
         clearScreen();
 
-        movePlayer();
+        // get time passed since the last render
+        float deltaTime = Gdx.graphics.getDeltaTime();
 
+        updateGameState(deltaTime);
+
+        renderGame();
+
+    }
+
+    private void updateGameState(float deltaTime) {
+        updateTankState(deltaTime);
+        updateGameGraphics();
+
+    }
+
+    private void updateGameGraphics() {
+        // calculate interpolated player screen coordinates
+        tileMovement.moveRectangleBetweenTileCenters(
+                tankGraphics.getRectangle(),
+                tank.getCurrentCoordinates(),
+                tank.getDestinationCoordinates(),
+                tank.getMovementProgress()
+        );
+
+    }
+
+    private void updateTankState(float deltaTime) {
+        Direction newDirection = inputController.getDirection();
+        // в будущем у танка будем обновлять состояния и это не только движение, например обновить жизни
+        moveTank(newDirection, deltaTime);
+
+    }
+
+    private void moveTank(Direction newDirection, float deltaTime) {
+        if (!tank.isMoving() && newDirection != null) {
+            GridPoint2 destinationCoordinates = newDirection.apply(tank.getCurrentCoordinates());
+            if (!collides(destinationCoordinates, obstacle.getCurrentCoordinates())){
+                tank.moveTo(destinationCoordinates);
+            }
+            tank.setRotation(newDirection.getRotation());
+        }
+        tank.updateMovementState(deltaTime);
+
+    }
+
+
+    private void renderGame() {
         // render each tile of the level
-        oneLevelMap.levelRender();
+        levelRenderer.render();
 
         // start recording all drawing commands
         batch.begin();
 
-        drawTextureGameEntities();
+        obstacleGraphics.drawTexture(batch);
+        tankGraphics.drawTexture(batch);
 
         // submit all drawing requests
         batch.end();
-
     }
 
-    private void drawTextureGameEntities() {
-        for (GameEntity gameEntity: gameEntities){
-            drawTextureRegionUnscaled(batch, gameEntity.getGraphics(), gameEntity.getRectangle(), gameEntity.getRotation());
-        }
-    }
-
-    private void movePlayer() {
-        // get time passed since the last render
-        float deltaTime = Gdx.graphics.getDeltaTime();
-
-        Directions newDirection = directionController.getNewDirection(Gdx.input);
-        if (isEqual(player.getMovementProgress(), 1f) && newDirection != Directions.STAY) {
-            GridPoint2 destinationCoordinates = player.getCurrentCoordinates().cpy().add(newDirection.getCoordinates());
-            if (!destinationCoordinates.equals(obstacle.getCurrentCoordinates())){
-                player.setDestinationCoordinates(destinationCoordinates);
-                player.setMovementProgress(0f);
-            }
-            player.setRotation(newDirection.getRotation());
-        }
-
-        // calculate interpolated player screen coordinates
-        oneLevelMap.calculateInterpolatedPlayerScreenCoordinates(
-                player
-        );
-
-        player.setMovementProgress(continueProgress(player.getMovementProgress(), deltaTime, MOVEMENT_SPEED));
-        if (isEqual(player.getMovementProgress(), 1f)) {
-            // record that the player has reached his/her destination
-            player.setCurrentCoordinates(player.getDestinationCoordinates());
-        }
-    }
 
     private static void clearScreen() {
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
@@ -134,9 +165,9 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        obstacle.textureDispose();
-        player.textureDispose();
-        oneLevelMap.levelDispose();
+        tankGraphics.dispose();
+        obstacleGraphics.dispose();
+        level.dispose();
         batch.dispose();
     }
 
