@@ -12,12 +12,17 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
-import ru.mipt.bit.platformer.inputControls.Direction;
 import ru.mipt.bit.platformer.graphics.Graphics;
+import ru.mipt.bit.platformer.graphics.ObstacleGraphics;
+import ru.mipt.bit.platformer.graphics.TankGraphics;
+import ru.mipt.bit.platformer.inputControls.Direction;
 import ru.mipt.bit.platformer.inputControls.InputController;
 import ru.mipt.bit.platformer.gameEntities.Obstacle;
 import ru.mipt.bit.platformer.gameEntities.Tank;
 import ru.mipt.bit.platformer.util.TileMovement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
@@ -35,8 +40,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Tank tank;
     private InputController inputController;
 
-    private Graphics tankGraphics;
-    private Graphics obstacleGraphics;
+    private TankGraphics tankGraphics;
+    private ObstacleGraphics obstacleGraphics;
 
 
     @Override
@@ -64,11 +69,11 @@ public class GameDesktopLauncher implements ApplicationListener {
         tank = new Tank(
                 new GridPoint2(1, 1)
         );
-        tankGraphics = new Graphics("images/tank_blue.png", tank);
+        tankGraphics = new TankGraphics("images/tank_blue.png", tank);
 
 
         obstacle = new Obstacle(new GridPoint2(1, 3));
-        obstacleGraphics = new Graphics("images/greenTree.png", obstacle);
+        obstacleGraphics = new ObstacleGraphics("images/greenTree.png", obstacle);
         moveRectangleAtTileCenter(
                 groundLayer,
                 obstacleGraphics.getRectangle(),
