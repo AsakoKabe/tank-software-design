@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 
 public class Obstacle implements GameEntity{
     protected GridPoint2 currentCoordinates;
-    float rotation = 0f;
 
 
     public Obstacle(
@@ -17,7 +16,13 @@ public class Obstacle implements GameEntity{
         return currentCoordinates;
     }
 
-    public float getRotation() {
-        return rotation;
+    @Override
+    public void updateState(float deltaTime) {
+
+    }
+
+    @Override
+    public void moveTo(GridPoint2 coordinates, float rotation) {
+
     }
 }

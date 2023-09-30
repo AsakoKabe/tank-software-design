@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.gameEntities.Obstacle;
+import ru.mipt.bit.platformer.util.TileMovement;
 
-import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
-import static ru.mipt.bit.platformer.util.GdxGameUtils.drawTextureRegionUnscaled;
+import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
-public class ObstacleGraphics implements Graphics{
+public class ObstacleGraphics implements EntityGraphics {
     private final Texture texture;
     private final TextureRegion textureRegion;
     private final Rectangle rectangle;
@@ -20,6 +20,11 @@ public class ObstacleGraphics implements Graphics{
         textureRegion = new TextureRegion(texture);
         rectangle = createBoundingRectangle(textureRegion);
         this.obstacle = obstacle;
+//        moveRectangleAtTileCenter(
+//                groundLayer,
+//                rectangle,
+//                obstacle.getCurrentCoordinates()
+//        );
 
     }
 
@@ -27,11 +32,11 @@ public class ObstacleGraphics implements Graphics{
         drawTextureRegionUnscaled(batch, textureRegion, rectangle, 0f);
     }
 
-    public void dispose(){
-        texture.dispose();
+    @Override
+    public void update(TileMovement tileMovement) {
     }
 
-    public Rectangle getRectangle() {
-        return rectangle;
+    public void dispose(){
+        texture.dispose();
     }
 }

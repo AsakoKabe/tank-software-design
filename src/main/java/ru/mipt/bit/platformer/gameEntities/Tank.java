@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
-public class Tank implements GameEntity{
+public class Tank implements GameEntity {
 
     private static final float MOVEMENT_SPEED = 0.4f;
     private static final float MOVEMENT_COMPLETED = 1f;
@@ -23,9 +23,8 @@ public class Tank implements GameEntity{
         destinationCoordinates = startCoordinates;
     }
 
-    public void moveTo(GridPoint2 tankTargetCoordinates) {
-        destinationCoordinates = tankTargetCoordinates;
-        movementProgress = MOVEMENT_STARTED;
+    public void updateState(float deltaTime){
+        updateMovementState(deltaTime);
     }
 
     public void updateMovementState(float deltaTime) {
@@ -58,5 +57,14 @@ public class Tank implements GameEntity{
 
     public float getRotation() {
         return rotation;
+    }
+
+    @Override
+    public void moveTo(GridPoint2 coordinates, float rotation) {
+        if (!isMoving()){
+            destinationCoordinates = currentCoordinates.cpy().add(coordinates);
+            this.rotation = rotation;
+            movementProgress = MOVEMENT_STARTED;
+        }
     }
 }

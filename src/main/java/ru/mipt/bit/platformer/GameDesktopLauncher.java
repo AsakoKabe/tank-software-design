@@ -4,65 +4,58 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Interpolation;
-import ru.mipt.bit.platformer.graphics.Graphics;
+import ru.mipt.bit.platformer.action.Action;
+import ru.mipt.bit.platformer.action.ActionController;
+import ru.mipt.bit.platformer.gameEntities.GameEntity;
+import ru.mipt.bit.platformer.gameEntities.Level;
+import ru.mipt.bit.platformer.graphics.LevelGraphics;
 import ru.mipt.bit.platformer.graphics.ObstacleGraphics;
 import ru.mipt.bit.platformer.graphics.TankGraphics;
-import ru.mipt.bit.platformer.inputControls.Direction;
-import ru.mipt.bit.platformer.inputControls.InputController;
+import ru.mipt.bit.platformer.action.InputController;
 import ru.mipt.bit.platformer.gameEntities.Obstacle;
 import ru.mipt.bit.platformer.gameEntities.Tank;
-import ru.mipt.bit.platformer.util.TileMovement;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
-import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class GameDesktopLauncher implements ApplicationListener {
-    private TiledMap level;
-    private MapRenderer levelRenderer;
-    private TileMovement tileMovement;
-
-    private TiledMapTileLayer groundLayer;
-
-    private Batch batch;
+    private LevelGraphics levelGraphics;
+    private Level level;
 
     private Obstacle obstacle;
     private Tank tank;
     private InputController inputController;
-
+    private ActionController actionController;
     private TankGraphics tankGraphics;
     private ObstacleGraphics obstacleGraphics;
 
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-
-        initLevelGraphics();
-
+        levelGraphics = new LevelGraphics();
+        level = new Level();
         initGameEntities();
-
-        inputController = new InputController();
-        inputController.initKeyBoardMappings();
-
+        initControllers();
     }
 
-    private void initLevelGraphics() {
-        // load level tiles
-        level = new TmxMapLoader().load("level.tmx");
-        levelRenderer = createSingleLayerMapRenderer(level, batch);
-        groundLayer = getSingleLayer(level);
-        tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
+    @Override
+    public void render() {
+        clearScreen();
+        // get time passed since the last render
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        HashMap<GameEntity, Action> actions =  actionController.generateGameEntitiesActions();
+        actionController.applyActions(actions);
+
+        level.updateState(deltaTime);
+        levelGraphics.render();
+    }
+
+    private void initControllers() {
+        inputController = new InputController();
+        inputController.initKeyBoardMappings();
+        actionController = new ActionController(inputController);
     }
 
     private void initGameEntities() {
@@ -70,80 +63,15 @@ public class GameDesktopLauncher implements ApplicationListener {
                 new GridPoint2(1, 1)
         );
         tankGraphics = new TankGraphics("images/tank_blue.png", tank);
+        level.addGameEntity(tank);
+        levelGraphics.addEntityGraphics(tankGraphics);
+        inputController.addGameEntity(tank);
 
 
         obstacle = new Obstacle(new GridPoint2(1, 3));
         obstacleGraphics = new ObstacleGraphics("images/greenTree.png", obstacle);
-        moveRectangleAtTileCenter(
-                groundLayer,
-                obstacleGraphics.getRectangle(),
-                obstacle.getCurrentCoordinates()
-        );
-    }
-
-
-    @Override
-    public void render() {
-        clearScreen();
-
-        // get time passed since the last render
-        float deltaTime = Gdx.graphics.getDeltaTime();
-
-        updateGameState(deltaTime);
-
-        renderGame();
-
-    }
-
-    private void updateGameState(float deltaTime) {
-        updateTankState(deltaTime);
-        updateGameGraphics();
-
-    }
-
-    private void updateGameGraphics() {
-        // calculate interpolated player screen coordinates
-        tileMovement.moveRectangleBetweenTileCenters(
-                tankGraphics.getRectangle(),
-                tank.getCurrentCoordinates(),
-                tank.getDestinationCoordinates(),
-                tank.getMovementProgress()
-        );
-
-    }
-
-    private void updateTankState(float deltaTime) {
-        Direction newDirection = inputController.getDirection();
-        // в будущем у танка будем обновлять состояния и это не только движение, например обновить жизни
-        moveTank(newDirection, deltaTime);
-
-    }
-
-    private void moveTank(Direction newDirection, float deltaTime) {
-        if (!tank.isMoving() && newDirection != null) {
-            GridPoint2 destinationCoordinates = newDirection.apply(tank.getCurrentCoordinates());
-            if (!collides(destinationCoordinates, obstacle.getCurrentCoordinates())){
-                tank.moveTo(destinationCoordinates);
-            }
-            tank.setRotation(newDirection.getRotation());
-        }
-        tank.updateMovementState(deltaTime);
-
-    }
-
-
-    private void renderGame() {
-        // render each tile of the level
-        levelRenderer.render();
-
-        // start recording all drawing commands
-        batch.begin();
-
-        obstacleGraphics.drawTexture(batch);
-        tankGraphics.drawTexture(batch);
-
-        // submit all drawing requests
-        batch.end();
+        level.addGameEntity(obstacle);
+        levelGraphics.addEntityGraphics(obstacleGraphics);
     }
 
 
@@ -169,11 +97,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void dispose() {
-        // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        tankGraphics.dispose();
-        obstacleGraphics.dispose();
-        level.dispose();
-        batch.dispose();
+        levelGraphics.dispose();
     }
 
     public static void main(String[] args) {
