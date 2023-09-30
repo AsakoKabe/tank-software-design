@@ -22,13 +22,13 @@ public class InputController {
         gameEntities.add(gameEntity);
     }
 
-    public HashMap<GameEntity, Action> getActionsGameEntities(){
-        HashMap<GameEntity, Action> gameEntityAction = new HashMap<>();
+    public HashMap<GameEntity, Action> getGameEntitiesActions(){
+        HashMap<GameEntity, Action> gameEntitiesActions = new HashMap<>();
         for (GameEntity gameEntity: gameEntities){
-            gameEntityAction.put(gameEntity, getAction());
+            gameEntitiesActions.put(gameEntity, getAction());
         }
 
-        return gameEntityAction;
+        return gameEntitiesActions;
     }
 
     public Action getAction() {

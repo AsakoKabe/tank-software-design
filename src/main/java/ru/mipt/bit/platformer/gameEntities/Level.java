@@ -21,5 +21,4 @@ public class Level {
             gameEntity.updateState(deltaTime);
         }
     }
-
 }

@@ -26,6 +26,10 @@ public class LevelGraphics {
     private List<EntityGraphics> entitiesGraphics;
 
 
+    public TiledMapTileLayer getGroundLayer() {
+        return groundLayer;
+    }
+
     public LevelGraphics() {
         batch = new SpriteBatch();
         level = new TmxMapLoader().load("level.tmx");

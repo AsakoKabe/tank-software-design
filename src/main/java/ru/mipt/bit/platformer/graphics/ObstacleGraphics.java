@@ -3,6 +3,7 @@ package ru.mipt.bit.platformer.graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.gameEntities.Obstacle;
 import ru.mipt.bit.platformer.util.TileMovement;
@@ -15,16 +16,16 @@ public class ObstacleGraphics implements EntityGraphics {
     private final Rectangle rectangle;
     private final Obstacle obstacle;
 
-    public ObstacleGraphics(String fileNameTexture, Obstacle obstacle) {
+    public ObstacleGraphics(String fileNameTexture, Obstacle obstacle, TiledMapTileLayer groundLayer) {
         texture = new Texture(fileNameTexture);
         textureRegion = new TextureRegion(texture);
         rectangle = createBoundingRectangle(textureRegion);
         this.obstacle = obstacle;
-//        moveRectangleAtTileCenter(
-//                groundLayer,
-//                rectangle,
-//                obstacle.getCurrentCoordinates()
-//        );
+        moveRectangleAtTileCenter(
+                groundLayer,
+                rectangle,
+                obstacle.getCurrentCoordinates()
+        );
 
     }
 

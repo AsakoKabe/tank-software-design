@@ -19,6 +19,8 @@ public enum Direction implements Action{
 
     public void apply(GameEntity gameEntity) {
         gameEntity.moveTo(coordinates, rotation);
+
+
 //        if (!tank.isMoving() && newDirection != null) {
 //            GridPoint2 destinationCoordinates = newDirection.apply(tank.getCurrentCoordinates());
 //            if (!collides(destinationCoordinates, obstacle.getCurrentCoordinates())){
@@ -31,16 +33,4 @@ public enum Direction implements Action{
     private final float rotation;
     private final GridPoint2 coordinates;
 
-    public float getRotation() {
-        return rotation;
-    }
-
-    public GridPoint2 getCoordinates() {
-        return coordinates;
-    }
-
-
-    public GridPoint2 computeCoordinates(GridPoint2 movableCoordinates) {
-        return movableCoordinates.cpy().add(coordinates);
-    }
 }

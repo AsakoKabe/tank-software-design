@@ -36,8 +36,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void create() {
         levelGraphics = new LevelGraphics();
         level = new Level();
-        initGameEntities();
         initControllers();
+        initGameEntities();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         clearScreen();
         // get time passed since the last render
         float deltaTime = Gdx.graphics.getDeltaTime();
-        HashMap<GameEntity, Action> actions =  actionController.generateGameEntitiesActions();
+        HashMap<GameEntity, Action> actions = actionController.generateGameEntitiesActions();
         actionController.applyActions(actions);
 
         level.updateState(deltaTime);
@@ -59,9 +59,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void initGameEntities() {
-        tank = new Tank(
-                new GridPoint2(1, 1)
-        );
+        tank = new Tank(new GridPoint2(1, 1));
         tankGraphics = new TankGraphics("images/tank_blue.png", tank);
         level.addGameEntity(tank);
         levelGraphics.addEntityGraphics(tankGraphics);
@@ -69,7 +67,9 @@ public class GameDesktopLauncher implements ApplicationListener {
 
 
         obstacle = new Obstacle(new GridPoint2(1, 3));
-        obstacleGraphics = new ObstacleGraphics("images/greenTree.png", obstacle);
+        obstacleGraphics = new ObstacleGraphics(
+                "images/greenTree.png", obstacle, levelGraphics.getGroundLayer()
+        );
         level.addGameEntity(obstacle);
         levelGraphics.addEntityGraphics(obstacleGraphics);
     }

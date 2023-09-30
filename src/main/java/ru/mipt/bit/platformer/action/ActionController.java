@@ -2,7 +2,6 @@ package ru.mipt.bit.platformer.action;
 
 import ru.mipt.bit.platformer.gameEntities.GameEntity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ActionController {
@@ -10,19 +9,22 @@ public class ActionController {
 
     public ActionController(InputController inputController) {
         this.inputController = inputController;
-//        AIController
+        //  AIController
     }
 
     public HashMap<GameEntity, Action> generateGameEntitiesActions(){
         HashMap<GameEntity, Action> gameEntitiesActions = new HashMap<>();
-        gameEntitiesActions.putAll(inputController.getActionsGameEntities());
-//        put AI controller
+        gameEntitiesActions.putAll(inputController.getGameEntitiesActions());
+        //   put AI actions
+
         return gameEntitiesActions;
     }
 
     public void applyActions(HashMap<GameEntity, Action> gameEntityAction){
         gameEntityAction.forEach((gameEntity, action) -> {
-            action.apply(gameEntity);
+            if (action != null) {
+                action.apply(gameEntity);
+            }
         });
     }
 }
