@@ -41,13 +41,14 @@ public class InputController {
     }
 
     public void initKeyBoardMappings() {
-        keyToDirectionMap.put(UP, Direction.UP);
-        keyToDirectionMap.put(W, Direction.UP);
-        keyToDirectionMap.put(LEFT, Direction.LEFT);
-        keyToDirectionMap.put(A, Direction.LEFT);
-        keyToDirectionMap.put(DOWN, Direction.DOWN);
-        keyToDirectionMap.put(S, Direction.DOWN);
-        keyToDirectionMap.put(RIGHT, Direction.RIGHT);
-        keyToDirectionMap.put(D, Direction.RIGHT);
+        keyToDirectionMap.put(UP, Move.UP);
+        keyToDirectionMap.put(W, Move.UP);
+        keyToDirectionMap.put(LEFT, Move.LEFT);
+        keyToDirectionMap.put(A, Move.LEFT);
+        keyToDirectionMap.put(DOWN, Move.DOWN);
+        keyToDirectionMap.put(S, Move.DOWN);
+        keyToDirectionMap.put(RIGHT, Move.RIGHT);
+        keyToDirectionMap.put(D, Move.RIGHT);
     }
+
 }

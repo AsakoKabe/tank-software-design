@@ -1,6 +1,6 @@
 package ru.mipt.bit.platformer.gameEntities;
 
-import ru.mipt.bit.platformer.action.Direction;
+import com.badlogic.gdx.math.GridPoint2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,5 +20,14 @@ public class Level {
         for (GameEntity gameEntity: gameEntities){
             gameEntity.updateState(deltaTime);
         }
+    }
+
+    public boolean collidesExist(GridPoint2 coordinates) {
+        for (GameEntity gameEntity: gameEntities){
+            if (gameEntity.getCurrentCoordinates().equals(coordinates)){
+                return true;
+            }
+        }
+        return false;
     }
 }

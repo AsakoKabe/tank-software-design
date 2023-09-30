@@ -60,7 +60,7 @@ public class Tank implements GameEntity {
     }
 
     @Override
-    public void moveTo(GridPoint2 coordinates, float rotation) {
+    public void moveToDirection(GridPoint2 coordinates, float rotation) {
         if (!isMoving()){
             destinationCoordinates = currentCoordinates.cpy().add(coordinates);
             this.rotation = rotation;

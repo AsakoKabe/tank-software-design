@@ -22,7 +22,7 @@ public class Obstacle implements GameEntity{
     }
 
     @Override
-    public void moveTo(GridPoint2 coordinates, float rotation) {
+    public void moveToDirection(GridPoint2 coordinates, float rotation) {
 
     }
 }
