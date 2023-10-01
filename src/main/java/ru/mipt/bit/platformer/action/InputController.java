@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InputController {
-    private final Map<Integer, Action> keyToDirectionMap = new HashMap<>();
+    private final Map<Integer, ActionFactory> keyToDirectionMap = new HashMap<>();
     private ArrayList<GameEntity> gameEntities;
 
     public InputController() {
@@ -34,21 +34,22 @@ public class InputController {
     public Action getAction() {
         for (Integer key : keyToDirectionMap.keySet()) {
             if (Gdx.input.isKeyPressed(key)) {
-                return keyToDirectionMap.get(key);
+                return keyToDirectionMap.get(key).create();
             }
         }
         return null;
     }
 
     public void initKeyBoardMappings() {
-        keyToDirectionMap.put(UP, Move.UP);
-        keyToDirectionMap.put(W, Move.UP);
-        keyToDirectionMap.put(LEFT, Move.LEFT);
-        keyToDirectionMap.put(A, Move.LEFT);
-        keyToDirectionMap.put(DOWN, Move.DOWN);
-        keyToDirectionMap.put(S, Move.DOWN);
-        keyToDirectionMap.put(RIGHT, Move.RIGHT);
-        keyToDirectionMap.put(D, Move.RIGHT);
+
+        keyToDirectionMap.put(UP, new MoveFactory(Direction.UP));
+        keyToDirectionMap.put(W, new MoveFactory(Direction.UP));
+        keyToDirectionMap.put(LEFT, new MoveFactory(Direction.LEFT));
+        keyToDirectionMap.put(A, new MoveFactory(Direction.LEFT));
+        keyToDirectionMap.put(DOWN, new MoveFactory(Direction.DOWN));
+        keyToDirectionMap.put(S, new MoveFactory(Direction.DOWN));
+        keyToDirectionMap.put(RIGHT, new MoveFactory(Direction.RIGHT));
+        keyToDirectionMap.put(D, new MoveFactory(Direction.RIGHT));
     }
 
 }

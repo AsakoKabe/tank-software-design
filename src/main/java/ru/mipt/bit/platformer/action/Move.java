@@ -3,19 +3,14 @@ package ru.mipt.bit.platformer.action;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.gameEntities.GameEntity;
 
-public enum Move implements Action{
-    UP(new GridPoint2(0, 1), 90f),
-    DOWN(new GridPoint2(0, -1), -90f),
-    LEFT(new GridPoint2(-1, 0), 180f),
-    RIGHT(new GridPoint2(1, 0), 0f),
-    ;
+class Move implements Action{
 
-    private boolean coordinatesReseted;
+    private boolean coordinatesReset;
 
     Move(GridPoint2 coordinates, float rotation) {
         this.coordinates = coordinates;
         this.rotation = rotation;
-        this.coordinatesReseted = false;
+        this.coordinatesReset = false;
     }
 
     public GridPoint2 getCoordinates() {
@@ -23,9 +18,9 @@ public enum Move implements Action{
     }
 
     public void apply(GameEntity gameEntity) {
-        if (coordinatesReseted){
+        if (coordinatesReset){
             gameEntity.moveToDirection(new GridPoint2(0, 0), rotation);
-            coordinatesReseted = false;
+            coordinatesReset = false;
         }
         else {
             gameEntity.moveToDirection(coordinates, rotation);
@@ -33,7 +28,7 @@ public enum Move implements Action{
     }
 
     public void resetCoordinates(){
-        coordinatesReseted = true;
+        coordinatesReset = true;
     }
 
     private final float rotation;

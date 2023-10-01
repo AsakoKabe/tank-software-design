@@ -47,11 +47,7 @@ public class Tank implements GameEntity {
         return destinationCoordinates;
     }
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
-
-    public boolean isMoving() {
+    private boolean isMoving() {
         return !isEqual(movementProgress, 1f);
     }
 
