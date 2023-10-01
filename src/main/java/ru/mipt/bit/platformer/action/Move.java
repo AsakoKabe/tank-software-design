@@ -3,11 +3,11 @@ package ru.mipt.bit.platformer.action;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.gameEntities.GameEntity;
 
-class Move implements Action{
+public class Move implements Action{
 
     private boolean coordinatesReset;
 
-    Move(GridPoint2 coordinates, float rotation) {
+    public Move(GridPoint2 coordinates, float rotation) {
         this.coordinates = coordinates;
         this.rotation = rotation;
         this.coordinatesReset = false;
@@ -19,11 +19,11 @@ class Move implements Action{
 
     public void apply(GameEntity gameEntity) {
         if (coordinatesReset){
-            gameEntity.moveToDirection(new GridPoint2(0, 0), rotation);
+            gameEntity.moveTo(new GridPoint2(0, 0), rotation);
             coordinatesReset = false;
         }
         else {
-            gameEntity.moveToDirection(coordinates, rotation);
+            gameEntity.moveTo(coordinates, rotation);
         }
     }
 
@@ -32,6 +32,11 @@ class Move implements Action{
     }
 
     private final float rotation;
+
+    public float getRotation() {
+        return rotation;
+    }
+
     private final GridPoint2 coordinates;
 
 }

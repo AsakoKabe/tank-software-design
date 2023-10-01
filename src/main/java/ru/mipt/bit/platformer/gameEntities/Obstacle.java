@@ -3,7 +3,7 @@ package ru.mipt.bit.platformer.gameEntities;
 import com.badlogic.gdx.math.GridPoint2;
 
 public class Obstacle implements GameEntity{
-    protected GridPoint2 currentCoordinates;
+    private final GridPoint2 currentCoordinates;
 
 
     public Obstacle(
@@ -13,16 +13,14 @@ public class Obstacle implements GameEntity{
     }
 
     public GridPoint2 getCurrentCoordinates() {
-        return currentCoordinates;
+        return currentCoordinates.cpy();
     }
 
     @Override
     public void updateState(float deltaTime) {
-
     }
 
     @Override
-    public void moveToDirection(GridPoint2 coordinates, float rotation) {
-
+    public void moveTo(GridPoint2 coordinates, float rotation) {
     }
 }
