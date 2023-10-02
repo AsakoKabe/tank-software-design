@@ -25,4 +25,8 @@ public enum Direction {
     public float getRotation() {
         return rotation;
     }
+
+    public GridPoint2 applyCoordinates(GridPoint2 coordinates){
+        return coordinates.cpy().add(this.coordinates);
+    }
 }

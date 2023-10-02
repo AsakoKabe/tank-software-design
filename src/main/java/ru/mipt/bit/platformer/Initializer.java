@@ -15,15 +15,15 @@ import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.Input.Keys.D;
 
 public class Initializer {
-    public static void initKeyBoardMappings(InputController inputController) {
-        inputController.addKeyActionFactoryMapping(UP, new MoveFactory(Direction.UP));
-        inputController.addKeyActionFactoryMapping(W, new MoveFactory(Direction.UP));
-        inputController.addKeyActionFactoryMapping(LEFT, new MoveFactory(Direction.LEFT));
-        inputController.addKeyActionFactoryMapping(A, new MoveFactory(Direction.LEFT));
-        inputController.addKeyActionFactoryMapping(DOWN, new MoveFactory(Direction.DOWN));
-        inputController.addKeyActionFactoryMapping(S, new MoveFactory(Direction.DOWN));
-        inputController.addKeyActionFactoryMapping(RIGHT, new MoveFactory(Direction.RIGHT));
-        inputController.addKeyActionFactoryMapping(D, new MoveFactory(Direction.RIGHT));
+    public static void initKeyBoardMappings(InputController inputController, Level level) {
+        inputController.addKeyActionFactoryMapping(UP, new MoveFactory(Direction.UP, level));
+        inputController.addKeyActionFactoryMapping(W, new MoveFactory(Direction.UP, level));
+        inputController.addKeyActionFactoryMapping(LEFT, new MoveFactory(Direction.LEFT, level));
+        inputController.addKeyActionFactoryMapping(A, new MoveFactory(Direction.LEFT, level));
+        inputController.addKeyActionFactoryMapping(DOWN, new MoveFactory(Direction.DOWN, level));
+        inputController.addKeyActionFactoryMapping(S, new MoveFactory(Direction.DOWN, level));
+        inputController.addKeyActionFactoryMapping(RIGHT, new MoveFactory(Direction.RIGHT, level));
+        inputController.addKeyActionFactoryMapping(D, new MoveFactory(Direction.RIGHT, level));
     }
 
     public static void initGameEntities(Level level, LevelGraphics levelGraphics, InputController inputController) {

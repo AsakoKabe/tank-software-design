@@ -55,7 +55,9 @@ public class Tank implements GameEntity, Movable {
     @Override
     public void moveToDirection(Direction direction, Boolean onlyRotation) {
         if (!isMoving()){
-            destinationCoordinates = currentCoordinates.cpy().add(direction.getCoordinates());
+            if (!onlyRotation){
+                destinationCoordinates = currentCoordinates.cpy().add(direction.getCoordinates());
+            }
             this.rotation = direction.getRotation();
             movementProgress = MOVEMENT_STARTED;
         }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
-    private List<GameEntity> gameEntities;
+    private final List<GameEntity> gameEntities;
 
     public Level() {
         gameEntities = new ArrayList<>();
@@ -23,8 +23,14 @@ public class Level {
     }
 
     public boolean collidesExist(GridPoint2 coordinates) {
+        System.out.println("coordinates");
+        System.out.println(coordinates.toString());
+
         for (GameEntity gameEntity: gameEntities){
+            System.out.println("ge");
+            System.out.println(gameEntity.getCurrentCoordinates().toString());
             if (gameEntity.getCurrentCoordinates().equals(coordinates)){
+                System.out.println("return true");
                 return true;
             }
         }

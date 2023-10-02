@@ -15,7 +15,7 @@ public class TankGraphics implements EntityGraphics {
     private final TextureRegion textureRegion;
     private final Rectangle rectangle;
     private final Tank tank;
-    private TileMovement tileMovement;
+    private final TileMovement tileMovement;
 
     public TankGraphics(String fileNameTexture, Tank tank, TileMovement tileMovement) {
         texture = new Texture(fileNameTexture);

@@ -20,10 +20,14 @@ public class InputController {
         gameEntities.add(gameEntity);
     }
 
-    public HashMap<GameEntity, Action> getGameEntitiesActions(){
+    public HashMap<GameEntity, Action> generateAction(){
         HashMap<GameEntity, Action> gameEntitiesActions = new HashMap<>();
+
         for (GameEntity gameEntity: gameEntities){
-            gameEntitiesActions.put(gameEntity, getAction());
+            Action action = getAction();
+            if (action != null){
+                gameEntitiesActions.put(gameEntity, action);
+            }
         }
 
         return gameEntitiesActions;
@@ -34,7 +38,7 @@ public class InputController {
 
     }
 
-    public Action getAction() {
+    private Action getAction() {
         for (Integer key : keyToActionFactory.keySet()) {
             if (Gdx.input.isKeyPressed(key)) {
                 return keyToActionFactory.get(key).create();
