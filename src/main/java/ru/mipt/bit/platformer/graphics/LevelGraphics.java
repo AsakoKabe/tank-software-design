@@ -16,19 +16,16 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.createSingleLayerMapRende
 import static ru.mipt.bit.platformer.util.GdxGameUtils.getSingleLayer;
 
 public class LevelGraphics {
-    private TiledMap level;
-    private MapRenderer levelRenderer;
-    private TileMovement tileMovement;
+    private final TiledMap level;
+    private final MapRenderer levelRenderer;
 
-    private TiledMapTileLayer groundLayer;
-    private Batch batch;
+    private final TileMovement tileMovement;
 
-    private List<EntityGraphics> entitiesGraphics;
+    private final TiledMapTileLayer groundLayer;
+    private final Batch batch;
 
+    private final List<EntityGraphics> entitiesGraphics;
 
-    public TiledMapTileLayer getGroundLayer() {
-        return groundLayer;
-    }
 
     public LevelGraphics() {
         batch = new SpriteBatch();
@@ -45,8 +42,6 @@ public class LevelGraphics {
     }
 
     public void render() {
-        updateEntitiesGraphics();
-
         // render each tile of the level
         levelRenderer.render();
 
@@ -54,16 +49,10 @@ public class LevelGraphics {
         batch.begin();
 
         for (EntityGraphics entityGraphics: entitiesGraphics){
-            entityGraphics.drawTexture(batch);
+            entityGraphics.draw(batch);
         }
         // submit all drawing requests
         batch.end();
-    }
-
-    private void updateEntitiesGraphics() {
-        for (EntityGraphics entityGraphics: entitiesGraphics){
-            entityGraphics.update(tileMovement);
-        }
     }
 
     public void dispose() {
@@ -74,4 +63,14 @@ public class LevelGraphics {
         level.dispose();
         batch.dispose();
     }
+
+    public TileMovement getTileMovement() {
+        return tileMovement;
+    }
+
+
+    public TiledMapTileLayer getGroundLayer() {
+        return groundLayer;
+    }
+
 }

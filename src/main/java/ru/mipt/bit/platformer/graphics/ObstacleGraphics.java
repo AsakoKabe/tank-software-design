@@ -29,12 +29,8 @@ public class ObstacleGraphics implements EntityGraphics {
 
     }
 
-    public void drawTexture(Batch batch){
+    public void draw(Batch batch){
         drawTextureRegionUnscaled(batch, textureRegion, rectangle, 0f);
-    }
-
-    @Override
-    public void update(TileMovement tileMovement) {
     }
 
     public void dispose(){

@@ -3,16 +3,14 @@ package ru.mipt.bit.platformer.action;
 import com.badlogic.gdx.Gdx;
 import ru.mipt.bit.platformer.gameEntities.GameEntity;
 
-import static com.badlogic.gdx.Input.Keys.*;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InputController {
-    private final Map<Integer, ActionFactory> keyToDirectionMap = new HashMap<>();
-    private ArrayList<GameEntity> gameEntities;
+    private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
+    private final ArrayList<GameEntity> gameEntities;
 
     public InputController() {
         this.gameEntities = new ArrayList<>();
@@ -31,25 +29,18 @@ public class InputController {
         return gameEntitiesActions;
     }
 
+    public void addKeyActionFactoryMapping(Integer key, ActionFactory actionFactory){
+        keyToActionFactory.put(key, actionFactory);
+
+    }
+
     public Action getAction() {
-        for (Integer key : keyToDirectionMap.keySet()) {
+        for (Integer key : keyToActionFactory.keySet()) {
             if (Gdx.input.isKeyPressed(key)) {
-                return keyToDirectionMap.get(key).create();
+                return keyToActionFactory.get(key).create();
             }
         }
         return null;
-    }
-
-    public void initKeyBoardMappings() {
-
-        keyToDirectionMap.put(UP, new MoveFactory(Direction.UP));
-        keyToDirectionMap.put(W, new MoveFactory(Direction.UP));
-        keyToDirectionMap.put(LEFT, new MoveFactory(Direction.LEFT));
-        keyToDirectionMap.put(A, new MoveFactory(Direction.LEFT));
-        keyToDirectionMap.put(DOWN, new MoveFactory(Direction.DOWN));
-        keyToDirectionMap.put(S, new MoveFactory(Direction.DOWN));
-        keyToDirectionMap.put(RIGHT, new MoveFactory(Direction.RIGHT));
-        keyToDirectionMap.put(D, new MoveFactory(Direction.RIGHT));
     }
 
 }

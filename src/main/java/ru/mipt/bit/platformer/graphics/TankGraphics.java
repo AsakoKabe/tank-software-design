@@ -15,16 +15,24 @@ public class TankGraphics implements EntityGraphics {
     private final TextureRegion textureRegion;
     private final Rectangle rectangle;
     private final Tank tank;
+    private TileMovement tileMovement;
 
-    public TankGraphics(String fileNameTexture, Tank tank) {
+    public TankGraphics(String fileNameTexture, Tank tank, TileMovement tileMovement) {
         texture = new Texture(fileNameTexture);
         textureRegion = new TextureRegion(texture);
         rectangle = createBoundingRectangle(textureRegion);
         this.tank = tank;
+        this.tileMovement = tileMovement;
 
     }
 
-    public void drawTexture(Batch batch){
+    public void draw(Batch batch){
+        tileMovement.moveRectangleBetweenTileCenters(
+                rectangle,
+                tank.getCurrentCoordinates(),
+                tank.getDestinationCoordinates(),
+                tank.getMovementProgress()
+        );
         drawTextureRegionUnscaled(batch, textureRegion, rectangle, tank.getRotation());
     }
 
@@ -32,14 +40,4 @@ public class TankGraphics implements EntityGraphics {
         texture.dispose();
     }
 
-
-    public void update(TileMovement tileMovement){
-        // calculate interpolated player screen coordinates
-        tileMovement.moveRectangleBetweenTileCenters(
-                rectangle,
-                tank.getCurrentCoordinates(),
-                tank.getDestinationCoordinates(),
-                tank.getMovementProgress()
-        );
-    }
 }

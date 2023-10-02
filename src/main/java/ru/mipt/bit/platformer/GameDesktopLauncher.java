@@ -5,39 +5,35 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.action.Action;
-import ru.mipt.bit.platformer.action.ActionController;
+import ru.mipt.bit.platformer.action.*;
 import ru.mipt.bit.platformer.gameEntities.GameEntity;
 import ru.mipt.bit.platformer.gameEntities.Level;
 import ru.mipt.bit.platformer.graphics.LevelGraphics;
 import ru.mipt.bit.platformer.graphics.ObstacleGraphics;
 import ru.mipt.bit.platformer.graphics.TankGraphics;
-import ru.mipt.bit.platformer.action.InputController;
 import ru.mipt.bit.platformer.gameEntities.Obstacle;
 import ru.mipt.bit.platformer.gameEntities.Tank;
 
 import java.util.HashMap;
 
+import static com.badlogic.gdx.Input.Keys.*;
+import static com.badlogic.gdx.Input.Keys.D;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
 public class GameDesktopLauncher implements ApplicationListener {
     private LevelGraphics levelGraphics;
     private Level level;
-
-    private Obstacle obstacle;
-    private Tank tank;
-    private InputController inputController;
     private ActionController actionController;
-    private TankGraphics tankGraphics;
-    private ObstacleGraphics obstacleGraphics;
-
 
     @Override
     public void create() {
         levelGraphics = new LevelGraphics();
         level = new Level();
-        initControllers();
-        initGameEntities();
+        InputController inputController = new InputController();
+        actionController = new ActionController(level, inputController);
+
+        Initializer.initGameEntities(level, levelGraphics, inputController);
+        Initializer.initKeyBoardMappings(inputController);
     }
 
     @Override
@@ -51,29 +47,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         level.updateState(deltaTime);
         levelGraphics.render();
     }
-
-    private void initControllers() {
-        inputController = new InputController();
-        inputController.initKeyBoardMappings();
-        actionController = new ActionController(level, inputController);
-    }
-
-    private void initGameEntities() {
-        tank = new Tank(new GridPoint2(1, 1));
-        tankGraphics = new TankGraphics("images/tank_blue.png", tank);
-        level.addGameEntity(tank);
-        levelGraphics.addEntityGraphics(tankGraphics);
-        inputController.addGameEntity(tank);
-
-
-        obstacle = new Obstacle(new GridPoint2(1, 3));
-        obstacleGraphics = new ObstacleGraphics(
-                "images/greenTree.png", obstacle, levelGraphics.getGroundLayer()
-        );
-        level.addGameEntity(obstacle);
-        levelGraphics.addEntityGraphics(obstacleGraphics);
-    }
-
 
     private static void clearScreen() {
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
