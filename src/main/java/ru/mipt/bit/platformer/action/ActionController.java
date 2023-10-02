@@ -24,9 +24,7 @@ public class ActionController {
 
     public void applyActions(HashMap<GameEntity, Action> gameEntityAction){
         gameEntityAction.forEach((gameEntity, action) -> {
-            if (action.validate(gameEntity)) {
-                action.apply(gameEntity);
-            }
+            action.apply(gameEntity);
         });
     }
 

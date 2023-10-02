@@ -18,21 +18,25 @@ public class MoveAction implements Action{
     }
 
     public void apply(GameEntity gameEntity) {
+        preprocessingIfCollides(gameEntity);
+
         Movable movableGameEntity = (Movable) gameEntity;
         movableGameEntity.moveToDirection(direction, coordinatesReset);
-        coordinatesReset = false;
     }
 
     private void resetCoordinates(){
         coordinatesReset = true;
     }
 
-    public boolean validate(GameEntity gameEntity) {
+    private void preprocessingIfCollides(GameEntity gameEntity) {
         GridPoint2 coordinates = direction.applyCoordinates(gameEntity.getCurrentCoordinates());
         if (level.collidesExist(coordinates)){
             resetCoordinates();
         }
-
-        return true;
     }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
 }

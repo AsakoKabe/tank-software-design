@@ -24,6 +24,7 @@ ext {
     gdxVersion = '1.12.0'
 
 }
+
 apply plugin: "java-library"
 dependencies {
 //    implementation deps.gdx.gdx
@@ -34,6 +35,5 @@ dependencies {
     api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     implementation 'junit:junit:4.13.1'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-
-
+    implementation "org.mockito:mockito-all:1.9.5"
 }
