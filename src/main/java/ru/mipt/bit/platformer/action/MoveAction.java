@@ -27,10 +27,6 @@ public class MoveAction implements Action{
         coordinatesReset = true;
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
-
     public boolean validate(GameEntity gameEntity) {
         GridPoint2 coordinates = direction.applyCoordinates(gameEntity.getCurrentCoordinates());
         if (level.collidesExist(coordinates)){

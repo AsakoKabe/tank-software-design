@@ -6,12 +6,10 @@ import ru.mipt.bit.platformer.gameEntities.Level;
 import java.util.HashMap;
 
 public class ActionController {
-    private final Level level;
     private final InputController inputController;
 
-    public ActionController(Level level, InputController inputController) {
+    public ActionController(InputController inputController) {
         this.inputController = inputController;
-        this.level = level;
         //  AIController
     }
 

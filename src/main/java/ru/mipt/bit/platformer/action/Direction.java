@@ -18,10 +18,6 @@ public enum Direction {
         this.rotation = rotation;
     }
 
-    public GridPoint2 getCoordinates() {
-        return coordinates;
-    }
-
     public float getRotation() {
         return rotation;
     }
