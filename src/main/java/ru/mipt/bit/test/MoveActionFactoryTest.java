@@ -21,6 +21,7 @@ class MoveActionFactoryTest {
     void testCreateMoveDirection(Direction direction) {
         Level mockedLevel = Mockito.mock(Level.class);
         MoveFactory moveFactoryUp = new MoveFactory(direction, mockedLevel);
+
         MoveAction moveActionUp = moveFactoryUp.create(Mockito.mock(Tank.class));
 
         assertEquals(moveActionUp.getDirection(), direction);

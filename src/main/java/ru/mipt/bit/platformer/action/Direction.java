@@ -8,7 +8,6 @@ public enum Direction {
     LEFT(new GridPoint2(-1, 0), 180f),
     RIGHT(new GridPoint2(1, 0), 0f),
     ;
-//    ;
 
     private final GridPoint2 coordinates;
     private final float rotation;
@@ -24,5 +23,9 @@ public enum Direction {
 
     public GridPoint2 applyCoordinates(GridPoint2 coordinates){
         return coordinates.cpy().add(this.coordinates);
+    }
+
+    public GridPoint2 getCoordinates() {
+        return coordinates;
     }
 }

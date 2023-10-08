@@ -10,17 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ObstacleTest {
 
-    Obstacle obstacle;
-    @BeforeEach
-    void setUp() {
-        obstacle = new Obstacle(new GridPoint2(0, 0));
-    }
-
     @Test
     void testStateDoesntChange() {
+        Obstacle obstacle = new Obstacle(new GridPoint2(0, 0));
         float deltaTime = 1f;
         GridPoint2 prevCoordinates = obstacle.getCurrentCoordinates();
+
         obstacle.updateState(deltaTime);
+
         assertEquals(prevCoordinates, obstacle.getCurrentCoordinates());
     }
 }

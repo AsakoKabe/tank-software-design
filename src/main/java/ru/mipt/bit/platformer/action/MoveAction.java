@@ -1,7 +1,6 @@
 package ru.mipt.bit.platformer.action;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.gameEntities.GameEntity;
 import ru.mipt.bit.platformer.gameEntities.Level;
 import ru.mipt.bit.platformer.gameEntities.Movable;
 
@@ -30,7 +29,7 @@ public class MoveAction implements Action{
 
     private void preprocessingIfCollides() {
         GridPoint2 coordinates = direction.applyCoordinates(movable.getCurrentCoordinates());
-        if (level.collidesExist(coordinates)){
+        if (level.collisionExist(coordinates)){
             resetCoordinates();
         }
     }

@@ -14,42 +14,42 @@ import ru.mipt.bit.platformer.gameEntities.Tank;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MoveActionTest {
-    private Tank tank;
-    private Level level;
-
-    @BeforeEach
-    void setUp() {
-        level = new Level();
-        tank = new Tank(new GridPoint2(0, 0));
-        level.addGameEntity(tank);
+    @ParameterizedTest
+    @EnumSource(Direction.class)
+    public void testApplyingMoveActionWithCollisionChangeDestinationCoordinates(Direction direction) {
+        Level level = new Level();
         level.addGameEntity(new Tank(new GridPoint2(0, 0)));
         level.addGameEntity(new Tank(new GridPoint2(1, 1)));
         level.addGameEntity(new Obstacle(new GridPoint2(2, 0)));
-    }
-
-    @ParameterizedTest
-    @EnumSource(Direction.class)
-    public void testMoveForTankWithOutCollision(Direction direction) {
+        Tank tank = new Tank(new GridPoint2(0, 0));
+        level.addGameEntity(tank);
         MoveAction moveAction = new MoveAction(direction, level, tank);
-        GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
-        float targetRotation = direction.getRotation();
+
         moveAction.apply();
 
+        GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
+        float targetRotation = direction.getRotation();
         assertEquals(targetCoordinates, tank.getDestinationCoordinates());
         assertEquals(targetRotation, tank.getRotation());
     }
 
-    @Test
-    public void testMoveForTankWithCollision() {
-        Direction direction = Direction.RIGHT;
-        level.addGameEntity(new Tank(new GridPoint2(1, 0)));
-
+    @ParameterizedTest
+    @EnumSource(Direction.class)
+    public void testApplyingMoveActionWithCollisionByDirection(Direction direction) {
+        Level level = new Level();
+        level.addGameEntity(new Tank(new GridPoint2(0, 0)));
+        level.addGameEntity(new Tank(new GridPoint2(1, 1)));
+        level.addGameEntity(new Obstacle(new GridPoint2(2, 0)));
+        level.addGameEntity(new Tank(direction.getCoordinates()));
+        GridPoint2 tankStartCoordinates = new GridPoint2(0, 0);
+        Tank tank = new Tank(tankStartCoordinates);
+        level.addGameEntity(tank);
         MoveAction moveAction = new MoveAction(direction, level, tank);
-        GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
-        float targetRotation = direction.getRotation();
+
         moveAction.apply();
 
-        assertNotEquals(targetCoordinates, tank.getDestinationCoordinates());
+        float targetRotation = direction.getRotation();
+        assertEquals(tankStartCoordinates, tank.getDestinationCoordinates());
         assertEquals(targetRotation, tank.getRotation());
     }
 }

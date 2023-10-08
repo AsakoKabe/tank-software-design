@@ -22,7 +22,7 @@ public class Level {
         }
     }
 
-    public boolean collidesExist(GridPoint2 coordinates) {
+    public boolean collisionExist(GridPoint2 coordinates) {
         for (GameEntity gameEntity: gameEntities){
             if (gameEntity.getCurrentCoordinates().equals(coordinates)){
                 return true;
