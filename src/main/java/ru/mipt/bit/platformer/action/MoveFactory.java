@@ -1,6 +1,8 @@
 package ru.mipt.bit.platformer.action;
 
+import ru.mipt.bit.platformer.gameEntities.GameEntity;
 import ru.mipt.bit.platformer.gameEntities.Level;
+import ru.mipt.bit.platformer.gameEntities.Movable;
 
 public class MoveFactory implements ActionFactory{
     private final Direction direction;
@@ -11,7 +13,7 @@ public class MoveFactory implements ActionFactory{
         this.level = level;
     }
 
-    public MoveAction create(){
-        return new MoveAction(direction, level);
+    public MoveAction create(GameEntity gameEntity){
+        return new MoveAction(direction, level, (Movable) gameEntity);
     }
 }

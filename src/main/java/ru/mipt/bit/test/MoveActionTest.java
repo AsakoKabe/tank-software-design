@@ -30,10 +30,10 @@ public class MoveActionTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     public void testMoveForTankWithOutCollision(Direction direction) {
-        MoveAction moveAction = new MoveAction(direction, level);
+        MoveAction moveAction = new MoveAction(direction, level, tank);
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
         float targetRotation = direction.getRotation();
-        moveAction.apply(tank);
+        moveAction.apply();
 
         assertEquals(targetCoordinates, tank.getDestinationCoordinates());
         assertEquals(targetRotation, tank.getRotation());
@@ -44,10 +44,10 @@ public class MoveActionTest {
         Direction direction = Direction.RIGHT;
         level.addGameEntity(new Tank(new GridPoint2(1, 0)));
 
-        MoveAction moveAction = new MoveAction(direction, level);
+        MoveAction moveAction = new MoveAction(direction, level, tank);
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
         float targetRotation = direction.getRotation();
-        moveAction.apply(tank);
+        moveAction.apply();
 
         assertNotEquals(targetCoordinates, tank.getDestinationCoordinates());
         assertEquals(targetRotation, tank.getRotation());

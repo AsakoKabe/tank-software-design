@@ -8,29 +8,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InputController {
+public class InputController implements EntityActionController{
     private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
-    private final ArrayList<GameEntity> gameEntities;
-
-    public InputController() {
-        this.gameEntities = new ArrayList<>();
-    }
+    private GameEntity gameEntity;
 
     public void addGameEntity(GameEntity gameEntity){
-        gameEntities.add(gameEntity);
+        this.gameEntity = gameEntity;
     }
 
-    public HashMap<GameEntity, Action> generateAction(){
-        HashMap<GameEntity, Action> gameEntitiesActions = new HashMap<>();
+    public ArrayList<Action> generateActions(){
+        ArrayList<Action> actions = new ArrayList<>();
 
-        for (GameEntity gameEntity: gameEntities){
-            Action action = getAction();
-            if (action != null){
-                gameEntitiesActions.put(gameEntity, action);
-            }
+        Action action = getAction();
+        if (action != null){
+            actions.add(action);
         }
 
-        return gameEntitiesActions;
+        return actions;
     }
 
     public void addKeyActionFactoryMapping(Integer key, ActionFactory actionFactory){
@@ -41,7 +35,7 @@ public class InputController {
     private Action getAction() {
         for (Integer key : keyToActionFactory.keySet()) {
             if (Gdx.input.isKeyPressed(key)) {
-                return keyToActionFactory.get(key).create();
+                return keyToActionFactory.get(key).create(gameEntity);
             }
         }
         return null;

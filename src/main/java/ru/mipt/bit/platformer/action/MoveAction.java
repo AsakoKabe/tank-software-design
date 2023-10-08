@@ -9,27 +9,27 @@ public class MoveAction implements Action{
 
     private final Direction direction;
     private final Level level;
+    private final Movable movable;
     private boolean coordinatesReset;
 
-    public MoveAction(Direction direction, Level level) {
+    public MoveAction(Direction direction, Level level, Movable movable) {
         this.direction = direction;
         this.coordinatesReset = false;
         this.level = level;
+        this.movable = movable;
     }
 
-    public void apply(GameEntity gameEntity) {
-        preprocessingIfCollides(gameEntity);
-
-        Movable movableGameEntity = (Movable) gameEntity;
-        movableGameEntity.moveToDirection(direction, coordinatesReset);
+    public void apply() {
+        preprocessingIfCollides();
+        movable.moveToDirection(direction, coordinatesReset);
     }
 
     private void resetCoordinates(){
         coordinatesReset = true;
     }
 
-    private void preprocessingIfCollides(GameEntity gameEntity) {
-        GridPoint2 coordinates = direction.applyCoordinates(gameEntity.getCurrentCoordinates());
+    private void preprocessingIfCollides() {
+        GridPoint2 coordinates = direction.applyCoordinates(movable.getCurrentCoordinates());
         if (level.collidesExist(coordinates)){
             resetCoordinates();
         }

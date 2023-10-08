@@ -4,33 +4,26 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.action.*;
-import ru.mipt.bit.platformer.gameEntities.GameEntity;
 import ru.mipt.bit.platformer.gameEntities.Level;
 import ru.mipt.bit.platformer.graphics.LevelGraphics;
-import ru.mipt.bit.platformer.graphics.ObstacleGraphics;
-import ru.mipt.bit.platformer.graphics.TankGraphics;
-import ru.mipt.bit.platformer.gameEntities.Obstacle;
-import ru.mipt.bit.platformer.gameEntities.Tank;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-import static com.badlogic.gdx.Input.Keys.*;
-import static com.badlogic.gdx.Input.Keys.D;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
 public class GameDesktopLauncher implements ApplicationListener {
     private LevelGraphics levelGraphics;
     private Level level;
-    private ActionController actionController;
+    private ActionManager actionManager;
 
     @Override
     public void create() {
         levelGraphics = new LevelGraphics();
         level = new Level();
         InputController inputController = new InputController();
-        actionController = new ActionController(inputController);
+        actionManager = new ActionManager();
+        actionManager.addEntityActionController(inputController);
 
         Initializer.initGameEntities(level, levelGraphics, inputController);
         Initializer.initKeyBoardMappings(inputController, level);
@@ -41,8 +34,8 @@ public class GameDesktopLauncher implements ApplicationListener {
         clearScreen();
         // get time passed since the last render
         float deltaTime = Gdx.graphics.getDeltaTime();
-        HashMap<GameEntity, Action> actions = actionController.generateGameEntitiesActions();
-        actionController.applyActions(actions);
+        ArrayList<Action> actions = actionManager.generateGameEntitiesActions();
+        actionManager.applyActions(actions);
 
         level.updateState(deltaTime);
         levelGraphics.render();
