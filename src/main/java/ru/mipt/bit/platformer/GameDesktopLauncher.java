@@ -21,12 +21,12 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void create() {
         levelGraphics = new LevelGraphics();
         level = new Level();
-        InputController inputController = new InputController();
+        PlayerInputController playerInputController = new PlayerInputController();
         actionManager = new ActionManager();
-        actionManager.addEntityActionController(inputController);
+        actionManager.addEntityActionController(playerInputController);
 
-        Initializer.initGameEntities(level, levelGraphics, inputController);
-        Initializer.initKeyBoardMappings(inputController, level);
+        Initializer.initGameEntities(level, levelGraphics, playerInputController);
+        Initializer.initKeyBoardMappings(playerInputController, level);
     }
 
     @Override

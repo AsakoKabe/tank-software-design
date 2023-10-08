@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InputController implements EntityActionController{
+public class PlayerInputController implements EntityActionController{
     private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
     private GameEntity gameEntity;
 
