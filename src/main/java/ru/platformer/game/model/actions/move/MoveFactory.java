@@ -4,7 +4,7 @@ import ru.platformer.game.Direction;
 import ru.platformer.game.GameEntity;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.Movable;
-import ru.platformer.game.model.actions.ActionFactory;
+import ru.platformer.game.ActionFactory;
 
 public class MoveFactory implements ActionFactory {
     private final Direction direction;

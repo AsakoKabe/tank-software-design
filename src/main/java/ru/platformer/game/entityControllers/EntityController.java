@@ -1,4 +1,4 @@
-package ru.platformer.game.model.actions;
+package ru.platformer.game.entityControllers;
 
 import ru.platformer.game.Action;
 import ru.platformer.game.GameEntity;

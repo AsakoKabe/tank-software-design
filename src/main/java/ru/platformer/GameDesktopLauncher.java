@@ -5,10 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import ru.platformer.game.Action;
-import ru.platformer.game.model.actions.PlayerController;
+import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
-import ru.platformer.game.model.Level;
 import ru.platformer.game.graphics.LevelGraphics;
+import ru.platformer.game.entityControllers.AIController;
+import ru.platformer.game.model.entityFiller.Filler;
+import ru.platformer.game.entityControllers.PlayerController;
+import ru.platformer.game.model.entityFiller.RandomFilling;
 
 import java.util.ArrayList;
 
@@ -23,11 +26,22 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void create() {
         levelGraphics = new LevelGraphics();
         level = new Level();
-        PlayerController playerController = new PlayerController();
-        actionManager = new ActionManager();
-        actionManager.addEntityActionController(playerController);
 
-        Initializer.initGameEntities(level, levelGraphics, playerController);
+        actionManager = new ActionManager();
+        PlayerController playerController = new PlayerController();
+        actionManager.addEntityActionController(playerController);
+        AIController aiController = new AIController();
+        actionManager.addEntityActionController(aiController);
+
+        Filler filler = new Filler(
+                new RandomFilling(),
+                level,
+                levelGraphics,
+                playerController,
+                aiController
+        );
+        filler.filling();
+
         Initializer.initKeyBoardMappings(playerController, level);
     }
 

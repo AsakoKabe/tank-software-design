@@ -3,7 +3,7 @@ package ru.platformer.game.model;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Direction;
 import ru.platformer.game.GameEntity;
-import ru.platformer.game.util.GdxGameUtils;
+import ru.platformer.util.GdxGameUtils;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 

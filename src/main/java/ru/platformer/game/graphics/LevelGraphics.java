@@ -7,13 +7,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Interpolation;
-import ru.platformer.game.util.TileMovement;
+import ru.platformer.util.TileMovement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.platformer.game.util.GdxGameUtils.createSingleLayerMapRenderer;
-import static ru.platformer.game.util.GdxGameUtils.getSingleLayer;
+import static ru.platformer.util.GdxGameUtils.createSingleLayerMapRenderer;
+import static ru.platformer.util.GdxGameUtils.getSingleLayer;
 
 public class LevelGraphics {
     private final TiledMap level;

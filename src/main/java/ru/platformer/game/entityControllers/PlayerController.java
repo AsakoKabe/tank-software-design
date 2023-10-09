@@ -1,8 +1,9 @@
-package ru.platformer.game.model.actions;
+package ru.platformer.game.entityControllers;
 
 import com.badlogic.gdx.Gdx;
 import ru.platformer.game.Action;
 import ru.platformer.game.GameEntity;
+import ru.platformer.game.ActionFactory;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package ru.platformer.game.util;
+package ru.platformer.util;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;

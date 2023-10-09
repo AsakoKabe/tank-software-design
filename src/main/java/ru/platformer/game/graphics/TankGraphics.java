@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import ru.platformer.game.model.Tank;
-import ru.platformer.game.util.TileMovement;
-import ru.platformer.game.util.GdxGameUtils;
+import ru.platformer.util.TileMovement;
+import ru.platformer.util.GdxGameUtils;
 
 public class TankGraphics implements EntityGraphics {
     private final Texture texture;

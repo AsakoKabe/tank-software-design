@@ -7,7 +7,7 @@ import ru.platformer.game.Direction;
 import ru.platformer.game.model.Tank;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.platformer.game.util.GdxGameUtils.continueProgress;
+import static ru.platformer.util.GdxGameUtils.continueProgress;
 
 class TankTest {
 
