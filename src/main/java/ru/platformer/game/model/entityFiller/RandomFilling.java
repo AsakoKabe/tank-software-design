@@ -27,6 +27,8 @@ public class RandomFilling implements FillingStrategy{
     }
 
     private void createObstacles(Level level, LevelGraphics levelGraphics) {
+        // TODO: вынести создание графики в listener
+
         for (int i = 0; i < rand.nextInt(10); i ++){
             Obstacle obstacle = new Obstacle(createRandomCoordinates());
             ObstacleGraphics obstacleGraphics = new ObstacleGraphics(
@@ -45,6 +47,8 @@ public class RandomFilling implements FillingStrategy{
     }
 
     private void createPlayer(Level level, LevelGraphics levelGraphics, PlayerController playerController) {
+        // TODO: вынести создание графики в listener
+
         Tank tank = new Tank(createRandomCoordinates());
 
         TankGraphics tankGraphics = new TankGraphics("images/tank_blue.png", tank, levelGraphics.getTileMovement());
@@ -54,8 +58,8 @@ public class RandomFilling implements FillingStrategy{
     }
 
     private GridPoint2 createRandomCoordinates(){
-        int randX = rand.nextInt(7);
-        int randY = rand.nextInt(7);
+        int randX = rand.nextInt(9);
+        int randY = rand.nextInt(6);
         return new GridPoint2(randX, randY);
     }
 }

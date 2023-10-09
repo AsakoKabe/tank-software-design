@@ -8,14 +8,11 @@ import ru.platformer.game.Action;
 import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
 import ru.platformer.game.graphics.LevelGraphics;
-import ru.platformer.game.entityControllers.AIController;
-import ru.platformer.game.model.entityFiller.Filler;
-import ru.platformer.game.entityControllers.PlayerController;
-import ru.platformer.game.model.entityFiller.RandomFilling;
 
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static ru.platformer.Initializer.initGame;
 
 public class GameDesktopLauncher implements ApplicationListener {
     private LevelGraphics levelGraphics;
@@ -26,24 +23,10 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void create() {
         levelGraphics = new LevelGraphics();
         level = new Level();
-
         actionManager = new ActionManager();
-        PlayerController playerController = new PlayerController();
-        actionManager.addEntityActionController(playerController);
-        AIController aiController = new AIController();
-        actionManager.addEntityActionController(aiController);
-
-        Filler filler = new Filler(
-                new RandomFilling(),
-                level,
-                levelGraphics,
-                playerController,
-                aiController
-        );
-        filler.filling();
-
-        Initializer.initKeyBoardMappings(playerController, level);
+        initGame(level, levelGraphics, actionManager);
     }
+
 
     @Override
     public void render() {
