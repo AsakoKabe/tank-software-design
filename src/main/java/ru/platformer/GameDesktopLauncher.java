@@ -51,7 +51,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         clearScreen();
         // get time passed since the last render
         float deltaTime = Gdx.graphics.getDeltaTime();
-        ArrayList<Action> actions = actionManager.generateGameEntitiesActions();
+        ArrayList<Action> actions = actionManager.generateGameObjectsActions();
         actionManager.applyActions(actions);
 
         level.updateState(deltaTime);

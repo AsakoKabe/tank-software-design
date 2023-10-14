@@ -24,7 +24,7 @@ public class LevelGraphics {
     private final TiledMapTileLayer groundLayer;
     private final Batch batch;
 
-    private final List<EntityGraphics> entitiesGraphics;
+    private final List<GameObjectGraphics> entitiesGraphics;
 
 
     public LevelGraphics() {
@@ -38,8 +38,8 @@ public class LevelGraphics {
     }
 
 
-    public void addEntityGraphics(EntityGraphics entityGraphics){
-        entitiesGraphics.add(entityGraphics);
+    public void addGameObjectGraphics(GameObjectGraphics gameObjectGraphics){
+        entitiesGraphics.add(gameObjectGraphics);
     }
 
     public void render() {
@@ -49,8 +49,8 @@ public class LevelGraphics {
         // start recording all drawing commands
         batch.begin();
 
-        for (EntityGraphics entityGraphics: entitiesGraphics){
-            entityGraphics.draw(batch);
+        for (GameObjectGraphics gameObjectGraphics : entitiesGraphics){
+            gameObjectGraphics.draw(batch);
         }
         // submit all drawing requests
         batch.end();
@@ -58,8 +58,8 @@ public class LevelGraphics {
 
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        for (EntityGraphics entityGraphics: entitiesGraphics){
-            entityGraphics.dispose();
+        for (GameObjectGraphics gameObjectGraphics : entitiesGraphics){
+            gameObjectGraphics.dispose();
         }
         level.dispose();
         batch.dispose();

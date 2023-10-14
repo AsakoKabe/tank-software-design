@@ -8,7 +8,7 @@ import ru.platformer.game.model.Tank;
 import ru.platformer.util.TileMovement;
 import ru.platformer.util.GdxGameUtils;
 
-public class TankGraphics implements EntityGraphics {
+public class TankGraphics implements GameObjectGraphics {
     private final Texture texture;
     private final TextureRegion textureRegion;
     private final Rectangle rectangle;

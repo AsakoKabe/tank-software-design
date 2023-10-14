@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.platformer.game.model.Obstacle;
 import ru.platformer.util.GdxGameUtils;
 
-public class ObstacleGraphics implements EntityGraphics {
+public class ObstacleGraphics implements GameObjectGraphics {
     private final Texture texture;
     private final TextureRegion textureRegion;
     private final Rectangle rectangle;

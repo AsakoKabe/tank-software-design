@@ -13,7 +13,7 @@ public class ActionManager {
         entityActionControllers.add(entityActionController);
     }
 
-    public ArrayList<Action> generateGameEntitiesActions(){
+    public ArrayList<Action> generateGameObjectsActions(){
         ArrayList<Action> actions = new ArrayList<>();
         entityActionControllers.forEach(entityActionController -> actions.addAll(entityActionController.generateActions()));
 

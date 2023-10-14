@@ -46,7 +46,7 @@ public class RandomLevelGenerator implements LevelGenerator {
                 continue;
             }
             level.addGameEntity(obstacle);
-            levelGraphics.addEntityGraphics(obstacleGraphics);
+            levelGraphics.addGameObjectGraphics(obstacleGraphics);
         }
     }
 
@@ -63,7 +63,7 @@ public class RandomLevelGenerator implements LevelGenerator {
                 levelGraphics.getTileMovement()
         );
         level.addGameEntity(player);
-        levelGraphics.addEntityGraphics(tankGraphics);
+        levelGraphics.addGameObjectGraphics(tankGraphics);
     }
 
     private GridPoint2 createRandomCoordinates(){

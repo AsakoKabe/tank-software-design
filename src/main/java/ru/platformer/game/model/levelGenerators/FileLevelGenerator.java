@@ -90,7 +90,7 @@ public class FileLevelGenerator implements LevelGenerator {
             return;
         }
         level.addGameEntity(obstacle);
-        levelGraphics.addEntityGraphics(obstacleGraphics);
+        levelGraphics.addGameObjectGraphics(obstacleGraphics);
     }
 
     private void createPlayer(int xCoordinate, int yCoordinate){
@@ -102,7 +102,7 @@ public class FileLevelGenerator implements LevelGenerator {
                 levelGraphics.getTileMovement()
         );
         level.addGameEntity(playerGameObject);
-        levelGraphics.addEntityGraphics(tankGraphics);
+        levelGraphics.addGameObjectGraphics(tankGraphics);
     }
 
 }
