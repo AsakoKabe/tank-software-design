@@ -5,14 +5,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import ru.platformer.game.Action;
+import ru.platformer.game.GameObject;
+import ru.platformer.game.entityControllers.AIController;
+import ru.platformer.game.entityControllers.PlayerController;
 import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
 import ru.platformer.game.graphics.LevelGraphics;
+import ru.platformer.game.model.levelGenerators.FileLevelGenerator;
+import ru.platformer.game.model.levelGenerators.LevelGeneratorInfo;
 
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
-import static ru.platformer.Initializer.initGame;
 
 public class GameDesktopLauncher implements ApplicationListener {
     private LevelGraphics levelGraphics;
@@ -21,10 +25,24 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void create() {
-        levelGraphics = new LevelGraphics();
-        level = new Level();
+
+        LevelGeneratorInfo levelGeneratorInfo = new FileLevelGenerator(
+                "src/main/resources/level.txt"
+        ).generate();
+//        LevelGeneratorInfo levelGeneratorInfo = new RandomLevelGenerator().generate();
+
+        level = levelGeneratorInfo.getLevel();
+        levelGraphics = levelGeneratorInfo.getLevelGraphics();
+        GameObject player = levelGeneratorInfo.getPlayerGameObject();
+
         actionManager = new ActionManager();
-        initGame(level, levelGraphics, actionManager);
+        PlayerController playerController = new PlayerController();
+        playerController.addGameEntity(player);
+        actionManager.addEntityActionController(playerController);
+        AIController aiController = new AIController();
+        actionManager.addEntityActionController(aiController);
+
+        Initializer.initKeyBoardMappings(playerController, level);
     }
 
 

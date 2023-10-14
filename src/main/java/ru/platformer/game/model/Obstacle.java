@@ -1,9 +1,9 @@
 package ru.platformer.game.model;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.platformer.game.GameEntity;
+import ru.platformer.game.GameObject;
 
-public class Obstacle implements GameEntity {
+public class Obstacle implements GameObject {
     private final GridPoint2 currentCoordinates;
 
     public Obstacle(

@@ -2,7 +2,7 @@ package ru.platformer.game.entityControllers;
 
 import com.badlogic.gdx.Gdx;
 import ru.platformer.game.Action;
-import ru.platformer.game.GameEntity;
+import ru.platformer.game.GameObject;
 import ru.platformer.game.ActionFactory;
 
 
@@ -12,10 +12,10 @@ import java.util.Map;
 
 public class PlayerController implements EntityController {
     private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
-    private GameEntity gameEntity;
+    private GameObject player;
 
-    public void addGameEntity(GameEntity gameEntity){
-        this.gameEntity = gameEntity;
+    public void addGameEntity(GameObject player){
+        this.player = player;
     }
 
     public ArrayList<Action> generateActions(){
@@ -37,7 +37,7 @@ public class PlayerController implements EntityController {
     private Action getAction() {
         for (Integer key : keyToActionFactory.keySet()) {
             if (Gdx.input.isKeyPressed(key)) {
-                return keyToActionFactory.get(key).create(gameEntity);
+                return keyToActionFactory.get(key).create(player);
             }
         }
         return null;

@@ -37,6 +37,7 @@ public class LevelGraphics {
         entitiesGraphics = new ArrayList<>();
     }
 
+
     public void addEntityGraphics(EntityGraphics entityGraphics){
         entitiesGraphics.add(entityGraphics);
     }

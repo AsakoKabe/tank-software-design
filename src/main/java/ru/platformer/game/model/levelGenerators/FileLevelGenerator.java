@@ -1,8 +1,7 @@
-package ru.platformer.game.model.entityFiller;
+package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.platformer.game.entityControllers.AIController;
-import ru.platformer.game.entityControllers.PlayerController;
+import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.graphics.ObstacleGraphics;
 import ru.platformer.game.graphics.TankGraphics;
@@ -12,29 +11,38 @@ import ru.platformer.game.model.Tank;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
-public class FileFilling implements FillingStrategy{
+public class FileLevelGenerator implements LevelGenerator {
     private final String fileName;
     private Level level;
     private LevelGraphics levelGraphics;
-    private PlayerController playerController;
+    private GameObject playerGameObject;
 
-    public FileFilling(String fileName) {
+    public FileLevelGenerator(String fileName) {
         this.fileName = fileName;
     }
 
     @Override
-    public void createEntities(Level level, LevelGraphics levelGraphics, PlayerController playerController, AIController aiController) {
-        this.level = level;
-        this.levelGraphics = levelGraphics;
-        this.playerController = playerController;
+    public LevelGeneratorInfo generate() {
+        level = new Level();
+        levelGraphics = new LevelGraphics();
 
-        readFile();
+        generateFromFile();
+
+        return new LevelGeneratorInfo(
+                level,
+                levelGraphics,
+                playerGameObject
+        );
     }
 
-    private void readFile() {
-        int yCoordinate = 6;
+    private void generateFromFile(){
+        int yCoordinate = countLines();
         try {
             File file = new File(fileName);
             Scanner myReader = new Scanner(file);
@@ -46,6 +54,16 @@ public class FileFilling implements FillingStrategy{
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
         }
+    }
+
+    private int countLines(){
+        int countLines;
+        try(Stream<String> lines = Files.lines(Path.of(fileName))){
+            countLines = (int) lines.count();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return countLines;
     }
 
     private void parseLine(String line, int yCoordinate){
@@ -76,12 +94,15 @@ public class FileFilling implements FillingStrategy{
     }
 
     private void createPlayer(int xCoordinate, int yCoordinate){
-        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate));
+        playerGameObject = new Tank(new GridPoint2(xCoordinate, yCoordinate));
 
-        TankGraphics tankGraphics = new TankGraphics("images/tank_blue.png", tank, levelGraphics.getTileMovement());
-        level.addGameEntity(tank);
+        TankGraphics tankGraphics = new TankGraphics(
+                "images/tank_blue.png",
+                (Tank) playerGameObject,
+                levelGraphics.getTileMovement()
+        );
+        level.addGameEntity(playerGameObject);
         levelGraphics.addEntityGraphics(tankGraphics);
-        playerController.addGameEntity(tank);
     }
 
 }

@@ -1,34 +1,42 @@
-package ru.platformer.game.model.entityFiller;
+package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.graphics.ObstacleGraphics;
 import ru.platformer.game.graphics.TankGraphics;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.Obstacle;
 import ru.platformer.game.model.Tank;
-import ru.platformer.game.entityControllers.AIController;
-import ru.platformer.game.entityControllers.PlayerController;
 
 import java.util.Random;
 
-public class RandomFilling implements FillingStrategy{
+public class RandomLevelGenerator implements LevelGenerator {
+    private final int MAX_X_COORDINATE = 9;
+    private final int MAX_Y_COORDINATE = 6;
     private final Random rand;
+    private GameObject player;
 
-    public RandomFilling() {
+    public RandomLevelGenerator() {
         rand = new Random();
     }
 
     @Override
-    public void createEntities(Level level, LevelGraphics levelGraphics, PlayerController playerController, AIController aiController) {
-        createPlayer(level, levelGraphics, playerController);
-        createAI(level, levelGraphics, aiController);
+    public LevelGeneratorInfo generate() {
+        Level level = new Level();
+        LevelGraphics levelGraphics = new LevelGraphics();
+        createPlayer(level, levelGraphics);
+        createAI(level, levelGraphics);
         createObstacles(level, levelGraphics);
+
+        return new LevelGeneratorInfo(
+                level,
+                levelGraphics,
+                player
+        );
     }
 
     private void createObstacles(Level level, LevelGraphics levelGraphics) {
-        // TODO: вынести создание графики в listener
-
         for (int i = 0; i < rand.nextInt(10); i ++){
             Obstacle obstacle = new Obstacle(createRandomCoordinates());
             ObstacleGraphics obstacleGraphics = new ObstacleGraphics(
@@ -42,24 +50,26 @@ public class RandomFilling implements FillingStrategy{
         }
     }
 
-    private void createAI(Level level, LevelGraphics levelGraphics, AIController aiController) {
+    private void createAI(Level level, LevelGraphics levelGraphics) {
         // in future
     }
 
-    private void createPlayer(Level level, LevelGraphics levelGraphics, PlayerController playerController) {
-        // TODO: вынести создание графики в listener
+    private void createPlayer(Level level, LevelGraphics levelGraphics) {
+        player = new Tank(createRandomCoordinates());
 
-        Tank tank = new Tank(createRandomCoordinates());
-
-        TankGraphics tankGraphics = new TankGraphics("images/tank_blue.png", tank, levelGraphics.getTileMovement());
-        level.addGameEntity(tank);
+        TankGraphics tankGraphics = new TankGraphics(
+                "images/tank_blue.png",
+                (Tank) player,
+                levelGraphics.getTileMovement()
+        );
+        level.addGameEntity(player);
         levelGraphics.addEntityGraphics(tankGraphics);
-        playerController.addGameEntity(tank);
     }
 
     private GridPoint2 createRandomCoordinates(){
-        int randX = rand.nextInt(9);
-        int randY = rand.nextInt(6);
+        int randX = rand.nextInt(MAX_X_COORDINATE);
+        int randY = rand.nextInt(MAX_Y_COORDINATE);
+
         return new GridPoint2(randX, randY);
     }
 }

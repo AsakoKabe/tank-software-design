@@ -1,7 +1,7 @@
 package ru.platformer.game.model.actions.move;
 
 import ru.platformer.game.Direction;
-import ru.platformer.game.GameEntity;
+import ru.platformer.game.GameObject;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.Movable;
 import ru.platformer.game.ActionFactory;
@@ -15,7 +15,7 @@ public class MoveFactory implements ActionFactory {
         this.level = level;
     }
 
-    public MoveAction create(GameEntity gameEntity){
+    public MoveAction create(GameObject gameEntity){
         return new MoveAction(direction, level, (Movable) gameEntity);
     }
 }

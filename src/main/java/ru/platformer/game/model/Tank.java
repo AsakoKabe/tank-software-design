@@ -2,12 +2,12 @@ package ru.platformer.game.model;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Direction;
-import ru.platformer.game.GameEntity;
+import ru.platformer.game.GameObject;
 import ru.platformer.util.GdxGameUtils;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 
-public class Tank implements GameEntity, Movable {
+public class Tank implements GameObject, Movable {
 
     public static final float MOVEMENT_SPEED = 0.4f;
     private static final float MOVEMENT_COMPLETED = 1f;
