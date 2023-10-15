@@ -2,6 +2,8 @@ package ru.platformer.game.graphics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -20,7 +22,7 @@ import static ru.platformer.util.GdxGameUtils.createSingleLayerMapRenderer;
 import static ru.platformer.util.GdxGameUtils.getSingleLayer;
 
 public class LevelGraphics  implements LevelListener {
-    private final TiledMap level;
+    private final TiledMap tiledMap;
     private final MapRenderer levelRenderer;
 
     private final TileMovement tileMovement;
@@ -33,9 +35,9 @@ public class LevelGraphics  implements LevelListener {
 
     public LevelGraphics() {
         batch = new SpriteBatch();
-        level = new TmxMapLoader().load("level.tmx");
-        levelRenderer = createSingleLayerMapRenderer(level, batch);
-        groundLayer = getSingleLayer(level);
+        tiledMap = new TmxMapLoader().load("level.tmx");
+        levelRenderer = createSingleLayerMapRenderer(tiledMap, batch);
+        groundLayer = getSingleLayer(tiledMap);
         tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
 
         gameObjectsGraphics = new ArrayList<>();
@@ -87,7 +89,7 @@ public class LevelGraphics  implements LevelListener {
         for (GameObjectGraphics gameObjectGraphics : gameObjectsGraphics){
             gameObjectGraphics.dispose();
         }
-        level.dispose();
+        tiledMap.dispose();
         batch.dispose();
     }
 

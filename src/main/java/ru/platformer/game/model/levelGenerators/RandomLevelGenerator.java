@@ -2,9 +2,6 @@ package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.graphics.LevelGraphics;
-import ru.platformer.game.graphics.ObstacleGraphics;
-import ru.platformer.game.graphics.TankGraphics;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.LevelListener;
 import ru.platformer.game.model.Obstacle;
@@ -12,6 +9,7 @@ import ru.platformer.game.model.Tank;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import org.javatuples.Pair;
 
 
@@ -24,11 +22,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     private final int numAI;
     private GameObject player;
 
-    public RandomLevelGenerator(
-            ArrayList<LevelListener> levelListeners,
-            int numObstacles,
-            int numAI
-    ) {
+    public RandomLevelGenerator(ArrayList<LevelListener> levelListeners, int numObstacles, int numAI) {
         this.levelListeners = levelListeners;
 
         rand = new Random();
@@ -43,13 +37,16 @@ public class RandomLevelGenerator implements LevelGenerator {
         createAI(level);
         createObstacles(level);
 
+        LevelGenerator.initBorder(level, MAX_X_COORDINATE, MAX_Y_COORDINATE);
+
+
         return new Pair<>(level, player);
     }
 
     private void createObstacles(Level level) {
-        for (int i = 0; i < rand.nextInt(numObstacles); i ++){
+        for (int i = 0; i < rand.nextInt(numObstacles); i++) {
             Obstacle obstacle = new Obstacle(createRandomCoordinates());
-            if (level.collisionExist(obstacle.getCurrentCoordinates())){
+            if (level.collisionExist(obstacle.getCurrentCoordinates())) {
                 continue;
             }
             level.addGameObject(obstacle);
@@ -65,7 +62,7 @@ public class RandomLevelGenerator implements LevelGenerator {
         level.addGameObject(player);
     }
 
-    private GridPoint2 createRandomCoordinates(){
+    private GridPoint2 createRandomCoordinates() {
         int randX = rand.nextInt(MAX_X_COORDINATE);
         int randY = rand.nextInt(MAX_Y_COORDINATE);
 

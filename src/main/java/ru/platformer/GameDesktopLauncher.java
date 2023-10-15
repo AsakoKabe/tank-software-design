@@ -30,10 +30,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelGraphics = new LevelGraphics();
         levelListeners.add(levelGraphics);
 
-        Pair<Level, GameObject> levelAndGameObject = new FileLevelGenerator(
-                levelListeners,
-                "src/main/resources/level.txt"
-        ).generate();
+        Pair<Level, GameObject> levelAndGameObject = new FileLevelGenerator(levelListeners, "src/main/resources/level.txt").generate();
 //        Pair<Level, GameObject> levelAndGameObject = new RandomLevelGenerator(levelListeners, 10, 0).generate();
         level = levelAndGameObject.getValue0();
 
@@ -90,6 +87,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         // level width: 10 tiles x 128px, height: 8 tiles x 128px
         config.setWindowedMode(1280, 1024);
-        new Lwjgl3Application(new GameDesktopLauncher(), config);
+        Lwjgl3Application lwjgl3Application = new Lwjgl3Application(new GameDesktopLauncher(), config);
     }
 }
