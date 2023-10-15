@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Level {
     private final List<GameObject> gameObjects;
-    private GameObject playerGameObject;
     private final ArrayList<LevelListener> levelListeners;
 
     public Level(ArrayList<LevelListener> levelListeners) {
@@ -34,14 +33,6 @@ public class Level {
             }
         }
         return false;
-    }
-
-    public void setPlayerGameObject(GameObject gameObject){
-        playerGameObject = gameObject;
-    }
-
-    public GameObject getPlayerGameObject(){
-        return playerGameObject;
     }
 
 }

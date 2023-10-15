@@ -12,6 +12,8 @@ import ru.platformer.game.model.Tank;
 
 import java.util.ArrayList;
 import java.util.Random;
+import org.javatuples.Pair;
+
 
 public class RandomLevelGenerator implements LevelGenerator {
     private final int MAX_X_COORDINATE = 9;
@@ -20,6 +22,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     private final ArrayList<LevelListener> levelListeners;
     private final int numObstacles;
     private final int numAI;
+    private GameObject player;
 
     public RandomLevelGenerator(
             ArrayList<LevelListener> levelListeners,
@@ -34,13 +37,13 @@ public class RandomLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Level generate() {
+    public Pair<Level, GameObject> generate() {
         Level level = new Level(levelListeners);
         createPlayer(level);
         createAI(level);
         createObstacles(level);
 
-        return level;
+        return new Pair<>(level, player);
     }
 
     private void createObstacles(Level level) {
@@ -58,8 +61,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     }
 
     private void createPlayer(Level level) {
-        GameObject player = new Tank(createRandomCoordinates());
-        level.setPlayerGameObject(player);
+        player = new Tank(createRandomCoordinates());
         level.addGameObject(player);
     }
 

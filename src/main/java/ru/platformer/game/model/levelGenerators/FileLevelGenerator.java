@@ -1,6 +1,7 @@
 package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import org.javatuples.Pair;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.graphics.ObstacleGraphics;
@@ -34,12 +35,12 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Level generate() {
+    public Pair<Level, GameObject> generate() {
         level = new Level(levelListeners);
 
         generateFromFile();
 
-        return level;
+        return new Pair<>(level, playerGameObject);
     }
 
     private void generateFromFile(){
@@ -92,7 +93,6 @@ public class FileLevelGenerator implements LevelGenerator {
 
     private void createPlayer(int xCoordinate, int yCoordinate){
         playerGameObject = new Tank(new GridPoint2(xCoordinate, yCoordinate));
-        level.setPlayerGameObject(playerGameObject);
         level.addGameObject(playerGameObject);
     }
 

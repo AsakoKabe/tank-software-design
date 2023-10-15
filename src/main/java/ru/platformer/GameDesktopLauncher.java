@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import org.javatuples.Pair;
 import ru.platformer.game.Action;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.entityControllers.AIController;
@@ -29,16 +30,17 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelGraphics = new LevelGraphics();
         levelListeners.add(levelGraphics);
 
-        level = new FileLevelGenerator(
+        Pair<Level, GameObject> levelAndGameObject = new FileLevelGenerator(
                 levelListeners,
                 "src/main/resources/level.txt"
         ).generate();
-//        level = new RandomLevelGenerator(levelListeners, 10, 0).generate();
+//        Pair<Level, GameObject> levelAndGameObject = new RandomLevelGenerator(levelListeners, 10, 0).generate();
+        level = levelAndGameObject.getValue0();
 
 
         actionManager = new ActionManager();
         PlayerController playerController = new PlayerController();
-        playerController.addGameEntity(level.getPlayerGameObject());
+        playerController.addGameEntity(levelAndGameObject.getValue1());
         actionManager.addEntityActionController(playerController);
         AIController aiController = new AIController();
         actionManager.addEntityActionController(aiController);

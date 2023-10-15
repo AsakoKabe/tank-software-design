@@ -36,4 +36,5 @@ dependencies {
     implementation 'junit:junit:4.13.1'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     implementation "org.mockito:mockito-all:1.9.5"
+    implementation "org.javatuples:javatuples:1.2"
 }
