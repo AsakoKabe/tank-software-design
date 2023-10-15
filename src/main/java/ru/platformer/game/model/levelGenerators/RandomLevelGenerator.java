@@ -6,64 +6,61 @@ import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.graphics.ObstacleGraphics;
 import ru.platformer.game.graphics.TankGraphics;
 import ru.platformer.game.model.Level;
+import ru.platformer.game.model.LevelListener;
 import ru.platformer.game.model.Obstacle;
 import ru.platformer.game.model.Tank;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomLevelGenerator implements LevelGenerator {
     private final int MAX_X_COORDINATE = 9;
     private final int MAX_Y_COORDINATE = 6;
     private final Random rand;
-    private GameObject player;
+    private final ArrayList<LevelListener> levelListeners;
+    private final int numObstacles;
+    private final int numAI;
 
-    public RandomLevelGenerator() {
+    public RandomLevelGenerator(
+            ArrayList<LevelListener> levelListeners,
+            int numObstacles,
+            int numAI
+    ) {
+        this.levelListeners = levelListeners;
+
         rand = new Random();
+        this.numObstacles = numObstacles;
+        this.numAI = numAI;
     }
 
     @Override
-    public LevelGeneratorInfo generate() {
-        Level level = new Level();
-        LevelGraphics levelGraphics = new LevelGraphics();
-        createPlayer(level, levelGraphics);
-        createAI(level, levelGraphics);
-        createObstacles(level, levelGraphics);
+    public Level generate() {
+        Level level = new Level(levelListeners);
+        createPlayer(level);
+        createAI(level);
+        createObstacles(level);
 
-        return new LevelGeneratorInfo(
-                level,
-                levelGraphics,
-                player
-        );
+        return level;
     }
 
-    private void createObstacles(Level level, LevelGraphics levelGraphics) {
-        for (int i = 0; i < rand.nextInt(10); i ++){
+    private void createObstacles(Level level) {
+        for (int i = 0; i < rand.nextInt(numObstacles); i ++){
             Obstacle obstacle = new Obstacle(createRandomCoordinates());
-            ObstacleGraphics obstacleGraphics = new ObstacleGraphics(
-                    "images/greenTree.png", obstacle, levelGraphics.getGroundLayer()
-            );
             if (level.collisionExist(obstacle.getCurrentCoordinates())){
                 continue;
             }
-            level.addGameEntity(obstacle);
-            levelGraphics.addGameObjectGraphics(obstacleGraphics);
+            level.addGameObject(obstacle);
         }
     }
 
-    private void createAI(Level level, LevelGraphics levelGraphics) {
+    private void createAI(Level level) {
         // in future
     }
 
-    private void createPlayer(Level level, LevelGraphics levelGraphics) {
-        player = new Tank(createRandomCoordinates());
-
-        TankGraphics tankGraphics = new TankGraphics(
-                "images/tank_blue.png",
-                (Tank) player,
-                levelGraphics.getTileMovement()
-        );
-        level.addGameEntity(player);
-        levelGraphics.addGameObjectGraphics(tankGraphics);
+    private void createPlayer(Level level) {
+        GameObject player = new Tank(createRandomCoordinates());
+        level.setPlayerGameObject(player);
+        level.addGameObject(player);
     }
 
     private GridPoint2 createRandomCoordinates(){

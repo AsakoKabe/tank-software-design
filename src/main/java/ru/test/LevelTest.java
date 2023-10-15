@@ -4,8 +4,11 @@ import com.badlogic.gdx.math.GridPoint2;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.platformer.game.model.Level;
+import ru.platformer.game.model.LevelListener;
 import ru.platformer.game.model.Obstacle;
 import ru.platformer.game.model.Tank;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,11 +16,12 @@ class LevelTest {
 
     @Test
     void testUpdateState() {
-        Level level = new Level();
+        ArrayList<LevelListener> levelListeners = new ArrayList<>();
+        Level level = new Level(levelListeners);
         Tank mockedTank = Mockito.mock(Tank.class);
         Obstacle mockedObstacle = Mockito.mock(Obstacle.class);
-        level.addGameEntity(mockedTank);
-        level.addGameEntity(mockedObstacle);
+        level.addGameObject(mockedTank);
+        level.addGameObject(mockedObstacle);
         float deltaTime = 1f;
 
         level.updateState(deltaTime);
@@ -28,12 +32,13 @@ class LevelTest {
 
     @Test
     void testCollisionExist() {
-        Level level = new Level();
+        ArrayList<LevelListener> levelListeners = new ArrayList<>();
+        Level level = new Level(levelListeners);
         Tank tank = new Tank(new GridPoint2(0, 0));
         Obstacle obstacle = new Obstacle(new GridPoint2(1, 1));
 
-        level.addGameEntity(tank);
-        level.addGameEntity(obstacle);
+        level.addGameObject(tank);
+        level.addGameObject(obstacle);
         GridPoint2 freeCoordinates = new GridPoint2(2, 2);
 
         assertTrue(level.collisionExist(tank.getCurrentCoordinates()));

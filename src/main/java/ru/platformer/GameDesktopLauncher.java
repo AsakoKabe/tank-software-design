@@ -12,7 +12,7 @@ import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.model.levelGenerators.FileLevelGenerator;
-import ru.platformer.game.model.levelGenerators.LevelGeneratorInfo;
+import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
 
 import java.util.ArrayList;
 
@@ -25,19 +25,20 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void create() {
+        ArrayList<LevelListener> levelListeners = new ArrayList<>();
+        levelGraphics = new LevelGraphics();
+        levelListeners.add(levelGraphics);
 
-        LevelGeneratorInfo levelGeneratorInfo = new FileLevelGenerator(
+        level = new FileLevelGenerator(
+                levelListeners,
                 "src/main/resources/level.txt"
         ).generate();
-//        LevelGeneratorInfo levelGeneratorInfo = new RandomLevelGenerator().generate();
+//        level = new RandomLevelGenerator(levelListeners, 10, 0).generate();
 
-        level = levelGeneratorInfo.getLevel();
-        levelGraphics = levelGeneratorInfo.getLevelGraphics();
-        GameObject player = levelGeneratorInfo.getPlayerGameObject();
 
         actionManager = new ActionManager();
         PlayerController playerController = new PlayerController();
-        playerController.addGameEntity(player);
+        playerController.addGameEntity(level.getPlayerGameObject());
         actionManager.addEntityActionController(playerController);
         AIController aiController = new AIController();
         actionManager.addEntityActionController(aiController);

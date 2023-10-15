@@ -7,28 +7,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
-    private final List<GameObject> gameEntities;
+    private final List<GameObject> gameObjects;
+    private GameObject playerGameObject;
+    private final ArrayList<LevelListener> levelListeners;
 
-    public Level() {
-        gameEntities = new ArrayList<>();
+    public Level(ArrayList<LevelListener> levelListeners) {
+        gameObjects = new ArrayList<>();
+        this.levelListeners = levelListeners;
     }
 
-    public void addGameEntity(GameObject gameEntity){
-        gameEntities.add(gameEntity);
+    public void addGameObject(GameObject gameObject){
+        gameObjects.add(gameObject);
+        levelListeners.forEach(levelListener -> levelListener.onAddGameObject(gameObject));
     }
 
     public void updateState(float deltaTime) {
-        for (GameObject gameEntity: gameEntities){
+        for (GameObject gameEntity: gameObjects){
             gameEntity.updateState(deltaTime);
         }
     }
 
     public boolean collisionExist(GridPoint2 coordinates) {
-        for (GameObject gameEntity: gameEntities){
+        for (GameObject gameEntity: gameObjects){
             if (gameEntity.getCurrentCoordinates().equals(coordinates)){
                 return true;
             }
         }
         return false;
     }
+
+    public void setPlayerGameObject(GameObject gameObject){
+        playerGameObject = gameObject;
+    }
+
+    public GameObject getPlayerGameObject(){
+        return playerGameObject;
+    }
+
 }

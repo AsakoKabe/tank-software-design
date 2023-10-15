@@ -6,6 +6,7 @@ import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.graphics.ObstacleGraphics;
 import ru.platformer.game.graphics.TankGraphics;
 import ru.platformer.game.model.Level;
+import ru.platformer.game.model.LevelListener;
 import ru.platformer.game.model.Obstacle;
 import ru.platformer.game.model.Tank;
 
@@ -14,31 +15,31 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class FileLevelGenerator implements LevelGenerator {
     private final String fileName;
+    private final ArrayList<LevelListener> levelListeners;
     private Level level;
-    private LevelGraphics levelGraphics;
     private GameObject playerGameObject;
 
-    public FileLevelGenerator(String fileName) {
+    public FileLevelGenerator(
+            ArrayList<LevelListener> levelListeners,
+            String fileName
+    ) {
+        this.levelListeners = levelListeners;
         this.fileName = fileName;
     }
 
     @Override
-    public LevelGeneratorInfo generate() {
-        level = new Level();
-        levelGraphics = new LevelGraphics();
+    public Level generate() {
+        level = new Level(levelListeners);
 
         generateFromFile();
 
-        return new LevelGeneratorInfo(
-                level,
-                levelGraphics,
-                playerGameObject
-        );
+        return level;
     }
 
     private void generateFromFile(){
@@ -83,26 +84,16 @@ public class FileLevelGenerator implements LevelGenerator {
 
     private void createTree(int xCoordinate, int yCoordinate) {
         Obstacle obstacle = new Obstacle(new GridPoint2(xCoordinate, yCoordinate));
-        ObstacleGraphics obstacleGraphics = new ObstacleGraphics(
-                "images/greenTree.png", obstacle, levelGraphics.getGroundLayer()
-        );
         if (level.collisionExist(obstacle.getCurrentCoordinates())){
             return;
         }
-        level.addGameEntity(obstacle);
-        levelGraphics.addGameObjectGraphics(obstacleGraphics);
+        level.addGameObject(obstacle);
     }
 
     private void createPlayer(int xCoordinate, int yCoordinate){
         playerGameObject = new Tank(new GridPoint2(xCoordinate, yCoordinate));
-
-        TankGraphics tankGraphics = new TankGraphics(
-                "images/tank_blue.png",
-                (Tank) playerGameObject,
-                levelGraphics.getTileMovement()
-        );
-        level.addGameEntity(playerGameObject);
-        levelGraphics.addGameObjectGraphics(tankGraphics);
+        level.setPlayerGameObject(playerGameObject);
+        level.addGameObject(playerGameObject);
     }
 
 }
