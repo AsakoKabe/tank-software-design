@@ -14,7 +14,7 @@ public class PlayerController implements EntityController {
     private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
     private GameObject player;
 
-    public void addGameEntity(GameObject player){
+    public void addGameObject(GameObject player){
         this.player = player;
     }
 

@@ -2,6 +2,7 @@ package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.LevelListener;
@@ -22,6 +23,8 @@ public class FileLevelGenerator implements LevelGenerator {
     private final ArrayList<LevelListener> levelListeners;
     private Level level;
     private GameObject playerGameObject;
+    private final ArrayList<GameObject> aiGameObjects = new ArrayList<>();
+
     private int maxY;
     private int maxX;
 
@@ -31,13 +34,13 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Pair<Level, GameObject> generate() {
+    public Triplet<Level, GameObject, ArrayList<GameObject>> generate() {
         level = new Level(levelListeners);
 
         generateFromFile();
         LevelGenerator.initBorder(level, maxX, maxY);
 
-        return new Pair<>(level, playerGameObject);
+        return new Triplet<>(level, playerGameObject, aiGameObjects);
     }
 
     private void generateFromFile() {

@@ -1,6 +1,7 @@
 package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import org.javatuples.Triplet;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.LevelListener;
@@ -21,6 +22,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     private final int numObstacles;
     private final int numAI;
     private GameObject player;
+    private final ArrayList<GameObject> aiGameObjects = new ArrayList<>();
 
     public RandomLevelGenerator(ArrayList<LevelListener> levelListeners, int numObstacles, int numAI) {
         this.levelListeners = levelListeners;
@@ -31,7 +33,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Pair<Level, GameObject> generate() {
+    public Triplet<Level, GameObject, ArrayList<GameObject>> generate() {
         Level level = new Level(levelListeners);
         createPlayer(level);
         createAI(level);
@@ -40,7 +42,7 @@ public class RandomLevelGenerator implements LevelGenerator {
         LevelGenerator.initBorder(level, MAX_X_COORDINATE, MAX_Y_COORDINATE);
 
 
-        return new Pair<>(level, player);
+        return new Triplet<>(level, player, aiGameObjects);
     }
 
     private void createObstacles(Level level) {
@@ -54,7 +56,14 @@ public class RandomLevelGenerator implements LevelGenerator {
     }
 
     private void createAI(Level level) {
-        // in future
+        for (int i = 0; i < rand.nextInt(numAI); i++) {
+            Tank tank = new Tank(createRandomCoordinates());
+            if (level.collisionExist(tank.getCurrentCoordinates())) {
+                continue;
+            }
+            level.addGameObject(tank);
+            aiGameObjects.add(tank);
+        }
     }
 
     private void createPlayer(Level level) {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import ru.platformer.game.Action;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.entityControllers.AIController;
@@ -12,7 +13,6 @@ import ru.platformer.game.entityControllers.PlayerController;
 import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
 import ru.platformer.game.graphics.LevelGraphics;
-import ru.platformer.game.model.levelGenerators.FileLevelGenerator;
 import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
 
 import java.util.ArrayList;
@@ -30,17 +30,23 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelGraphics = new LevelGraphics();
         levelListeners.add(levelGraphics);
 
-        Pair<Level, GameObject> levelAndGameObject = new FileLevelGenerator(levelListeners, "src/main/resources/level.txt").generate();
-//        Pair<Level, GameObject> levelAndGameObject = new RandomLevelGenerator(levelListeners, 10, 0).generate();
-        level = levelAndGameObject.getValue0();
+//        Pair<Level, GameObject> levelPlayerAI = new FileLevelGenerator(levelListeners, "src/main/resources/level.txt").generate();
+        Triplet<Level, GameObject, ArrayList<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, 10, 10).generate();
+        level = levelPlayerAI.getValue0();
 
 
         actionManager = new ActionManager();
+
         PlayerController playerController = new PlayerController();
-        playerController.addGameEntity(levelAndGameObject.getValue1());
+        playerController.addGameObject(levelPlayerAI.getValue1());
         actionManager.addEntityActionController(playerController);
-        AIController aiController = new AIController();
-        actionManager.addEntityActionController(aiController);
+
+        for (GameObject AIGameObject: levelPlayerAI.getValue2()){
+            AIController aiController = new AIController();
+            aiController.addGameObject(AIGameObject);
+            actionManager.addEntityActionController(aiController);
+            Initializer.initAIEventMappings(aiController, level);
+        }
 
         Initializer.initKeyBoardMappings(playerController, level);
     }

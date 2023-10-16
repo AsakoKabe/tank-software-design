@@ -7,5 +7,5 @@ import java.util.ArrayList;
 
 public interface EntityController {
     ArrayList<Action> generateActions();
-    void addGameEntity(GameObject gameEntity);
+    void addGameObject(GameObject gameObject);
 }

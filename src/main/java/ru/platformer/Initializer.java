@@ -1,6 +1,8 @@
 package ru.platformer;
 
+import ru.platformer.game.AIEvent;
 import ru.platformer.game.Direction;
+import ru.platformer.game.entityControllers.AIController;
 import ru.platformer.game.model.*;
 import ru.platformer.game.entityControllers.PlayerController;
 import ru.platformer.game.model.actions.move.MoveFactory;
@@ -20,4 +22,10 @@ public class Initializer {
         playerController.addKeyActionFactoryMapping(D, new MoveFactory(Direction.RIGHT, level));
     }
 
+    public static void initAIEventMappings(AIController aiController, Level level) {
+        aiController.addAIEventFactoryMapping(AIEvent.MoveUp, new MoveFactory(Direction.UP, level));
+        aiController.addAIEventFactoryMapping(AIEvent.MoveDown, new MoveFactory(Direction.DOWN, level));
+        aiController.addAIEventFactoryMapping(AIEvent.MoveRight, new MoveFactory(Direction.RIGHT, level));
+        aiController.addAIEventFactoryMapping(AIEvent.MoveLeft, new MoveFactory(Direction.LEFT, level));
+    }
 }
