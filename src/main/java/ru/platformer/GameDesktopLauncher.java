@@ -33,6 +33,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 //        Pair<Level, GameObject> levelPlayerAI = new FileLevelGenerator(levelListeners, "src/main/resources/level.txt").generate();
         Triplet<Level, GameObject, ArrayList<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, 10, 10).generate();
         level = levelPlayerAI.getValue0();
+        CollisionDetector collisionDetector = new CollisionDetector(level);
 
 
         actionManager = new ActionManager();
@@ -45,10 +46,10 @@ public class GameDesktopLauncher implements ApplicationListener {
             AIController aiController = new AIController();
             aiController.addGameObject(AIGameObject);
             actionManager.addEntityActionController(aiController);
-            Initializer.initAIEventMappings(aiController, level);
+            Initializer.initAIEventMappings(aiController, collisionDetector);
         }
 
-        Initializer.initKeyBoardMappings(playerController, level);
+        Initializer.initKeyBoardMappings(playerController, collisionDetector);
     }
 
 

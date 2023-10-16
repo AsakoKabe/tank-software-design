@@ -26,13 +26,8 @@ public class Level {
         }
     }
 
-    public boolean collisionExist(GridPoint2 coordinates) {
-        for (GameObject gameEntity: gameObjects){
-            if (gameEntity.getCurrentCoordinates().equals(coordinates)){
-                return true;
-            }
-        }
-        return false;
+    public List<GameObject> getGameObjects() {
+        return gameObjects;
     }
 
 }

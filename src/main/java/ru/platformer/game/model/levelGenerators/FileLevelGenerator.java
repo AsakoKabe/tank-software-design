@@ -4,10 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.model.Level;
-import ru.platformer.game.model.LevelListener;
-import ru.platformer.game.model.Obstacle;
-import ru.platformer.game.model.Tank;
+import ru.platformer.game.model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +21,7 @@ public class FileLevelGenerator implements LevelGenerator {
     private Level level;
     private GameObject playerGameObject;
     private final ArrayList<GameObject> aiGameObjects = new ArrayList<>();
+    private CollisionDetector collisionDetector;
 
     private int maxY;
     private int maxX;
@@ -36,9 +34,10 @@ public class FileLevelGenerator implements LevelGenerator {
     @Override
     public Triplet<Level, GameObject, ArrayList<GameObject>> generate() {
         level = new Level(levelListeners);
+        LevelGenerator.initBorder(level, maxX, maxY);
+        collisionDetector = new CollisionDetector(level);
 
         generateFromFile();
-        LevelGenerator.initBorder(level, maxX, maxY);
 
         return new Triplet<>(level, playerGameObject, aiGameObjects);
     }
@@ -87,15 +86,17 @@ public class FileLevelGenerator implements LevelGenerator {
 
     private void createTree(int xCoordinate, int yCoordinate) {
         Obstacle obstacle = new Obstacle(new GridPoint2(xCoordinate, yCoordinate));
-        if (level.collisionExist(obstacle.getCurrentCoordinates())) {
+        if (collisionDetector.collisionExist(obstacle.getCurrentCoordinates())) {
             return;
         }
         level.addGameObject(obstacle);
+        collisionDetector.addCoordinates(obstacle.getCurrentCoordinates());
     }
 
     private void createPlayer(int xCoordinate, int yCoordinate) {
         playerGameObject = new Tank(new GridPoint2(xCoordinate, yCoordinate));
         level.addGameObject(playerGameObject);
+        collisionDetector.addCoordinates(playerGameObject.getCurrentCoordinates());
     }
 
 }
