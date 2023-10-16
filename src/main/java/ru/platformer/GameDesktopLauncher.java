@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import ru.platformer.game.Action;
 import ru.platformer.game.GameObject;
@@ -31,7 +30,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelListeners.add(levelGraphics);
 
 //        Pair<Level, GameObject> levelPlayerAI = new FileLevelGenerator(levelListeners, "src/main/resources/level.txt").generate();
-        Triplet<Level, GameObject, ArrayList<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, 10, 10).generate();
+        Triplet<Level, GameObject, ArrayList<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, 1, 20).generate();
         level = levelPlayerAI.getValue0();
         CollisionDetector collisionDetector = new CollisionDetector(level);
 
@@ -94,6 +93,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         // level width: 10 tiles x 128px, height: 8 tiles x 128px
         config.setWindowedMode(1280, 1024);
-        Lwjgl3Application lwjgl3Application = new Lwjgl3Application(new GameDesktopLauncher(), config);
+        new Lwjgl3Application(new GameDesktopLauncher(), config);
     }
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Action;
 import ru.platformer.game.Direction;
 import ru.platformer.game.model.CollisionDetector;
-import ru.platformer.game.model.Level;
 import ru.platformer.game.model.Movable;
 
 public class MoveAction implements Action {
@@ -23,6 +22,7 @@ public class MoveAction implements Action {
 
     public void apply() {
         preprocessingIfCollides();
+        collisionDetector.removeCoordinates(movable.getDestinationCoordinates());
         movable.moveToDirection(direction, coordinatesReset);
         collisionDetector.addCoordinates(movable.getDestinationCoordinates());
     }

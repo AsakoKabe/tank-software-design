@@ -1,6 +1,5 @@
 package ru.platformer.game.model;
 
-import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.GameObject;
 
 import java.util.ArrayList;
@@ -15,14 +14,15 @@ public class Level {
         this.levelListeners = levelListeners;
     }
 
+
     public void addGameObject(GameObject gameObject){
         gameObjects.add(gameObject);
         levelListeners.forEach(levelListener -> levelListener.onAddGameObject(gameObject));
     }
 
     public void updateState(float deltaTime) {
-        for (GameObject gameEntity: gameObjects){
-            gameEntity.updateState(deltaTime);
+        for (GameObject gameObject: gameObjects){
+            gameObject.updateState(deltaTime);
         }
     }
 
