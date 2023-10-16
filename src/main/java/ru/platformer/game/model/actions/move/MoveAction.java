@@ -38,4 +38,7 @@ public class MoveAction implements Action {
         }
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
 }
