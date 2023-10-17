@@ -21,13 +21,14 @@ public class FileLevelGenerator implements LevelGenerator {
     private Level level;
     private GameObject playerGameObject;
     private final ArrayList<GameObject> aiGameObjects = new ArrayList<>();
-    private CollisionDetector collisionDetector;
+    private final CollisionDetector collisionDetector;
 
     private int maxY;
     private int maxX;
 
-    public FileLevelGenerator(ArrayList<LevelListener> levelListeners, String fileName) {
+    public FileLevelGenerator(ArrayList<LevelListener> levelListeners, CollisionDetector collisionDetector, String fileName) {
         this.levelListeners = levelListeners;
+        this.collisionDetector = collisionDetector;
         this.fileName = fileName;
     }
 
@@ -35,7 +36,6 @@ public class FileLevelGenerator implements LevelGenerator {
     public Triplet<Level, GameObject, ArrayList<GameObject>> generate() {
         level = new Level(levelListeners);
         LevelGenerator.initBorder(level, maxX, maxY);
-        collisionDetector = new CollisionDetector(level);
 
         generateFromFile();
 

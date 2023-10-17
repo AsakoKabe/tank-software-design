@@ -8,6 +8,7 @@ import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.move.MoveAction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -16,15 +17,17 @@ public class MoveActionTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     public void testApplyingMoveActionWithCollisionChangeDestinationCoordinates(Direction direction) {
-        Level level = new Level(mock(ArrayList.class));
+        CollisionDetector collisionDetector = new CollisionDetector();
+        ArrayList<LevelListener> levelListeners = new ArrayList<>();
+        levelListeners.add(collisionDetector);
+        Level level = new Level(levelListeners);
         level.addGameObject(new Tank(new GridPoint2(0, 0)));
         level.addGameObject(new Tank(new GridPoint2(1, 1)));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));
         Tank tank = new Tank(new GridPoint2(0, 0));
         level.addGameObject(tank);
-        CollisionDetector collisionDetector = new CollisionDetector(level);
-        MoveAction moveAction = new MoveAction(direction, collisionDetector, tank);
 
+        MoveAction moveAction = new MoveAction(direction, collisionDetector, tank);
         moveAction.apply();
 
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
@@ -36,7 +39,10 @@ public class MoveActionTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     public void testApplyingMoveActionWithCollisionByDirection(Direction direction) {
-        Level level = new Level(mock(ArrayList.class));
+        CollisionDetector collisionDetector = new CollisionDetector();
+        ArrayList<LevelListener> levelListeners = new ArrayList<>();
+        levelListeners.add(collisionDetector);
+        Level level = new Level(levelListeners);
         level.addGameObject(new Tank(new GridPoint2(0, 0)));
         level.addGameObject(new Tank(new GridPoint2(1, 1)));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));
@@ -44,9 +50,8 @@ public class MoveActionTest {
         GridPoint2 tankStartCoordinates = new GridPoint2(0, 0);
         Tank tank = new Tank(tankStartCoordinates);
         level.addGameObject(tank);
-        CollisionDetector collisionDetector = new CollisionDetector(level);
-        MoveAction moveAction = new MoveAction(direction, collisionDetector, tank);
 
+        MoveAction moveAction = new MoveAction(direction, collisionDetector, tank);
         moveAction.apply();
 
         float targetRotation = direction.getRotation();

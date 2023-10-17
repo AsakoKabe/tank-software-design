@@ -20,10 +20,11 @@ public class RandomLevelGenerator implements LevelGenerator {
     private final int numAI;
     private GameObject player;
     private final ArrayList<GameObject> aiGameObjects = new ArrayList<>();
-    private CollisionDetector collisionDetector;
+    private final CollisionDetector collisionDetector;
 
-    public RandomLevelGenerator(ArrayList<LevelListener> levelListeners, int numObstacles, int numAI) {
+    public RandomLevelGenerator(ArrayList<LevelListener> levelListeners, CollisionDetector collisionDetector, int numObstacles, int numAI) {
         this.levelListeners = levelListeners;
+        this.collisionDetector = collisionDetector;
 
         rand = new Random();
         this.numObstacles = numObstacles;
@@ -34,7 +35,6 @@ public class RandomLevelGenerator implements LevelGenerator {
     public Triplet<Level, GameObject, ArrayList<GameObject>> generate() {
         Level level = new Level(levelListeners);
         LevelGenerator.initBorder(level, MAX_X_COORDINATE, MAX_Y_COORDINATE);
-        this.collisionDetector = new CollisionDetector(level);
 
         createPlayer(level);
         createAI(level);

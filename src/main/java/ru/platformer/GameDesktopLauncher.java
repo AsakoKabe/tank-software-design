@@ -27,12 +27,13 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void create() {
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelGraphics = new LevelGraphics();
+        CollisionDetector collisionDetector = new CollisionDetector();
         levelListeners.add(levelGraphics);
+        levelListeners.add(collisionDetector);
 
-//        Pair<Level, GameObject> levelPlayerAI = new FileLevelGenerator(levelListeners, "src/main/resources/level.txt").generate();
-        Triplet<Level, GameObject, ArrayList<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, 1, 20).generate();
+//        Pair<Level, GameObject> levelPlayerAI = new FileLevelGenerator(levelListeners, collisionDetector,  "src/main/resources/level.txt").generate();
+        Triplet<Level, GameObject, ArrayList<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, collisionDetector, 1, 20).generate();
         level = levelPlayerAI.getValue0();
-        CollisionDetector collisionDetector = new CollisionDetector(level);
 
 
         actionManager = new ActionManager();
