@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import ru.platformer.game.GameObject;
+import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.Obstacle;
 
@@ -11,16 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface LevelGenerator {
-    Triplet<Level, GameObject, ArrayList<GameObject>> generate();
+    Triplet<Level, GameObject, List<GameObject>> generate();
 
-    static void initBorder(Level level, int maxX, int maxY) {
+    static void initBorder(CollisionDetector collisionDetector, int maxX, int maxY) {
         // left right
-        initAxis(level, maxX, maxY, false);
+        initAxis(collisionDetector, maxX, maxY, false);
         // top bot
-        initAxis(level, maxY, maxX, true);
+        initAxis(collisionDetector, maxY, maxX, true);
     }
 
-    private static void initAxis(Level level, int maxAxis1, int maxAxis2, boolean inverse) {
+    private static void initAxis(CollisionDetector collisionDetector, int maxAxis1, int maxAxis2, boolean inverse) {
         for (int x : List.of(-1, maxAxis1 + 1)) {
             for (int y = 0; y < maxAxis2 + 1; y += 1) {
                 GridPoint2 gridPoint2;
@@ -29,7 +30,7 @@ public interface LevelGenerator {
                 } else {
                     gridPoint2 = new GridPoint2(x, y);
                 }
-                level.addGameObject(new Obstacle(gridPoint2));
+                collisionDetector.addCoordinates(gridPoint2);
             }
         }
     }

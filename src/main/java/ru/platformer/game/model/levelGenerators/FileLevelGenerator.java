@@ -1,7 +1,6 @@
 package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.*;
@@ -12,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -19,8 +19,7 @@ public class FileLevelGenerator implements LevelGenerator {
     private final String fileName;
     private final ArrayList<LevelListener> levelListeners;
     private Level level;
-    private GameObject playerGameObject;
-    private final ArrayList<GameObject> aiGameObjects = new ArrayList<>();
+    private final ArrayList<GameObject> tanks = new ArrayList<>();
     private final CollisionDetector collisionDetector;
 
     private int maxY;
@@ -33,13 +32,13 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Triplet<Level, GameObject, ArrayList<GameObject>> generate() {
+    public Triplet<Level, GameObject, List<GameObject>> generate() {
         level = new Level(levelListeners);
-        LevelGenerator.initBorder(level, maxX, maxY);
+        LevelGenerator.initBorder(collisionDetector, maxX, maxY);
 
         generateFromFile();
 
-        return new Triplet<>(level, playerGameObject, aiGameObjects);
+        return new Triplet<>(level, tanks.get(0), tanks.subList(1, tanks.size()));
     }
 
     private void generateFromFile() {
@@ -76,27 +75,25 @@ public class FileLevelGenerator implements LevelGenerator {
                 case '_':
                     break;
                 case 'T':
-                    createTree(i, yCoordinate);
+                    createObstacles(i, yCoordinate);
                     break;
                 case 'X':
-                    createPlayer(i, yCoordinate);
+                    createTank(i, yCoordinate);
             }
         }
     }
 
-    private void createTree(int xCoordinate, int yCoordinate) {
+    private void createObstacles(int xCoordinate, int yCoordinate) {
         Obstacle obstacle = new Obstacle(new GridPoint2(xCoordinate, yCoordinate));
-        if (collisionDetector.collisionExist(obstacle.getCurrentCoordinates())) {
-            return;
-        }
         level.addGameObject(obstacle);
         collisionDetector.addCoordinates(obstacle.getCurrentCoordinates());
     }
 
-    private void createPlayer(int xCoordinate, int yCoordinate) {
-        playerGameObject = new Tank(new GridPoint2(xCoordinate, yCoordinate));
-        level.addGameObject(playerGameObject);
-        collisionDetector.addCoordinates(playerGameObject.getCurrentCoordinates());
+    private void createTank(int xCoordinate, int yCoordinate) {
+        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate));
+        tanks.add(tank);
+        level.addGameObject(tank);
+        collisionDetector.addCoordinates(tank.getCurrentCoordinates());
     }
 
 }

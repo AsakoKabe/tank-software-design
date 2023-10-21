@@ -46,6 +46,7 @@ public class LevelGraphics  implements LevelListener {
 
     @Override
     public void onAddGameObject(GameObject gameObject) {
+        // TODO: стратегия????
         Class<?> objectType = gameObject.getClass();
         String objectTypeName = objectType.getSimpleName();
         GameObjectGraphics gameObjectGraphics;

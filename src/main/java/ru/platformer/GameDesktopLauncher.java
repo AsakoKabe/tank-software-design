@@ -15,6 +15,7 @@ import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
@@ -32,19 +33,17 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelListeners.add(collisionDetector);
 
 //        Pair<Level, GameObject> levelPlayerAI = new FileLevelGenerator(levelListeners, collisionDetector,  "src/main/resources/level.txt").generate();
-        Triplet<Level, GameObject, ArrayList<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, collisionDetector, 1, 20).generate();
+        Triplet<Level, GameObject, List<GameObject>> levelPlayerAI = new RandomLevelGenerator(levelListeners, collisionDetector, 5, 10).generate();
         level = levelPlayerAI.getValue0();
 
 
         actionManager = new ActionManager();
 
-        PlayerController playerController = new PlayerController();
-        playerController.addGameObject(levelPlayerAI.getValue1());
+        PlayerController playerController = new PlayerController(levelPlayerAI.getValue1());
         actionManager.addEntityActionController(playerController);
 
         for (GameObject AIGameObject: levelPlayerAI.getValue2()){
-            AIController aiController = new AIController();
-            aiController.addGameObject(AIGameObject);
+            AIController aiController = new AIController(AIGameObject);
             actionManager.addEntityActionController(aiController);
             Initializer.initAIEventMappings(aiController, collisionDetector);
         }

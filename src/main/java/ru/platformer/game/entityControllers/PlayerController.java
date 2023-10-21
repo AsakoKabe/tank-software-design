@@ -12,10 +12,10 @@ import java.util.Map;
 
 public class PlayerController implements EntityController {
     private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
-    private GameObject player;
+    private final GameObject gameObject;
 
-    public void addGameObject(GameObject player){
-        this.player = player;
+    public PlayerController(GameObject player) {
+        this.gameObject = player;
     }
 
     public ArrayList<Action> generateActions(){
@@ -37,7 +37,7 @@ public class PlayerController implements EntityController {
     private Action getAction() {
         for (Integer key : keyToActionFactory.keySet()) {
             if (Gdx.input.isKeyPressed(key)) {
-                return keyToActionFactory.get(key).create(player);
+                return keyToActionFactory.get(key).create(gameObject);
             }
         }
         return null;

@@ -6,7 +6,7 @@ import ru.platformer.game.GameObject;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CollisionDetector implements LevelListener{
+public class CollisionDetector implements LevelListener {
     private final Set<GridPoint2> usedCoordinates = new HashSet<>();
 
     public void addCoordinates(GridPoint2 gridPoint2){
@@ -16,7 +16,6 @@ public class CollisionDetector implements LevelListener{
     public void removeCoordinates(GridPoint2 gridPoint2){
         usedCoordinates.remove(gridPoint2);
     }
-
 
     public boolean collisionExist(GridPoint2 coordinates) {
         return usedCoordinates.contains(coordinates);

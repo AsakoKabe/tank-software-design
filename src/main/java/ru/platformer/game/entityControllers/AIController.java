@@ -5,7 +5,6 @@ import ru.platformer.game.AIEvent;
 import ru.platformer.game.Action;
 import ru.platformer.game.ActionFactory;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.model.actions.move.MoveAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +12,12 @@ import java.util.Map;
 
 public class AIController implements EntityController {
 
-    private GameObject gameObject;
+    private final GameObject gameObject;
     private final Map<AIEvent, ActionFactory> aiEventToActionFactory = new HashMap<>();
+
+    public AIController(GameObject gameObject) {
+        this.gameObject = gameObject;
+    }
 
     @Override
     public ArrayList<Action> generateActions() {
@@ -28,11 +31,6 @@ public class AIController implements EntityController {
         return actions;
     }
 
-    @Override
-    public void addGameObject(GameObject gameObject) {
-        this.gameObject = gameObject;
-
-    }
 
     private Action getAction() {
         // тут будет взаимодействие с библитекой из следующей рабоы, так понимаю
