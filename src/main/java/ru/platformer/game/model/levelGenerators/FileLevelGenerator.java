@@ -2,7 +2,6 @@ package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.javatuples.Triplet;
-import ru.platformer.game.GameObject;
 import ru.platformer.game.model.*;
 
 import java.io.File;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -19,7 +19,7 @@ public class FileLevelGenerator implements LevelGenerator {
     private final String fileName;
     private final ArrayList<LevelListener> levelListeners;
     private Level level;
-    private final ArrayList<GameObject> tanks = new ArrayList<>();
+    private final ArrayList<Tank> tanks = new ArrayList<>();
     private final CollisionDetector collisionDetector;
 
     private int maxY;
@@ -29,11 +29,13 @@ public class FileLevelGenerator implements LevelGenerator {
         this.levelListeners = levelListeners;
         this.collisionDetector = collisionDetector;
         this.fileName = fileName;
+
+        computeBound();
     }
 
     @Override
-    public Triplet<Level, GameObject, List<GameObject>> generate() {
-        level = new Level(levelListeners);
+    public Triplet<Level, Tank, List<Tank>> generate() {
+        level = new Level(levelListeners, maxY, maxX);
         LevelGenerator.initBorder(collisionDetector, maxX, maxY);
 
         generateFromFile();
@@ -42,7 +44,6 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     private void generateFromFile() {
-        maxY = countLines();
         int yCoordinate = maxY;
         try {
             File file = new File(fileName);
@@ -57,14 +58,17 @@ public class FileLevelGenerator implements LevelGenerator {
         }
     }
 
-    private int countLines() {
-        int countLines;
+    private void computeBound() {
         try (Stream<String> lines = Files.lines(Path.of(fileName))) {
-            countLines = (int) lines.count();
+            maxY = (int) lines.count();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return countLines;
+        try (Stream<String> lines = Files.lines(Path.of(fileName))) {
+            maxX = lines.max(Comparator.comparingInt(String::length)).toString().length();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void parseLine(String line, int yCoordinate) {

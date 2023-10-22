@@ -16,13 +16,14 @@ public class Tank implements GameObject, Movable {
     float movementProgress = MOVEMENT_COMPLETED;
     private GridPoint2 destinationCoordinates;
     private final GridPoint2 currentCoordinates;
-    private float rotation;
+    private Direction direction;
 
     public Tank(
             GridPoint2 startCoordinates
     ) {
         currentCoordinates = startCoordinates;
         destinationCoordinates = startCoordinates;
+        this.direction = Direction.UP;
     }
 
     public void updateState(float deltaTime){
@@ -59,12 +60,16 @@ public class Tank implements GameObject, Movable {
             if (!notUseCoordinates){
                 destinationCoordinates = direction.applyCoordinates(currentCoordinates);
             }
-            this.rotation = direction.getRotation();
+            this.direction = direction;
             movementProgress = MOVEMENT_STARTED;
         }
     }
 
     public float getRotation(){
-        return rotation;
+        return direction.getRotation();
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }

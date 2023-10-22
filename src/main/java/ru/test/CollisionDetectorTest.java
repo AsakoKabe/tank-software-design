@@ -16,7 +16,7 @@ class CollisionDetectorTest {
         CollisionDetector collisionDetector = new CollisionDetector();
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelListeners.add(collisionDetector);
-        Level level = new Level(levelListeners);
+        Level level = new Level(levelListeners, 0, 0);
         GridPoint2 tank1Coordinates = new GridPoint2(0, 0);
         Tank tank1 = new Tank(tank1Coordinates);
         GridPoint2 obstacleCoordinates = new GridPoint2(1, 1);

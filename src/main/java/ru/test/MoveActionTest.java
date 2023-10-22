@@ -20,7 +20,7 @@ public class MoveActionTest {
         CollisionDetector collisionDetector = new CollisionDetector();
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelListeners.add(collisionDetector);
-        Level level = new Level(levelListeners);
+        Level level = new Level(levelListeners, 0, 0);
         level.addGameObject(new Tank(new GridPoint2(0, 0)));
         level.addGameObject(new Tank(new GridPoint2(1, 1)));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));
@@ -42,7 +42,7 @@ public class MoveActionTest {
         CollisionDetector collisionDetector = new CollisionDetector();
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelListeners.add(collisionDetector);
-        Level level = new Level(levelListeners);
+        Level level = new Level(levelListeners, 0, 0);
         level.addGameObject(new Tank(new GridPoint2(0, 0)));
         level.addGameObject(new Tank(new GridPoint2(1, 1)));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));

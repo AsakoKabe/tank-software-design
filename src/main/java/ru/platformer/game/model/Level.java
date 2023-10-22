@@ -8,8 +8,17 @@ import java.util.List;
 public class Level {
     private final List<GameObject> gameObjects;
     private final ArrayList<LevelListener> levelListeners;
+    private final int height;
 
-    public Level(ArrayList<LevelListener> levelListeners) {
+    private final int width;
+
+    public Level(
+            ArrayList<LevelListener> levelListeners,
+            int height,
+            int width
+    ) {
+        this.height = height;
+        this.width = width;
         gameObjects = new ArrayList<>();
         this.levelListeners = levelListeners;
     }
@@ -26,8 +35,13 @@ public class Level {
         }
     }
 
-    public List<GameObject> getGameObjects() {
-        return gameObjects;
+    public int getHeight() {
+        return height;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
 
 }

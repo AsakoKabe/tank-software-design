@@ -3,6 +3,7 @@ package ru.platformer;
 import ru.platformer.game.AIEvent;
 import ru.platformer.game.Direction;
 import ru.platformer.game.entityControllers.AIController;
+import ru.platformer.game.entityControllers.aiControllers.RandomAIController;
 import ru.platformer.game.model.*;
 import ru.platformer.game.entityControllers.PlayerController;
 import ru.platformer.game.model.actions.move.MoveFactory;

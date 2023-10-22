@@ -14,7 +14,7 @@ class LevelTest {
     @Test
     void testUpdateState() {
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
-        Level level = new Level(levelListeners);
+        Level level = new Level(levelListeners, 0, 0);
         Tank mockedTank = Mockito.mock(Tank.class);
         Obstacle mockedObstacle = Mockito.mock(Obstacle.class);
         level.addGameObject(mockedTank);

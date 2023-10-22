@@ -17,7 +17,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     private final ArrayList<LevelListener> levelListeners;
     private final int numObstacles;
     private final int numTanks;
-    private final ArrayList<GameObject> tanks = new ArrayList<>();
+    private final ArrayList<Tank> tanks = new ArrayList<>();
     private final CollisionDetector collisionDetector;
 
     public RandomLevelGenerator(ArrayList<LevelListener> levelListeners, CollisionDetector collisionDetector, int numObstacles, int numTank) {
@@ -30,8 +30,8 @@ public class RandomLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Triplet<Level, GameObject, List<GameObject>> generate() {
-        Level level = new Level(levelListeners);
+    public Triplet<Level, Tank, List<Tank>> generate() {
+        Level level = new Level(levelListeners, MAX_Y_COORDINATE, MAX_X_COORDINATE);
         LevelGenerator.initBorder(collisionDetector, MAX_X_COORDINATE, MAX_Y_COORDINATE);
 
         createTanks(level);

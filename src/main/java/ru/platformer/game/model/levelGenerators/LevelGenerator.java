@@ -7,12 +7,13 @@ import ru.platformer.game.GameObject;
 import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Level;
 import ru.platformer.game.model.Obstacle;
+import ru.platformer.game.model.Tank;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface LevelGenerator {
-    Triplet<Level, GameObject, List<GameObject>> generate();
+    Triplet<Level, Tank, List<Tank>> generate();
 
     static void initBorder(CollisionDetector collisionDetector, int maxX, int maxY) {
         // left right
