@@ -61,7 +61,7 @@ public class AwesomeAIControllerAdapter implements EntityController, AIControlle
     }
 
     @Override
-    public void addAIEventFactoryMapping(AIEvent aiEvent, ActionFactory actionFactory){
+    public void addActionFactoryByAIEvent(AIEvent aiEvent, ActionFactory actionFactory){
         aiEventToActionFactory.put(aiEvent, actionFactory);
     }
 

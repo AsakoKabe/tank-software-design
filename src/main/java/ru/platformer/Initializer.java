@@ -3,7 +3,6 @@ package ru.platformer;
 import ru.platformer.game.AIEvent;
 import ru.platformer.game.Direction;
 import ru.platformer.game.entityControllers.AIController;
-import ru.platformer.game.entityControllers.aiControllers.RandomAIController;
 import ru.platformer.game.model.*;
 import ru.platformer.game.entityControllers.PlayerController;
 import ru.platformer.game.model.actions.move.MoveFactory;
@@ -24,9 +23,9 @@ public class Initializer {
     }
 
     public static void initAIEventMappings(AIController aiController, CollisionDetector collisionDetector) {
-        aiController.addAIEventFactoryMapping(AIEvent.MoveUp, new MoveFactory(Direction.UP, collisionDetector));
-        aiController.addAIEventFactoryMapping(AIEvent.MoveDown, new MoveFactory(Direction.DOWN, collisionDetector));
-        aiController.addAIEventFactoryMapping(AIEvent.MoveRight, new MoveFactory(Direction.RIGHT, collisionDetector));
-        aiController.addAIEventFactoryMapping(AIEvent.MoveLeft, new MoveFactory(Direction.LEFT, collisionDetector));
+        aiController.addActionFactoryByAIEvent(AIEvent.MoveUp, new MoveFactory(Direction.UP, collisionDetector));
+        aiController.addActionFactoryByAIEvent(AIEvent.MoveDown, new MoveFactory(Direction.DOWN, collisionDetector));
+        aiController.addActionFactoryByAIEvent(AIEvent.MoveRight, new MoveFactory(Direction.RIGHT, collisionDetector));
+        aiController.addActionFactoryByAIEvent(AIEvent.MoveLeft, new MoveFactory(Direction.LEFT, collisionDetector));
     }
 }

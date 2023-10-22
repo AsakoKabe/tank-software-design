@@ -35,14 +35,13 @@ public class RandomAIController implements EntityController, AIController {
 
 
     private Action getAction() {
-        // тут будет взаимодействие с библитекой из следующей рабоы, так понимаю
         RandomEnumGenerator<AIEvent> reg = new RandomEnumGenerator<>(AIEvent.class);
         AIEvent aiEvent = reg.randomEnum();
         return aiEventToActionFactory.get(aiEvent).create(gameObject);
     }
 
     @Override
-    public void addAIEventFactoryMapping(AIEvent aiEvent, ActionFactory actionFactory){
+    public void addActionFactoryByAIEvent(AIEvent aiEvent, ActionFactory actionFactory){
         aiEventToActionFactory.put(aiEvent, actionFactory);
     }
 }
