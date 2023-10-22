@@ -2,6 +2,7 @@ package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.javatuples.Pair;
+import org.javatuples.Quartet;
 import org.javatuples.Triplet;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.CollisionDetector;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface LevelGenerator {
-    Triplet<Level, Tank, List<Tank>> generate();
+    Quartet<Level, Tank, List<Tank>, List<Obstacle>> generate();
 
     static void initBorder(CollisionDetector collisionDetector, int maxX, int maxY) {
         // left right

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.awesome.ai.strategy.NotRecommendingAI;
+import org.javatuples.Quartet;
 import org.javatuples.Triplet;
 import ru.platformer.game.Action;
 import ru.platformer.game.GameObject;
@@ -15,6 +16,7 @@ import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.model.levelGenerators.FileLevelGenerator;
+import ru.platformer.game.model.levelGenerators.LevelGenerator;
 import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
 
 import java.util.ArrayList;
@@ -36,17 +38,19 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelListeners.add(collisionDetector);
 
 //        Triplet<Level, Tank, List<Tank>> levelPlayerAI = new FileLevelGenerator(levelListeners, collisionDetector,  "src/main/resources/level.txt").generate();
-        Triplet<Level, Tank, List<Tank>> levelPlayerAI = new RandomLevelGenerator(levelListeners,
+        Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles = new RandomLevelGenerator(levelListeners,
                 collisionDetector, 5, 10
         ).generate();
-        level = levelPlayerAI.getValue0();
-        Tank player = levelPlayerAI.getValue1();
-        List<Tank> bots = levelPlayerAI.getValue2();
+        level = levelPlayerAIObstacles.getValue0();
+        Tank player = levelPlayerAIObstacles.getValue1();
+        List<Tank> bots = levelPlayerAIObstacles.getValue2();
+        List<Obstacle> obstacles = levelPlayerAIObstacles.getValue3();
 
 
         actionManager = new ActionManager();
 
         PlayerController playerController = new PlayerController(player);
+        Initializer.initKeyBoardMappings(playerController, collisionDetector);
         actionManager.addEntityActionController(playerController);
 
 //        random actions
@@ -62,13 +66,14 @@ public class GameDesktopLauncher implements ApplicationListener {
                 new NotRecommendingAI(),
                 player,
                 bots,
-                null,
+                obstacles,
                 level.getWidth(),
                 level.getHeight()
         );
         Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector);
+        actionManager.addEntityActionController(awesomeAIControllerAdapter);
 
-        Initializer.initKeyBoardMappings(playerController, collisionDetector);
+
     }
 
 

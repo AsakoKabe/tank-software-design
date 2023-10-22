@@ -1,6 +1,7 @@
 package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import org.javatuples.Quartet;
 import org.javatuples.Triplet;
 import ru.platformer.game.model.*;
 
@@ -19,7 +20,8 @@ public class FileLevelGenerator implements LevelGenerator {
     private final String fileName;
     private final ArrayList<LevelListener> levelListeners;
     private Level level;
-    private final ArrayList<Tank> tanks = new ArrayList<>();
+    private final List<Tank> tanks = new ArrayList<>();
+    private final List<Obstacle> obstacles = new ArrayList<>();
     private final CollisionDetector collisionDetector;
 
     private int maxY;
@@ -34,13 +36,13 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Triplet<Level, Tank, List<Tank>> generate() {
+    public Quartet<Level, Tank, List<Tank>, List<Obstacle>> generate() {
         level = new Level(levelListeners, maxY, maxX);
         LevelGenerator.initBorder(collisionDetector, maxX, maxY);
 
         generateFromFile();
 
-        return new Triplet<>(level, tanks.get(0), tanks.subList(1, tanks.size()));
+        return new Quartet<>(level, tanks.get(0), tanks.subList(1, tanks.size()), obstacles);
     }
 
     private void generateFromFile() {
@@ -90,6 +92,7 @@ public class FileLevelGenerator implements LevelGenerator {
     private void createObstacles(int xCoordinate, int yCoordinate) {
         Obstacle obstacle = new Obstacle(new GridPoint2(xCoordinate, yCoordinate));
         level.addGameObject(obstacle);
+        obstacles.add(obstacle);
         collisionDetector.addCoordinates(obstacle.getCurrentCoordinates());
     }
 

@@ -1,6 +1,7 @@
 package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import org.javatuples.Quartet;
 import org.javatuples.Triplet;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.*;
@@ -18,6 +19,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     private final int numObstacles;
     private final int numTanks;
     private final ArrayList<Tank> tanks = new ArrayList<>();
+    private final ArrayList<Obstacle> obstacles = new ArrayList<>();
     private final CollisionDetector collisionDetector;
 
     public RandomLevelGenerator(ArrayList<LevelListener> levelListeners, CollisionDetector collisionDetector, int numObstacles, int numTank) {
@@ -30,7 +32,7 @@ public class RandomLevelGenerator implements LevelGenerator {
     }
 
     @Override
-    public Triplet<Level, Tank, List<Tank>> generate() {
+    public Quartet<Level, Tank, List<Tank>, List<Obstacle>> generate() {
         Level level = new Level(levelListeners, MAX_Y_COORDINATE, MAX_X_COORDINATE);
         LevelGenerator.initBorder(collisionDetector, MAX_X_COORDINATE, MAX_Y_COORDINATE);
 
@@ -38,7 +40,7 @@ public class RandomLevelGenerator implements LevelGenerator {
         createObstacles(level);
 
 
-        return new Triplet<>(level, tanks.get(0), tanks.subList(1, tanks.size()));
+        return new Quartet<>(level, tanks.get(0), tanks.subList(1, tanks.size()), obstacles);
     }
 
     private void createObstacles(Level level) {
@@ -47,6 +49,7 @@ public class RandomLevelGenerator implements LevelGenerator {
             if (collisionDetector.collisionExist(obstacle.getCurrentCoordinates())) {
                 continue;
             }
+            obstacles.add(obstacle);
             level.addGameObject(obstacle);
             collisionDetector.addCoordinates(obstacle.getCurrentCoordinates());
         }
