@@ -2,10 +2,10 @@ package ru.test;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.platformer.game.model.Level;
+import ru.platformer.game.model.objects.Level;
 import ru.platformer.game.model.LevelListener;
-import ru.platformer.game.model.Obstacle;
-import ru.platformer.game.model.Tank;
+import ru.platformer.game.model.objects.Obstacle;
+import ru.platformer.game.model.objects.Tank;
 
 import java.util.ArrayList;
 

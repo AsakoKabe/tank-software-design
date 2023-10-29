@@ -11,12 +11,17 @@ import ru.platformer.game.GameObject;
 import ru.platformer.game.entityControllers.aiControllers.AwesomeAIControllerAdapter;
 import ru.platformer.game.entityControllers.PlayerController;
 import ru.platformer.game.entityControllers.aiControllers.RandomAIController;
+import ru.platformer.game.graphics.graphicsObjects.stategies.BulletGraphicsStrategy;
 import ru.platformer.game.graphics.graphicsObjects.stategies.ObstacleGraphicsStrategy;
 import ru.platformer.game.graphics.graphicsObjects.stategies.TankGraphicsStrategy;
 import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
+import ru.platformer.game.model.objects.Bullet;
+import ru.platformer.game.model.objects.Level;
+import ru.platformer.game.model.objects.Obstacle;
+import ru.platformer.game.model.objects.Tank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +71,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     private void createPlayerController(CollisionDetector collisionDetector, Tank player) {
         PlayerController playerController = new PlayerController(player);
-        Initializer.initKeyBoardMappings(playerController, collisionDetector);
+        Initializer.initKeyBoardMappings(playerController, collisionDetector, level);
         actionManager.addEntityActionController(playerController);
     }
 
@@ -100,6 +105,10 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelGraphics.addGraphicsStrategyMapping(Obstacle.class, new ObstacleGraphicsStrategy(
                 "images/greenTree.png",
                 levelGraphics.getGroundLayer()
+        ));
+        levelGraphics.addGraphicsStrategyMapping(Bullet.class, new BulletGraphicsStrategy(
+                "images/bullet.png",
+                levelGraphics.getTileMovement()
         ));
     }
 

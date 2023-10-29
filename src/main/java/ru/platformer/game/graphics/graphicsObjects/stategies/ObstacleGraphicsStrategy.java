@@ -5,7 +5,7 @@ import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.GameObjectGraphics;
 import ru.platformer.game.graphics.GraphicsStrategy;
 import ru.platformer.game.graphics.graphicsObjects.ObstacleGraphics;
-import ru.platformer.game.model.Obstacle;
+import ru.platformer.game.model.objects.Obstacle;
 
 public class ObstacleGraphicsStrategy implements GraphicsStrategy {
     private final String fileTexture;

@@ -10,8 +10,8 @@ import ru.platformer.game.ActionFactory;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.entityControllers.AIController;
 import ru.platformer.game.entityControllers.EntityController;
-import ru.platformer.game.model.Obstacle;
-import ru.platformer.game.model.Tank;
+import ru.platformer.game.model.objects.Obstacle;
+import ru.platformer.game.model.objects.Tank;
 
 import java.util.ArrayList;
 import java.util.HashMap;

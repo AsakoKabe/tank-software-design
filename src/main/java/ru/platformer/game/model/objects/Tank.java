@@ -1,17 +1,15 @@
-package ru.platformer.game.model;
+package ru.platformer.game.model.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Direction;
 import ru.platformer.game.GameObject;
+import ru.platformer.game.model.Movable;
+import ru.platformer.game.model.Shooter;
 import ru.platformer.util.GdxGameUtils;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 
-public class Tank implements GameObject, Movable {
-
-    public static final float MOVEMENT_SPEED = 0.4f;
-    private static final float MOVEMENT_COMPLETED = 1f;
-    private static final int MOVEMENT_STARTED = 0;
+public class Tank implements GameObject, Movable, Shooter {
 
     float movementProgress = MOVEMENT_COMPLETED;
     private GridPoint2 destinationCoordinates;
@@ -55,9 +53,9 @@ public class Tank implements GameObject, Movable {
     }
 
     @Override
-    public void moveToDirection(Direction direction, Boolean notUseCoordinates) {
+    public void moveToDirection(Direction direction, boolean onlyRotation) {
         if (!isMoving()){
-            if (!notUseCoordinates){
+            if (!onlyRotation){
                 destinationCoordinates = direction.applyCoordinates(currentCoordinates);
             }
             this.direction = direction;
@@ -71,5 +69,15 @@ public class Tank implements GameObject, Movable {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    @Override
+    public Bullet createBullet() {
+        GridPoint2 bulletCoordinates = createBulletCoordinates();
+        return new Bullet(bulletCoordinates, direction);
+    }
+
+    private GridPoint2 createBulletCoordinates() {
+        return currentCoordinates.cpy().add(direction.getCoordinates());
     }
 }

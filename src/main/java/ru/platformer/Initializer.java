@@ -6,12 +6,18 @@ import ru.platformer.game.entityControllers.AIController;
 import ru.platformer.game.model.*;
 import ru.platformer.game.entityControllers.PlayerController;
 import ru.platformer.game.model.actions.move.MoveFactory;
+import ru.platformer.game.model.actions.shoot.ShootFactory;
+import ru.platformer.game.model.objects.Level;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.Input.Keys.D;
 
 public class Initializer {
-    public static void initKeyBoardMappings(PlayerController playerController, CollisionDetector collisionDetector) {
+    public static void initKeyBoardMappings(
+            PlayerController playerController,
+            CollisionDetector collisionDetector,
+            Level level
+    ) {
         playerController.addKeyActionFactoryMapping(UP, new MoveFactory(Direction.UP, collisionDetector));
         playerController.addKeyActionFactoryMapping(W, new MoveFactory(Direction.UP, collisionDetector));
         playerController.addKeyActionFactoryMapping(LEFT, new MoveFactory(Direction.LEFT, collisionDetector));
@@ -20,6 +26,7 @@ public class Initializer {
         playerController.addKeyActionFactoryMapping(S, new MoveFactory(Direction.DOWN, collisionDetector));
         playerController.addKeyActionFactoryMapping(RIGHT, new MoveFactory(Direction.RIGHT, collisionDetector));
         playerController.addKeyActionFactoryMapping(D, new MoveFactory(Direction.RIGHT, collisionDetector));
+        playerController.addKeyActionFactoryMapping(SPACE, new ShootFactory(level));
     }
 
     public static void initAIEventMappings(AIController aiController, CollisionDetector collisionDetector) {

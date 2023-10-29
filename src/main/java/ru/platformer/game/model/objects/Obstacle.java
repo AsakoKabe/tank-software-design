@@ -1,4 +1,4 @@
-package ru.platformer.game.model;
+package ru.platformer.game.model.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.GameObject;

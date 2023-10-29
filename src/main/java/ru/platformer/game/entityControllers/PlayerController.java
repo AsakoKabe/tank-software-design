@@ -31,7 +31,6 @@ public class PlayerController implements EntityController {
 
     public void addKeyActionFactoryMapping(Integer key, ActionFactory actionFactory){
         keyToActionFactory.put(key, actionFactory);
-
     }
 
     private Action getAction() {

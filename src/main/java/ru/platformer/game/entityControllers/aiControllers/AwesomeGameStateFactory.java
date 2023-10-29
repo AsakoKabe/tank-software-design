@@ -8,7 +8,7 @@ import org.awesome.ai.state.movable.Orientation;
 import org.awesome.ai.state.movable.Player;
 import ru.platformer.game.Direction;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.model.Tank;
+import ru.platformer.game.model.objects.Tank;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.List;
 public class AwesomeGameStateFactory {
     private final List<Tank> tanksGameObject;
     private final Tank playerGameObject;
-    private final List<ru.platformer.game.model.Obstacle> obstaclesGameObject;
+    private final List<ru.platformer.game.model.objects.Obstacle> obstaclesGameObject;
     private final int levelWidth;
     private final int levelHeight;
     private final HashMap<Direction, Orientation> orientationByRotation = new HashMap<>();
@@ -26,7 +26,7 @@ public class AwesomeGameStateFactory {
     public AwesomeGameStateFactory(
             List<Tank> bots,
             Tank player,
-            List<ru.platformer.game.model.Obstacle> obstacles,
+            List<ru.platformer.game.model.objects.Obstacle> obstacles,
             int levelWidth, int levelHeight
     ) {
         this.tanksGameObject = bots;

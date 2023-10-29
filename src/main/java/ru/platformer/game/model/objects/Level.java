@@ -1,6 +1,7 @@
-package ru.platformer.game.model;
+package ru.platformer.game.model.objects;
 
 import ru.platformer.game.GameObject;
+import ru.platformer.game.model.LevelListener;
 
 import java.util.ArrayList;
 import java.util.List;

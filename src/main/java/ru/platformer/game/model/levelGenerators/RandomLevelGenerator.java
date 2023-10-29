@@ -2,9 +2,10 @@ package ru.platformer.game.model.levelGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.javatuples.Quartet;
-import org.javatuples.Triplet;
-import ru.platformer.game.GameObject;
 import ru.platformer.game.model.*;
+import ru.platformer.game.model.objects.Level;
+import ru.platformer.game.model.objects.Obstacle;
+import ru.platformer.game.model.objects.Tank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,6 @@ public class RandomLevelGenerator implements LevelGenerator {
             }
             obstacles.add(obstacle);
             level.addGameObject(obstacle);
-            collisionDetector.addCoordinates(obstacle.getCurrentCoordinates());
         }
     }
 
@@ -64,7 +64,6 @@ public class RandomLevelGenerator implements LevelGenerator {
             }
             level.addGameObject(tank);
             tanks.add(tank);
-            collisionDetector.addCoordinates(tank.getCurrentCoordinates());
         }
     }
 

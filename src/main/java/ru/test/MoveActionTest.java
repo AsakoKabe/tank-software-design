@@ -6,9 +6,11 @@ import org.junit.jupiter.params.provider.EnumSource;
 import ru.platformer.game.Direction;
 import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.move.MoveAction;
+import ru.platformer.game.model.objects.Level;
+import ru.platformer.game.model.objects.Obstacle;
+import ru.platformer.game.model.objects.Tank;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;

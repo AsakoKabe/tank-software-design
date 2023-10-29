@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import ru.platformer.game.graphics.GameObjectGraphics;
-import ru.platformer.game.model.Obstacle;
+import ru.platformer.game.model.objects.Obstacle;
 import ru.platformer.util.GdxGameUtils;
 
 public class ObstacleGraphics implements GameObjectGraphics {

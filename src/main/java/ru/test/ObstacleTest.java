@@ -2,7 +2,7 @@ package ru.test;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.jupiter.api.Test;
-import ru.platformer.game.model.Obstacle;
+import ru.platformer.game.model.objects.Obstacle;
 
 import static org.junit.jupiter.api.Assertions.*;
 

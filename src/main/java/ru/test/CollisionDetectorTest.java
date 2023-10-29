@@ -3,6 +3,9 @@ package ru.test;
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.jupiter.api.Test;
 import ru.platformer.game.model.*;
+import ru.platformer.game.model.objects.Level;
+import ru.platformer.game.model.objects.Obstacle;
+import ru.platformer.game.model.objects.Tank;
 
 import java.util.ArrayList;
 

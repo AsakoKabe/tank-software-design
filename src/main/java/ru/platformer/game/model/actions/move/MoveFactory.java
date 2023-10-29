@@ -3,9 +3,8 @@ package ru.platformer.game.model.actions.move;
 import ru.platformer.game.Direction;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.CollisionDetector;
-import ru.platformer.game.model.Level;
-import ru.platformer.game.model.Movable;
 import ru.platformer.game.ActionFactory;
+import ru.platformer.game.model.Movable;
 
 public class MoveFactory implements ActionFactory {
     private final Direction direction;
@@ -16,7 +15,7 @@ public class MoveFactory implements ActionFactory {
         this.collisionDetector = collisionDetector;
     }
 
-    public MoveAction create(GameObject gameEntity){
-        return new MoveAction(direction, collisionDetector, (Movable) gameEntity);
+    public MoveAction create(GameObject gameObject){
+        return new MoveAction(direction, collisionDetector, (Movable) gameObject);
     }
 }

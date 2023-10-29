@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import ru.platformer.game.Direction;
-import ru.platformer.game.model.Tank;
+import ru.platformer.game.model.objects.Tank;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.platformer.util.GdxGameUtils.continueProgress;
