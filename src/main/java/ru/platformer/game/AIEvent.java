@@ -4,6 +4,5 @@ public enum AIEvent {
     MoveUp,
     MoveDown,
     MoveLeft,
-    MoveRight,
-    Shoot
+    MoveRight
 }

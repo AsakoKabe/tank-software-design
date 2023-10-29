@@ -6,17 +6,16 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.awesome.ai.strategy.NotRecommendingAI;
 import org.javatuples.Quartet;
-import org.javatuples.Triplet;
 import ru.platformer.game.Action;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.entityControllers.aiControllers.AwesomeAIControllerAdapter;
-import ru.platformer.game.entityControllers.aiControllers.RandomAIController;
 import ru.platformer.game.entityControllers.PlayerController;
+import ru.platformer.game.entityControllers.aiControllers.RandomAIController;
+import ru.platformer.game.graphics.graphicsObjects.stategies.ObstacleGraphicsStrategy;
+import ru.platformer.game.graphics.graphicsObjects.stategies.TankGraphicsStrategy;
 import ru.platformer.game.model.*;
 import ru.platformer.game.model.actions.ActionManager;
 import ru.platformer.game.graphics.LevelGraphics;
-import ru.platformer.game.model.levelGenerators.FileLevelGenerator;
-import ru.platformer.game.model.levelGenerators.LevelGenerator;
 import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
 
 import java.util.ArrayList;
@@ -31,37 +30,55 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void create() {
-        ArrayList<LevelListener> levelListeners = new ArrayList<>();
-        levelGraphics = new LevelGraphics();
-        CollisionDetector collisionDetector = new CollisionDetector();
-        levelListeners.add(levelGraphics);
-        levelListeners.add(collisionDetector);
+        createLevelGraphics();
+        createLevel();
+    }
 
-//        Triplet<Level, Tank, List<Tank>> levelPlayerAI = new FileLevelGenerator(levelListeners, collisionDetector,  "src/main/resources/level.txt").generate();
-        Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles = new RandomLevelGenerator(levelListeners,
-                collisionDetector, 5, 10
+    private void createLevel() {
+        CollisionDetector collisionDetector = new CollisionDetector();
+
+        List<LevelListener> levelListeners = List.of(levelGraphics, collisionDetector);
+
+        Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles = new RandomLevelGenerator(
+                levelListeners, collisionDetector, 5, 10
         ).generate();
+
+        parseLevelGenerator(levelPlayerAIObstacles, collisionDetector);
+    }
+
+    private void parseLevelGenerator(
+            Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles,
+            CollisionDetector collisionDetector
+    ) {
         level = levelPlayerAIObstacles.getValue0();
         Tank player = levelPlayerAIObstacles.getValue1();
         List<Tank> bots = levelPlayerAIObstacles.getValue2();
-        List<Obstacle> obstacles = levelPlayerAIObstacles.getValue3();
-
 
         actionManager = new ActionManager();
 
+        createPlayerController(collisionDetector, player);
+
+        createAIRandomController(collisionDetector, bots);
+
+//        List<Obstacle> obstacles = levelPlayerAIObstacles.getValue3();
+//        createAIAwesomeController(collisionDetector, player, bots, obstacles);
+    }
+
+    private void createPlayerController(CollisionDetector collisionDetector, Tank player) {
         PlayerController playerController = new PlayerController(player);
         Initializer.initKeyBoardMappings(playerController, collisionDetector);
         actionManager.addEntityActionController(playerController);
+    }
 
-//        random actions
-//        for (GameObject AIGameObject: bots){
-//            RandomAIController aiController = new RandomAIController(AIGameObject);
-//            actionManager.addEntityActionController(aiController);
-//            Initializer.initAIEventMappings(aiController, collisionDetector);
-//        }
+    private void createAIRandomController(CollisionDetector collisionDetector, List<Tank> bots) {
+        for (GameObject AIGameObject: bots){
+            RandomAIController aiController = new RandomAIController(AIGameObject);
+            actionManager.addEntityActionController(aiController);
+            Initializer.initAIEventMappings(aiController, collisionDetector);
+        }
+    }
 
-//        ai from lib
-
+    private void createAIAwesomeController(CollisionDetector collisionDetector, Tank player, List<Tank> bots, List<Obstacle> obstacles) {
         AwesomeAIControllerAdapter awesomeAIControllerAdapter = new AwesomeAIControllerAdapter(
                 new NotRecommendingAI(),
                 player,
@@ -72,8 +89,18 @@ public class GameDesktopLauncher implements ApplicationListener {
         );
         Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector);
         actionManager.addEntityActionController(awesomeAIControllerAdapter);
+    }
 
-
+    private void createLevelGraphics() {
+        levelGraphics = new LevelGraphics();
+        levelGraphics.addGraphicsStrategyMapping(Tank.class, new TankGraphicsStrategy(
+                "images/tank_blue.png",
+                levelGraphics.getTileMovement()
+        ));
+        levelGraphics.addGraphicsStrategyMapping(Obstacle.class, new ObstacleGraphicsStrategy(
+                "images/greenTree.png",
+                levelGraphics.getGroundLayer()
+        ));
     }
 
 

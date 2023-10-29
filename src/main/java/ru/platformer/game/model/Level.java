@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Level {
     private final List<GameObject> gameObjects;
-    private final ArrayList<LevelListener> levelListeners;
+    private final List<LevelListener> levelListeners;
     private final int height;
 
     private final int width;
 
     public Level(
-            ArrayList<LevelListener> levelListeners,
+            List<LevelListener> levelListeners,
             int height,
             int width
     ) {

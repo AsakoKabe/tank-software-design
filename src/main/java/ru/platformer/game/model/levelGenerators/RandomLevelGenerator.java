@@ -15,14 +15,15 @@ public class RandomLevelGenerator implements LevelGenerator {
     private final int MAX_X_COORDINATE = 9;
     private final int MAX_Y_COORDINATE = 6;
     private final Random rand;
-    private final ArrayList<LevelListener> levelListeners;
+    private final List<LevelListener> levelListeners;
     private final int numObstacles;
     private final int numTanks;
     private final ArrayList<Tank> tanks = new ArrayList<>();
     private final ArrayList<Obstacle> obstacles = new ArrayList<>();
     private final CollisionDetector collisionDetector;
 
-    public RandomLevelGenerator(ArrayList<LevelListener> levelListeners, CollisionDetector collisionDetector, int numObstacles, int numTank) {
+    public RandomLevelGenerator(List<LevelListener> levelListeners, CollisionDetector collisionDetector,
+                                int numObstacles, int numTank) {
         this.levelListeners = levelListeners;
         this.collisionDetector = collisionDetector;
 

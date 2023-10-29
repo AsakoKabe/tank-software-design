@@ -67,7 +67,6 @@ public class AwesomeAIControllerAdapter implements EntityController, AIControlle
 
 
     private void createMappingAwesomeActionToAIEvent(){
-        aiEventByAwesomeAction.put(org.awesome.ai.Action.Shoot, AIEvent.Shoot);
         aiEventByAwesomeAction.put(org.awesome.ai.Action.MoveEast, AIEvent.MoveRight);
         aiEventByAwesomeAction.put(org.awesome.ai.Action.MoveNorth, AIEvent.MoveUp);
         aiEventByAwesomeAction.put(org.awesome.ai.Action.MoveWest, AIEvent.MoveLeft);
