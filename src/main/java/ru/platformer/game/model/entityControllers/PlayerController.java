@@ -1,7 +1,8 @@
-package ru.platformer.game.entityControllers;
+package ru.platformer.game.model.entityControllers;
 
 import com.badlogic.gdx.Gdx;
 import ru.platformer.game.Action;
+import ru.platformer.game.EntityController;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.ActionFactory;
 
@@ -35,7 +36,7 @@ public class PlayerController implements EntityController {
 
     private Action getAction() {
         for (Integer key : keyToActionFactory.keySet()) {
-            if (Gdx.input.isKeyPressed(key)) {
+            if (Gdx.input.isKeyJustPressed(key)) {
                 return keyToActionFactory.get(key).create(gameObject);
             }
         }

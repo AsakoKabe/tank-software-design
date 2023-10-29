@@ -1,4 +1,4 @@
-package ru.platformer.game.entityControllers;
+package ru.platformer.game.model.entityControllers;
 
 import ru.platformer.game.AIEvent;
 import ru.platformer.game.ActionFactory;

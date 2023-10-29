@@ -10,53 +10,67 @@ import static com.badlogic.gdx.math.MathUtils.isEqual;
 
 public class Bullet implements GameObject, Movable {
 
-    float movementProgress;
+    float movementProgress = MOVEMENT_STARTED;
     private final GridPoint2 currentCoordinates;
-    private final Direction direction;
-    private final GridPoint2 destinationCoordinates;
+    private Direction direction;
+    private GridPoint2 destinationCoordinates;
 
 
     public Bullet(GridPoint2 startCoordinates, Direction direction) {
         this.direction = direction;
         this.currentCoordinates = startCoordinates;
-        this.destinationCoordinates = createNewDestinationCoordinates();
-        movementProgress = MOVEMENT_STARTED;
+        this.destinationCoordinates = startCoordinates;
     }
 
 
     @Override
-    public void updateState(float deltaTime) {
-        updateCoordinates(deltaTime);
-    }
-
-    private void updateCoordinates(float deltaTime) {
-        movementProgress = GdxGameUtils.continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
-        if (finishMovement()) {
-            currentCoordinates.set(destinationCoordinates);
-//            destinationCoordinates.set(createNewDestinationCoordinates());
-//            movementProgress = MOVEMENT_STARTED;
+    public void moveToDirection(Direction direction, boolean onlyRotation) {
+        if (!isMoving()){
+            if (!onlyRotation){
+                destinationCoordinates = direction.applyCoordinates(currentCoordinates);
+            }
+            this.direction = direction;
+            movementProgress = MOVEMENT_STARTED;
         }
     }
 
-    private boolean finishMovement() {
-        return isEqual(movementProgress, MOVEMENT_COMPLETED);
+    private boolean isMoving() {
+        return !isEqual(movementProgress, 1f);
+    }
+    @Override
+    public void updateState(float deltaTime){
+        updateMovementState(deltaTime);
     }
 
-    private GridPoint2 createNewDestinationCoordinates() {
-        return currentCoordinates.cpy().add(direction.getCoordinates());
+
+    private void updateMovementState(float deltaTime) {
+        movementProgress = GdxGameUtils.continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
+        if (isEqual(movementProgress, MOVEMENT_COMPLETED)) {
+            // record that the player has reached his/her destination
+            currentCoordinates.set(destinationCoordinates);
+        }
     }
 
-    public float getMovementProgress() {
-        return movementProgress;
-    }
-
+    @Override
     public GridPoint2 getDestinationCoordinates() {
-        return destinationCoordinates.cpy();
+        return destinationCoordinates;
     }
 
     @Override
     public GridPoint2 getCurrentCoordinates() {
-        return this.currentCoordinates.cpy();
+        return currentCoordinates;
     }
 
+    @Override
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public float getMovementProgress(){
+        return movementProgress;
+    }
+
+    public float getRotation() {
+        return direction.getRotation();
+    }
 }

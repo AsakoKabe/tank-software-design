@@ -1,7 +1,4 @@
-package ru.platformer.game.model.actions;
-
-import ru.platformer.game.Action;
-import ru.platformer.game.entityControllers.EntityController;
+package ru.platformer.game;
 
 import java.util.ArrayList;
 

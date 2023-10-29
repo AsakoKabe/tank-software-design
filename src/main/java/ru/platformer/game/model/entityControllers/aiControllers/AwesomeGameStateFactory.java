@@ -1,4 +1,4 @@
-package ru.platformer.game.entityControllers.aiControllers;
+package ru.platformer.game.model.entityControllers.aiControllers;
 
 import org.awesome.ai.state.GameState;
 import org.awesome.ai.state.immovable.Obstacle;

@@ -13,11 +13,11 @@ public class MoveAction implements Action {
     private final Movable movable;
     private boolean coordinatesReset;
 
-    public MoveAction(Direction direction, CollisionDetector collisionDetector, Movable movableTo) {
+    public MoveAction(Direction direction, CollisionDetector collisionDetector, Movable movable) {
         this.direction = direction;
         this.coordinatesReset = false;
         this.collisionDetector = collisionDetector;
-        this.movable = movableTo;
+        this.movable = movable;
     }
 
     public void apply() {

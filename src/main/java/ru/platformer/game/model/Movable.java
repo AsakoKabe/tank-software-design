@@ -12,7 +12,7 @@ public interface Movable {
     GridPoint2 getDestinationCoordinates();
     GridPoint2 getCurrentCoordinates();
 
-    float getMovementProgress();
+    Direction getDirection();
 
     void moveToDirection(Direction direction, boolean onlyRotation);
 

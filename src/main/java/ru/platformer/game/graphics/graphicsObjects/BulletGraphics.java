@@ -32,7 +32,7 @@ public class BulletGraphics implements GameObjectGraphics {
                 bullet.getDestinationCoordinates(),
                 bullet.getMovementProgress()
         );
-        GdxGameUtils.drawTextureRegionUnscaled(batch, textureRegion, rectangle, 0f);
+        GdxGameUtils.drawTextureRegionUnscaled(batch, textureRegion, rectangle, bullet.getRotation());
     }
 
     public void dispose(){

@@ -1,12 +1,12 @@
-package ru.platformer.game.entityControllers.aiControllers;
+package ru.platformer.game.model.entityControllers.aiControllers;
 
 import ru.platformer.RandomEnumGenerator;
 import ru.platformer.game.AIEvent;
 import ru.platformer.game.Action;
 import ru.platformer.game.ActionFactory;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.entityControllers.AIController;
-import ru.platformer.game.entityControllers.EntityController;
+import ru.platformer.game.model.entityControllers.AIController;
+import ru.platformer.game.EntityController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class RandomAIController implements EntityController, AIController {
     }
 
 
-    private Action getAction() {
+    public Action getAction() {
         RandomEnumGenerator<AIEvent> reg = new RandomEnumGenerator<>(AIEvent.class);
         AIEvent aiEvent = reg.randomEnum();
         return aiEventToActionFactory.get(aiEvent).create(gameObject);

@@ -1,4 +1,4 @@
-package ru.platformer.game.entityControllers.aiControllers;
+package ru.platformer.game.model.entityControllers.aiControllers;
 
 import org.awesome.ai.Recommendation;
 import org.awesome.ai.state.GameState;
@@ -8,8 +8,8 @@ import ru.platformer.game.AIEvent;
 import ru.platformer.game.Action;
 import ru.platformer.game.ActionFactory;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.entityControllers.AIController;
-import ru.platformer.game.entityControllers.EntityController;
+import ru.platformer.game.model.entityControllers.AIController;
+import ru.platformer.game.EntityController;
 import ru.platformer.game.model.objects.Obstacle;
 import ru.platformer.game.model.objects.Tank;
 
