@@ -8,7 +8,6 @@ public interface Movable {
     float MOVEMENT_COMPLETED = 1f;
     int MOVEMENT_STARTED = 0;
 
-
     GridPoint2 getDestinationCoordinates();
     GridPoint2 getCurrentCoordinates();
 

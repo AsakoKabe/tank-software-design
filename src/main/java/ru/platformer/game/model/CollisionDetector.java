@@ -34,6 +34,26 @@ public class CollisionDetector implements LevelListener {
 
     @Override
     public void onDeleteGameObject(GameObject gameObject) {
-        usedCoordinates.remove(gameObject.getCurrentCoordinates());
+        System.out.println("deleted object for cd " + gameObject.toString());
+        System.out.println("coord " + gameObject.getCurrentCoordinates().toString());
+        System.out.println("size before delete " + usedCoordinates.size());
+        Set<GridPoint2> deletedCoordinates = new HashSet<>();
+        usedCoordinates.keySet().forEach(coordinates -> {
+            if (usedCoordinates.get(coordinates) == gameObject){
+                deletedCoordinates.add(coordinates);
+            }
+        });
+
+        usedCoordinates.keySet().forEach(coordinates -> {
+            if (usedCoordinates.get(coordinates) != null){
+                System.out.println(usedCoordinates.get(coordinates).toString());
+            }
+        });
+
+        for (GridPoint2 gridPoint2: deletedCoordinates){
+            usedCoordinates.remove(gridPoint2);
+        }
+        System.out.println("size after delete " + usedCoordinates.size());
+//        usedCoordinates.remove(gameObject.getCurrentCoordinates());
     }
 }

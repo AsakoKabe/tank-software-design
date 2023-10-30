@@ -36,7 +36,6 @@ public class RandomLevelGenerator implements LevelGenerator {
     @Override
     public Quartet<Level, Tank, List<Tank>, List<Obstacle>> generate() {
         Level level = new Level(levelListeners, MAX_Y_COORDINATE, MAX_X_COORDINATE);
-        LevelGenerator.initBorder(collisionDetector, MAX_X_COORDINATE, MAX_Y_COORDINATE);
 
         createTanks(level);
         createObstacles(level);
@@ -58,7 +57,7 @@ public class RandomLevelGenerator implements LevelGenerator {
 
     private void createTanks(Level level) {
         for (int i = 0; i < numTanks; i++) {
-            Tank tank = new Tank(createRandomCoordinates());
+            Tank tank = new Tank(createRandomCoordinates(), 1, 1);
             if (collisionDetector.collisionExist(tank.getCurrentCoordinates())) {
                 continue;
             }

@@ -40,7 +40,6 @@ public class FileLevelGenerator implements LevelGenerator {
     @Override
     public Quartet<Level, Tank, List<Tank>, List<Obstacle>> generate() {
         level = new Level(levelListeners, maxY, maxX);
-        LevelGenerator.initBorder(collisionDetector, maxX, maxY);
 
         generateFromFile();
 
@@ -99,7 +98,7 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     private void createTank(int xCoordinate, int yCoordinate) {
-        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate));
+        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate), 1, 1);
         tanks.add(tank);
         level.addGameObject(tank);
     }

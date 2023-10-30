@@ -41,6 +41,7 @@ public class BulletController implements EntityController {
 
     private List<Action> createHitActions() {
         Map<Bullet, GameObject> damagedObjects = createDamagedObjects();
+
         List<Action> actions = new ArrayList<>();
         for (Bullet bullet : damagedObjects.keySet()) {
             actions.add(createHitAction(bullet, damagedObjects));
@@ -54,26 +55,34 @@ public class BulletController implements EntityController {
 
     private HashMap<Bullet, GameObject> createDamagedObjects() {
         HashMap<Bullet, GameObject> damagedObjects = new HashMap<>();
+        List<Bullet> deletedBullets = new ArrayList<>();
         bullets.forEach(
                 bullet -> {
-                    if (isHit(bullet)) {
+                    GameObject damageObject = getDamagedObject(bullet);
+                    if (isHit(bullet, damageObject)) {
+                        System.out.println("damaged obj: " + damageObject.toString());
                         damagedObjects.put(
                                 bullet,
-                                getDamagedObject(bullet)
+                                damageObject
                         );
+                        deletedBullets.add(bullet);
                     }
                 }
         );
 
+        deletedBullets.forEach(bullets::remove);
+
         return damagedObjects;
+    }
+
+    private boolean isHit(Bullet bullet, GameObject damageObject) {
+        return collisionDetector.collisionExist(
+                bullet.getDestinationCoordinates()
+        ) && damageObject != null;
     }
 
     private GameObject getDamagedObject(Bullet bullet) {
         return collisionDetector.getObjectByCoordinates(bullet.getDestinationCoordinates());
-    }
-
-    private boolean isHit(Bullet bullet) {
-        return collisionDetector.collisionExist(bullet.getDestinationCoordinates());
     }
 
     private ArrayList<Action> createMoveActions() {

@@ -10,25 +10,25 @@ import static com.badlogic.gdx.math.MathUtils.isEqual;
 
 public class Bullet implements GameObject, Movable {
 
+    private final int damage;
     float movementProgress = MOVEMENT_STARTED;
     private final GridPoint2 currentCoordinates;
     private Direction direction;
     private GridPoint2 destinationCoordinates;
 
 
-    public Bullet(GridPoint2 startCoordinates, Direction direction) {
+    public Bullet(GridPoint2 startCoordinates, Direction direction, int damage) {
         this.direction = direction;
         this.currentCoordinates = startCoordinates;
-        this.destinationCoordinates = direction.applyCoordinates(currentCoordinates);;
+        this.destinationCoordinates = direction.applyCoordinates(currentCoordinates);
+        this.damage = damage;
     }
 
 
     @Override
     public void moveToDirection(Direction direction, boolean onlyRotation) {
         if (!isMoving()){
-//            if (!onlyRotation){
-                destinationCoordinates = direction.applyCoordinates(currentCoordinates);
-//            }
+            destinationCoordinates = direction.applyCoordinates(currentCoordinates);
             this.direction = direction;
             movementProgress = MOVEMENT_STARTED;
         }
@@ -41,7 +41,6 @@ public class Bullet implements GameObject, Movable {
     public void updateState(float deltaTime){
         updateMovementState(deltaTime);
     }
-
 
     private void updateMovementState(float deltaTime) {
         movementProgress = GdxGameUtils.continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
@@ -73,4 +72,8 @@ public class Bullet implements GameObject, Movable {
     public float getRotation() {
         return direction.getRotation();
     }
+    public int getDamage() {
+        return damage;
+    }
+
 }

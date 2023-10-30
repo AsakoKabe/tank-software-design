@@ -46,7 +46,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         List<LevelListener> levelListeners = List.of(levelGraphics, collisionDetector);
 
         Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles = new RandomLevelGenerator(
-                levelListeners, collisionDetector, 1, 1
+                levelListeners, collisionDetector, 1, 10
         ).generate();
 
         parseLevelGenerator(levelPlayerAIObstacles, collisionDetector);
