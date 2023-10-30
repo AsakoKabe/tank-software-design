@@ -81,8 +81,6 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void createAIRandomController(CollisionDetector collisionDetector, List<Tank> bots) {
-        System.out.println("num bots " + bots.size());
-
         for (GameObject AIGameObject: bots){
             RandomAIController aiController = new RandomAIController(AIGameObject);
             actionManager.addEntityActionController(aiController);

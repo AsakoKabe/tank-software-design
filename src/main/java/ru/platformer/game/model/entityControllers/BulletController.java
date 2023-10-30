@@ -26,8 +26,21 @@ public class BulletController implements EntityController {
         this.level = level;
     }
 
-    public void addBullet(Bullet bullet) {
+    public boolean addBullet(Bullet bullet) {
+        if (isInstantHit(bullet)) return false;
+
         bullets.add(bullet);
+        return true;
+    }
+
+    private boolean isInstantHit(Bullet bullet) {
+        if (collisionDetector.collisionExist(bullet.getCurrentCoordinates())){
+            createHitAction(
+                    bullet,
+                    collisionDetector.getObjectByCoordinates(bullet.getCurrentCoordinates())).apply();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -40,20 +53,20 @@ public class BulletController implements EntityController {
     }
 
     private List<Action> createHitActions() {
-        Map<Bullet, GameObject> damagedObjects = findDamagedObjects();
+        Map<Bullet, GameObject> damagedObjects = mapDamagedObjects();
 
         List<Action> actions = new ArrayList<>();
         for (Bullet bullet : damagedObjects.keySet()) {
-            actions.add(createHitAction(bullet, damagedObjects));
+            actions.add(createHitAction(bullet, damagedObjects.get(bullet)));
         }
         return actions;
     }
 
-    private Hit createHitAction(Bullet bullet, Map<Bullet, GameObject> damagedObjects) {
-        return new Hit(level, bullet, damagedObjects.get(bullet));
+    private Hit createHitAction(Bullet bullet, GameObject damagedObjects) {
+        return new Hit(level, bullet, damagedObjects);
     }
 
-    private HashMap<Bullet, GameObject> findDamagedObjects() {
+    private HashMap<Bullet, GameObject> mapDamagedObjects() {
         HashMap<Bullet, GameObject> damagedObjects = new HashMap<>();
         List<Bullet> deletedBullets = new ArrayList<>();
 

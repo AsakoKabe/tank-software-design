@@ -19,15 +19,26 @@ public class Hit implements Action {
 
     @Override
     public void apply() {
-        System.out.println(damagedObject.toString());
         level.deleteGameObject(bullet);
-        if (damagedObject instanceof Healthable){
-            Healthable healthable = (Healthable) damagedObject;
-            healthable.updateHealth(-bullet.getDamage());
-            if (healthable.getHealthPoint() == 0){
-                System.out.println("delete tank from level ");
+        if (isHealtahble()){
+            Healthable healthable = getHealthable();
+            if (isDead(healthable)){
                 level.deleteGameObject(damagedObject);
             }
         }
+    }
+
+    private Healthable getHealthable() {
+        Healthable healthable = (Healthable) damagedObject;
+        healthable.updateHealth(-bullet.getDamage());
+        return healthable;
+    }
+
+    private static boolean isDead(Healthable healthable) {
+        return healthable.getHealthPoint() == 0;
+    }
+
+    private boolean isHealtahble() {
+        return damagedObject instanceof Healthable;
     }
 }
