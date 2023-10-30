@@ -28,7 +28,7 @@ public class LevelGraphics implements LevelListener {
     private final TiledMapTileLayer groundLayer;
     private final Batch batch;
 
-    private final List<GameObjectGraphics> gameObjectsGraphics;
+    private final Map<GameObject, GameObjectGraphics> graphicsByGameObject = new HashMap<>();;
 
     private final Map<Class<? extends GameObject>, GraphicsStrategy> graphicsStrategyByGameObject = new HashMap<>();
 
@@ -39,8 +39,6 @@ public class LevelGraphics implements LevelListener {
         levelRenderer = createSingleLayerMapRenderer(tiledMap, batch);
         groundLayer = getSingleLayer(tiledMap);
         tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
-
-        gameObjectsGraphics = new ArrayList<>();
     }
 
     public void addGraphicsStrategyMapping(
@@ -53,7 +51,12 @@ public class LevelGraphics implements LevelListener {
     public void onAddGameObject(GameObject gameObject) {
         Class<?> objectType = gameObject.getClass();
         GameObjectGraphics gameObjectGraphics = graphicsStrategyByGameObject.get(objectType).create(gameObject);
-        this.gameObjectsGraphics.add(gameObjectGraphics);
+        this.graphicsByGameObject.put(gameObject, gameObjectGraphics);
+    }
+
+    @Override
+    public void onDeleteGameObject(GameObject gameObject) {
+        graphicsByGameObject.remove(gameObject);
     }
 
     public void render() {
@@ -63,7 +66,7 @@ public class LevelGraphics implements LevelListener {
         // start recording all drawing commands
         batch.begin();
 
-        for (GameObjectGraphics gameObjectGraphics : gameObjectsGraphics) {
+        for (GameObjectGraphics gameObjectGraphics : graphicsByGameObject.values()) {
             gameObjectGraphics.draw(batch);
         }
         // submit all drawing requests
@@ -72,7 +75,7 @@ public class LevelGraphics implements LevelListener {
 
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        for (GameObjectGraphics gameObjectGraphics : gameObjectsGraphics) {
+        for (GameObjectGraphics gameObjectGraphics : graphicsByGameObject.values()) {
             gameObjectGraphics.dispose();
         }
         tiledMap.dispose();

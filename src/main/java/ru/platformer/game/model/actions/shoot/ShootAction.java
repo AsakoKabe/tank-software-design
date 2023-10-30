@@ -1,22 +1,21 @@
 package ru.platformer.game.model.actions.shoot;
 
-import com.badlogic.gdx.Gdx;
 import ru.platformer.game.Action;
-import ru.platformer.game.model.entityControllers.IndependentMovableObjectsController;
+import ru.platformer.game.model.entityControllers.BulletController;
 import ru.platformer.game.model.objects.Bullet;
 import ru.platformer.game.model.objects.Level;
 import ru.platformer.game.model.Shooter;
 
 public class ShootAction implements Action {
-    private final IndependentMovableObjectsController independentMovableObjectsController;
+    private final BulletController bulletController;
     private Shooter shooter;
     private Level level;
 
     public ShootAction(Shooter shooter, Level level,
-                       IndependentMovableObjectsController independentMovableObjectsController) {
+                       BulletController bulletController) {
         this.shooter = shooter;
         this.level = level;
-        this.independentMovableObjectsController = independentMovableObjectsController;
+        this.bulletController = bulletController;
     }
 
     @Override
@@ -24,7 +23,7 @@ public class ShootAction implements Action {
         Bullet bullet = shooter.createBullet();
         if (created(bullet)){
             level.addGameObject(bullet);
-            independentMovableObjectsController.addMovable(bullet);
+            bulletController.addBullet(bullet);
         }
     }
 

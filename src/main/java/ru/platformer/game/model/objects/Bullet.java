@@ -19,16 +19,16 @@ public class Bullet implements GameObject, Movable {
     public Bullet(GridPoint2 startCoordinates, Direction direction) {
         this.direction = direction;
         this.currentCoordinates = startCoordinates;
-        this.destinationCoordinates = startCoordinates;
+        this.destinationCoordinates = direction.applyCoordinates(currentCoordinates);;
     }
 
 
     @Override
     public void moveToDirection(Direction direction, boolean onlyRotation) {
         if (!isMoving()){
-            if (!onlyRotation){
+//            if (!onlyRotation){
                 destinationCoordinates = direction.applyCoordinates(currentCoordinates);
-            }
+//            }
             this.direction = direction;
             movementProgress = MOVEMENT_STARTED;
         }

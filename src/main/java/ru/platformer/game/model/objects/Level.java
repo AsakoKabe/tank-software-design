@@ -4,10 +4,12 @@ import ru.platformer.game.GameObject;
 import ru.platformer.game.model.LevelListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Level {
-    private final List<GameObject> gameObjects;
+    private final Set<GameObject> gameObjects;
     private final List<LevelListener> levelListeners;
     private final int height;
 
@@ -20,7 +22,7 @@ public class Level {
     ) {
         this.height = height;
         this.width = width;
-        gameObjects = new ArrayList<>();
+        gameObjects = new HashSet<>();
         this.levelListeners = levelListeners;
     }
 
@@ -28,6 +30,11 @@ public class Level {
     public void addGameObject(GameObject gameObject){
         gameObjects.add(gameObject);
         levelListeners.forEach(levelListener -> levelListener.onAddGameObject(gameObject));
+    }
+
+    public void deleteGameObject(GameObject gameObject){
+        gameObjects.remove(gameObject);
+        levelListeners.forEach(levelListener -> levelListener.onDeleteGameObject(gameObject));
     }
 
     public void updateState(float deltaTime) {

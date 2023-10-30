@@ -28,7 +28,7 @@ public interface LevelGenerator {
                 } else {
                     gridPoint2 = new GridPoint2(x, y);
                 }
-                collisionDetector.addCoordinates(gridPoint2);
+                collisionDetector.addGameObjectByCoordinates(null, gridPoint2);
             }
         }
     }

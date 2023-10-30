@@ -8,7 +8,7 @@ import org.awesome.ai.strategy.NotRecommendingAI;
 import org.javatuples.Quartet;
 import ru.platformer.game.Action;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.model.entityControllers.IndependentMovableObjectsController;
+import ru.platformer.game.model.entityControllers.BulletController;
 import ru.platformer.game.model.entityControllers.aiControllers.AwesomeAIControllerAdapter;
 import ru.platformer.game.model.entityControllers.PlayerController;
 import ru.platformer.game.model.entityControllers.aiControllers.RandomAIController;
@@ -46,7 +46,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         List<LevelListener> levelListeners = List.of(levelGraphics, collisionDetector);
 
         Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles = new RandomLevelGenerator(
-                levelListeners, collisionDetector, 0, 1
+                levelListeners, collisionDetector, 1, 1
         ).generate();
 
         parseLevelGenerator(levelPlayerAIObstacles, collisionDetector);
@@ -72,12 +72,12 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void createPlayerController(CollisionDetector collisionDetector, Tank player) {
-        IndependentMovableObjectsController independentMovableObjectsController =
-                new IndependentMovableObjectsController(collisionDetector);
-        actionManager.addEntityActionController(independentMovableObjectsController);
+        BulletController bulletController =
+                new BulletController(collisionDetector, level);
+        actionManager.addEntityActionController(bulletController);
 
         PlayerController playerController = new PlayerController(player);
-        Initializer.initKeyBoardMappings(playerController, collisionDetector, level, independentMovableObjectsController);
+        Initializer.initKeyBoardMappings(playerController, collisionDetector, level, bulletController);
         actionManager.addEntityActionController(playerController);
     }
 
@@ -87,7 +87,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         for (GameObject AIGameObject: bots){
             RandomAIController aiController = new RandomAIController(AIGameObject);
             actionManager.addEntityActionController(aiController);
-            Initializer.initAIEventMappings(aiController, collisionDetector);
+            Initializer.initAIEventMappings(aiController, collisionDetector, level);
         }
     }
 
@@ -100,7 +100,7 @@ public class GameDesktopLauncher implements ApplicationListener {
                 level.getWidth(),
                 level.getHeight()
         );
-        Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector);
+        Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector, level);
         actionManager.addEntityActionController(awesomeAIControllerAdapter);
     }
 

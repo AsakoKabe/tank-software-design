@@ -3,42 +3,25 @@ package ru.platformer.game.model.actions.move;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Action;
 import ru.platformer.game.Direction;
+import ru.platformer.game.GameObject;
 import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Movable;
 
 public class MoveAction implements Action {
 
-    private final Direction direction;
-    private final CollisionDetector collisionDetector;
     private final Movable movable;
-    private boolean coordinatesReset;
+    private final MoveStrategy moveStrategy;
 
-    public MoveAction(Direction direction, CollisionDetector collisionDetector, Movable movable) {
-        this.direction = direction;
-        this.coordinatesReset = false;
-        this.collisionDetector = collisionDetector;
+    public MoveAction(
+            MoveStrategy moveStrategy,
+            Movable movable
+    ) {
         this.movable = movable;
+        this.moveStrategy = moveStrategy;
     }
 
     public void apply() {
-        preprocessingIfCollides();
-        collisionDetector.removeCoordinates(movable.getDestinationCoordinates());
-        movable.moveToDirection(direction, coordinatesReset);
-        collisionDetector.addCoordinates(movable.getDestinationCoordinates());
+        moveStrategy.move(movable);
     }
 
-    private void resetCoordinates(){
-        coordinatesReset = true;
-    }
-
-    private void preprocessingIfCollides() {
-        GridPoint2 coordinates = direction.applyCoordinates(movable.getCurrentCoordinates());
-        if (collisionDetector.collisionExist(coordinates)){
-            resetCoordinates();
-        }
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
 }

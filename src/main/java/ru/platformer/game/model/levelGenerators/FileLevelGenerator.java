@@ -63,12 +63,13 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     private void computeBound() {
-        try (Stream<String> lines = Files.lines(Path.of(fileName))) {
+        Path path = Path.of(fileName);
+        try (Stream<String> lines = Files.lines(path)) {
             maxY = (int) lines.count();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        try (Stream<String> lines = Files.lines(Path.of(fileName))) {
+        try (Stream<String> lines = Files.lines(path)) {
             maxX = lines.max(Comparator.comparingInt(String::length)).toString().length();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -95,14 +96,12 @@ public class FileLevelGenerator implements LevelGenerator {
         Obstacle obstacle = new Obstacle(new GridPoint2(xCoordinate, yCoordinate));
         level.addGameObject(obstacle);
         obstacles.add(obstacle);
-        collisionDetector.addCoordinates(obstacle.getCurrentCoordinates());
     }
 
     private void createTank(int xCoordinate, int yCoordinate) {
         Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate));
         tanks.add(tank);
         level.addGameObject(tank);
-        collisionDetector.addCoordinates(tank.getCurrentCoordinates());
     }
 
 }
