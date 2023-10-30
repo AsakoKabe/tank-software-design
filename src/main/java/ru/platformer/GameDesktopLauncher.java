@@ -7,17 +7,18 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.awesome.ai.strategy.NotRecommendingAI;
 import org.javatuples.Quartet;
 import ru.platformer.game.Action;
+import ru.platformer.game.ActionManager;
 import ru.platformer.game.GameObject;
-import ru.platformer.game.model.entityControllers.BulletController;
-import ru.platformer.game.model.entityControllers.aiControllers.AwesomeAIControllerAdapter;
-import ru.platformer.game.model.entityControllers.PlayerController;
-import ru.platformer.game.model.entityControllers.aiControllers.RandomAIController;
+import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.graphics.graphicsObjects.stategies.BulletGraphicsStrategy;
 import ru.platformer.game.graphics.graphicsObjects.stategies.ObstacleGraphicsStrategy;
 import ru.platformer.game.graphics.graphicsObjects.stategies.TankGraphicsStrategy;
-import ru.platformer.game.model.*;
-import ru.platformer.game.ActionManager;
-import ru.platformer.game.graphics.LevelGraphics;
+import ru.platformer.game.model.CollisionDetector;
+import ru.platformer.game.model.LevelListener;
+import ru.platformer.game.model.entityControllers.BulletController;
+import ru.platformer.game.model.entityControllers.PlayerController;
+import ru.platformer.game.model.entityControllers.aiControllers.AwesomeAIControllerAdapter;
+import ru.platformer.game.model.entityControllers.aiControllers.RandomAIController;
 import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
 import ru.platformer.game.model.objects.Bullet;
 import ru.platformer.game.model.objects.Level;
@@ -34,6 +35,18 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Level level;
     private ActionManager actionManager;
 
+    private static void clearScreen() {
+        Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
+        Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
+    }
+
+    public static void main(String[] args) {
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        // level width: 10 tiles x 128px, height: 8 tiles x 128px
+        config.setWindowedMode(1280, 1024);
+        new Lwjgl3Application(new GameDesktopLauncher(), config);
+    }
+
     @Override
     public void create() {
         createLevelGraphics();
@@ -45,9 +58,10 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         List<LevelListener> levelListeners = List.of(levelGraphics, collisionDetector);
 
-        Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles = new RandomLevelGenerator(
-                levelListeners, collisionDetector, 1, 10
-        ).generate();
+        Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles =
+                new RandomLevelGenerator(
+                        levelListeners, collisionDetector, 1, 20
+                ).generate();
 
         parseLevelGenerator(levelPlayerAIObstacles, collisionDetector);
     }
@@ -61,34 +75,47 @@ public class GameDesktopLauncher implements ApplicationListener {
         List<Tank> bots = levelPlayerAIObstacles.getValue2();
 
         actionManager = new ActionManager();
+        BulletController bulletController =
+                new BulletController(collisionDetector, level);
 
-        createPlayerController(collisionDetector, player);
-        createAIRandomController(collisionDetector, bots);
+        createPlayerController(collisionDetector, player, bulletController);
+        createAIRandomController(collisionDetector, bots, bulletController);
 
 
 //        List<Obstacle> obstacles = levelPlayerAIObstacles.getValue3();
 //        createAIAwesomeController(collisionDetector, player, bots, obstacles);
     }
 
-    private void createPlayerController(CollisionDetector collisionDetector, Tank player) {
-        BulletController bulletController =
-                new BulletController(collisionDetector, level);
+    private void createPlayerController(
+            CollisionDetector collisionDetector, Tank player,
+            BulletController bulletController
+    ) {
         actionManager.addEntityActionController(bulletController);
 
         PlayerController playerController = new PlayerController(player);
-        Initializer.initKeyBoardMappings(playerController, collisionDetector, level, bulletController);
+        Initializer.initKeyBoardMappings(playerController, collisionDetector, level,
+                bulletController
+        );
         actionManager.addEntityActionController(playerController);
     }
 
-    private void createAIRandomController(CollisionDetector collisionDetector, List<Tank> bots) {
-        for (GameObject AIGameObject: bots){
+    private void createAIRandomController(
+            CollisionDetector collisionDetector, List<Tank> bots,
+            BulletController bulletController
+    ) {
+        for (GameObject AIGameObject : bots) {
             RandomAIController aiController = new RandomAIController(AIGameObject);
             actionManager.addEntityActionController(aiController);
-            Initializer.initAIEventMappings(aiController, collisionDetector, level);
+            Initializer.initAIEventMappings(aiController, collisionDetector, level,
+                    bulletController
+            );
         }
     }
 
-    private void createAIAwesomeController(CollisionDetector collisionDetector, Tank player, List<Tank> bots, List<Obstacle> obstacles) {
+    private void createAIAwesomeController(
+            CollisionDetector collisionDetector, Tank player,
+            List<Tank> bots, List<Obstacle> obstacles, BulletController bulletController
+    ) {
         AwesomeAIControllerAdapter awesomeAIControllerAdapter = new AwesomeAIControllerAdapter(
                 new NotRecommendingAI(),
                 player,
@@ -97,7 +124,7 @@ public class GameDesktopLauncher implements ApplicationListener {
                 level.getWidth(),
                 level.getHeight()
         );
-        Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector, level);
+        Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector, level, bulletController);
         actionManager.addEntityActionController(awesomeAIControllerAdapter);
     }
 
@@ -117,7 +144,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         ));
     }
 
-
     @Override
     public void render() {
         clearScreen();
@@ -128,11 +154,6 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         level.updateState(deltaTime);
         levelGraphics.render();
-    }
-
-    private static void clearScreen() {
-        Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
-        Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
     }
 
     @Override
@@ -153,12 +174,5 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void dispose() {
         levelGraphics.dispose();
-    }
-
-    public static void main(String[] args) {
-        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        // level width: 10 tiles x 128px, height: 8 tiles x 128px
-        config.setWindowedMode(1280, 1024);
-        new Lwjgl3Application(new GameDesktopLauncher(), config);
     }
 }

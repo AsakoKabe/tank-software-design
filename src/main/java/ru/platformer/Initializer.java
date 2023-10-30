@@ -75,7 +75,7 @@ public class Initializer {
 
     public static void initAIEventMappings(
             AIController aiController, CollisionDetector collisionDetector,
-            Level level
+            Level level, BulletController bulletController
     ) {
         aiController.addActionFactoryByAIEvent(AIEvent.MoveUp, new MoveFactory(Direction.UP,
                 collisionDetector, level.getWidth(),
@@ -93,5 +93,6 @@ public class Initializer {
                 collisionDetector, level.getWidth(),
                 level.getHeight()
         ));
+        aiController.addActionFactoryByAIEvent(AIEvent.Shoot, new ShootFactory(level, bulletController));
     }
 }
