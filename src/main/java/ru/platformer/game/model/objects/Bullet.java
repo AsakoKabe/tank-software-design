@@ -61,6 +61,11 @@ public class Bullet implements GameObject, Movable {
     }
 
     @Override
+    public boolean isBusyCoordinate(GridPoint2 coordinates) {
+        return currentCoordinates.equals(coordinates);
+    }
+
+    @Override
     public Direction getDirection() {
         return direction;
     }

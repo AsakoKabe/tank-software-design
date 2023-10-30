@@ -63,7 +63,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         actionManager = new ActionManager();
 
         createPlayerController(collisionDetector, player);
-
         createAIRandomController(collisionDetector, bots);
 
 

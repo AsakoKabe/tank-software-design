@@ -6,16 +6,13 @@ import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Movable;
 
 public class OverlappingMove implements MoveStrategy {
-    private final CollisionDetector collisionDetector;
     private final Direction direction;
     private final int levelWidth;
     private final int levelHeight;
     private boolean coordinatesReset = false;
 
-    public OverlappingMove(Direction direction, CollisionDetector collisionDetector,
-                           int levelWidth, int levelHeight) {
+    public OverlappingMove(Direction direction, int levelWidth, int levelHeight) {
         this.direction = direction;
-        this.collisionDetector = collisionDetector;
         this.levelWidth = levelWidth;
         this.levelHeight = levelHeight;
 

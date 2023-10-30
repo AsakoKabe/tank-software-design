@@ -56,6 +56,11 @@ public class Tank implements GameObject, Movable, Shooter, Healthable {
         return currentCoordinates.cpy();
     }
 
+    @Override
+    public boolean isBusyCoordinate(GridPoint2 coordinates) {
+        return currentCoordinates.equals(coordinates) || destinationCoordinates.equals(coordinates);
+    }
+
     public GridPoint2 getDestinationCoordinates() {
         return destinationCoordinates.cpy();
     }

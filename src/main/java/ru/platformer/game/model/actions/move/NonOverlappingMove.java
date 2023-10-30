@@ -25,12 +25,7 @@ public class NonOverlappingMove implements MoveStrategy{
     @Override
     public void move(Movable movable) {
         preprocessingCoordinates(movable);
-        collisionDetector.removeCoordinates(movable.getDestinationCoordinates());
         movable.moveToDirection(direction, coordinatesReset);
-        collisionDetector.addGameObjectByCoordinates(
-                (GameObject) movable,
-                movable.getDestinationCoordinates()
-        );
     }
 
     private void preprocessingCoordinates(Movable movable) {

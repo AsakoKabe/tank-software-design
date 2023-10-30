@@ -40,7 +40,7 @@ public class BulletController implements EntityController {
     }
 
     private List<Action> createHitActions() {
-        Map<Bullet, GameObject> damagedObjects = createDamagedObjects();
+        Map<Bullet, GameObject> damagedObjects = findDamagedObjects();
 
         List<Action> actions = new ArrayList<>();
         for (Bullet bullet : damagedObjects.keySet()) {
@@ -53,32 +53,28 @@ public class BulletController implements EntityController {
         return new Hit(level, bullet, damagedObjects.get(bullet));
     }
 
-    private HashMap<Bullet, GameObject> createDamagedObjects() {
+    private HashMap<Bullet, GameObject> findDamagedObjects() {
         HashMap<Bullet, GameObject> damagedObjects = new HashMap<>();
         List<Bullet> deletedBullets = new ArrayList<>();
-        bullets.forEach(
-                bullet -> {
-                    GameObject damageObject = getDamagedObject(bullet);
-                    if (isHit(bullet, damageObject)) {
-                        System.out.println("damaged obj: " + damageObject.toString());
-                        damagedObjects.put(
-                                bullet,
-                                damageObject
-                        );
-                        deletedBullets.add(bullet);
-                    }
-                }
-        );
+
+        for (Bullet bullet : bullets) {
+            GameObject damageObject = getDamagedObject(bullet);
+            if (isHit(bullet, damageObject)) {
+                damagedObjects.put(bullet, damageObject);
+                deletedBullets.add(bullet);
+            }
+        }
 
         deletedBullets.forEach(bullets::remove);
 
         return damagedObjects;
     }
 
+
     private boolean isHit(Bullet bullet, GameObject damageObject) {
-        return collisionDetector.collisionExist(
-                bullet.getDestinationCoordinates()
-        ) && damageObject != null;
+        return collisionDetector.collisionExist(bullet.getDestinationCoordinates()) &&
+                damageObject != null &&
+                damageObject != bullet;
     }
 
     private GameObject getDamagedObject(Bullet bullet) {
@@ -88,8 +84,8 @@ public class BulletController implements EntityController {
     private ArrayList<Action> createMoveActions() {
         return bullets.stream().map(
                 bullet -> new MoveAction(
-                        new OverlappingMove(bullet.getDirection(), collisionDetector,
-                                level.getWidth(), level.getHeight()
+                        new OverlappingMove(
+                                bullet.getDirection(), level.getWidth(), level.getHeight()
                         ),
                         bullet
                 )

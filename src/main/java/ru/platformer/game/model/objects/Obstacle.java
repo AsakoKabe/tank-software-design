@@ -17,6 +17,11 @@ public class Obstacle implements GameObject {
     }
 
     @Override
+    public boolean isBusyCoordinate(GridPoint2 coordinates) {
+        return currentCoordinates.equals(coordinates);
+    }
+
+    @Override
     public void updateState(float deltaTime) {
     }
 }
