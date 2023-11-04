@@ -11,11 +11,12 @@ import ru.platformer.game.ActionManager;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.graphics.graphicsObjects.stategies.BulletGraphicsStrategy;
+import ru.platformer.game.graphics.graphicsObjects.stategies.ExplosionGraphicsStrategies;
 import ru.platformer.game.graphics.graphicsObjects.stategies.ObstacleGraphicsStrategy;
 import ru.platformer.game.graphics.graphicsObjects.stategies.TankGraphicsStrategy;
 import ru.platformer.game.model.CollisionDetector;
+import ru.platformer.game.model.Explosion;
 import ru.platformer.game.model.LevelListener;
-import ru.platformer.game.model.entityControllers.BulletController;
 import ru.platformer.game.model.entityControllers.PlayerController;
 import ru.platformer.game.model.entityControllers.aiControllers.AwesomeAIControllerAdapter;
 import ru.platformer.game.model.entityControllers.aiControllers.RandomAIController;
@@ -60,7 +61,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         Quartet<Level, Tank, List<Tank>, List<Obstacle>> levelPlayerAIObstacles =
                 new RandomLevelGenerator(
-                        levelListeners, collisionDetector, 1, 20
+                        levelListeners, collisionDetector, 1, 10
                 ).generate();
 
         parseLevelGenerator(levelPlayerAIObstacles, collisionDetector);
@@ -75,11 +76,9 @@ public class GameDesktopLauncher implements ApplicationListener {
         List<Tank> bots = levelPlayerAIObstacles.getValue2();
 
         actionManager = new ActionManager();
-        BulletController bulletController =
-                new BulletController(collisionDetector, level);
 
-        createPlayerController(collisionDetector, player, bulletController);
-        createAIRandomController(collisionDetector, bots, bulletController);
+        createPlayerController(collisionDetector, player);
+        createAIRandomController(collisionDetector, bots);
 
 
 //        List<Obstacle> obstacles = levelPlayerAIObstacles.getValue3();
@@ -87,34 +86,25 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void createPlayerController(
-            CollisionDetector collisionDetector, Tank player,
-            BulletController bulletController
-    ) {
-        actionManager.addEntityActionController(bulletController);
+            CollisionDetector collisionDetector, Tank player) {
 
         PlayerController playerController = new PlayerController(player);
-        Initializer.initKeyBoardMappings(playerController, collisionDetector, level,
-                bulletController
-        );
+        Initializer.initKeyBoardMappings(playerController, collisionDetector, level);
         actionManager.addEntityActionController(playerController);
     }
 
     private void createAIRandomController(
-            CollisionDetector collisionDetector, List<Tank> bots,
-            BulletController bulletController
-    ) {
+            CollisionDetector collisionDetector, List<Tank> bots) {
         for (GameObject AIGameObject : bots) {
             RandomAIController aiController = new RandomAIController(AIGameObject);
             actionManager.addEntityActionController(aiController);
-            Initializer.initAIEventMappings(aiController, collisionDetector, level,
-                    bulletController
-            );
+            Initializer.initAIEventMappings(aiController, collisionDetector, level);
         }
     }
 
     private void createAIAwesomeController(
             CollisionDetector collisionDetector, Tank player,
-            List<Tank> bots, List<Obstacle> obstacles, BulletController bulletController
+            List<Tank> bots, List<Obstacle> obstacles
     ) {
         AwesomeAIControllerAdapter awesomeAIControllerAdapter = new AwesomeAIControllerAdapter(
                 new NotRecommendingAI(),
@@ -124,7 +114,7 @@ public class GameDesktopLauncher implements ApplicationListener {
                 level.getWidth(),
                 level.getHeight()
         );
-        Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector, level, bulletController);
+        Initializer.initAIEventMappings(awesomeAIControllerAdapter, collisionDetector, level);
         actionManager.addEntityActionController(awesomeAIControllerAdapter);
     }
 
@@ -141,6 +131,10 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelGraphics.addGraphicsStrategyMapping(Bullet.class, new BulletGraphicsStrategy(
                 "images/bullet.png",
                 levelGraphics.getTileMovement()
+        ));
+        levelGraphics.addGraphicsStrategyMapping(Explosion.class, new ExplosionGraphicsStrategies(
+                "images/explosion.png",
+                levelGraphics.getGroundLayer()
         ));
     }
 

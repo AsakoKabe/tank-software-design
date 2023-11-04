@@ -14,7 +14,7 @@ class TankTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     void testTankMoveToNewDirectionWithCoordinates(Direction direction) {
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0);
+        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
 
         tank.moveToDirection(direction, false);
 
@@ -27,7 +27,7 @@ class TankTest {
     @EnumSource(Direction.class)
     void testTankMoveToNewDirectionWithOutCoordinates(Direction direction) {
         GridPoint2 startCoordinates = new GridPoint2(0, 0);
-        Tank tank = new Tank(startCoordinates, 0, 0);
+        Tank tank = new Tank(startCoordinates, 0, 0, null, null);
 
         tank.moveToDirection(direction, true);
 
@@ -38,7 +38,7 @@ class TankTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     void testTankFinishedMovement(Direction direction) {
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0);
+        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
         float deltaTime = 1f;
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
 
@@ -52,7 +52,7 @@ class TankTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     void testTankIsMoving(Direction direction) {
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0);
+        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
         float deltaTime = 0.1f;
 
         tank.moveToDirection(direction, false);

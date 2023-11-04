@@ -11,10 +11,7 @@ import ru.platformer.game.GameObject;
 import ru.platformer.game.model.LevelListener;
 import ru.platformer.util.TileMovement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ru.platformer.util.GdxGameUtils.createSingleLayerMapRenderer;
 import static ru.platformer.util.GdxGameUtils.getSingleLayer;
@@ -28,7 +25,7 @@ public class LevelGraphics implements LevelListener {
     private final TiledMapTileLayer groundLayer;
     private final Batch batch;
 
-    private final Map<GameObject, GameObjectGraphics> graphicsByGameObject = new HashMap<>();;
+    private final Map<GameObject, GameObjectGraphics> graphicsByGameObject = new LinkedHashMap<>();;
 
     private final Map<Class<? extends GameObject>, GraphicsStrategy> graphicsStrategyByGameObject = new HashMap<>();
 

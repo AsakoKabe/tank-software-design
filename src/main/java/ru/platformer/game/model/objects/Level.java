@@ -3,13 +3,10 @@ package ru.platformer.game.model.objects;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.LevelListener;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Level {
-    private final Set<GameObject> gameObjects;
+    private final List<GameObject> gameObjects;
     private final List<LevelListener> levelListeners;
     private final int height;
 
@@ -22,7 +19,7 @@ public class Level {
     ) {
         this.height = height;
         this.width = width;
-        gameObjects = new HashSet<>();
+        gameObjects = new ArrayList<>();
         this.levelListeners = levelListeners;
     }
 
@@ -38,7 +35,8 @@ public class Level {
     }
 
     public void updateState(float deltaTime) {
-        for (GameObject gameObject: gameObjects){
+        List<GameObject> copyGameObjects = List.copyOf(gameObjects);
+        for (GameObject gameObject: copyGameObjects){
             gameObject.updateState(deltaTime);
         }
     }

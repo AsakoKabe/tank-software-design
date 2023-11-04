@@ -2,8 +2,9 @@ package ru.platformer.game.model.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.GameObject;
+import ru.platformer.game.model.Colliding;
 
-public class Obstacle implements GameObject {
+public class Obstacle implements GameObject, Colliding {
     private final GridPoint2 currentCoordinates;
 
     public Obstacle(

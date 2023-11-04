@@ -27,8 +27,11 @@ public class MoveFactory implements ActionFactory {
 
     public MoveAction create(GameObject gameObject) {
         return new MoveAction(
-                new NonOverlappingMove(direction, collisionDetector, levelWidth, levelHeight),
-                (Movable) gameObject
+                (Movable) gameObject,
+                direction,
+                collisionDetector,
+                levelWidth,
+                levelHeight
         );
     }
 }

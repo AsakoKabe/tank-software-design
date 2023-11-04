@@ -4,5 +4,5 @@ import ru.platformer.game.model.objects.Bullet;
 
 public interface Shooter {
 
-    Bullet createBullet();
+    void createBullet();
 }

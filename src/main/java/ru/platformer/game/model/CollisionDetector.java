@@ -6,32 +6,36 @@ import ru.platformer.game.GameObject;
 import java.util.*;
 
 public class CollisionDetector implements LevelListener {
-    private final List<GameObject> gameObjects = new ArrayList<>();
+    private final List<Colliding> collidings = new ArrayList<>();
 
     @Override
     public void onAddGameObject(GameObject gameObject) {
-        gameObjects.add(gameObject);
+        if (gameObject instanceof Colliding){
+            collidings.add((Colliding) gameObject);
+        }
     }
 
     @Override
     public void onDeleteGameObject(GameObject gameObject) {
-        gameObjects.remove(gameObject);
+        if (gameObject instanceof Colliding){
+            collidings.remove((Colliding) gameObject);
+        }
 
     }
 
     public boolean collisionExist(GridPoint2 coordinates) {
-        for (GameObject gameObject: gameObjects){
-            if (gameObject.isBusyCoordinate(coordinates)){
+        for (Colliding colliding: collidings){
+            if (colliding.isBusyCoordinate(coordinates)){
                 return true;
             }
         }
         return false;
     }
 
-    public GameObject getObjectByCoordinates(GridPoint2 coordinates) {
-        for (GameObject gameObject: gameObjects){
-            if (gameObject.isBusyCoordinate(coordinates)){
-                return gameObject;
+    public Colliding getObjectByCoordinates(GridPoint2 coordinates) {
+        for (Colliding colliding: collidings){
+            if (colliding.isBusyCoordinate(coordinates)){
+                return colliding;
             }
         }
         return null;

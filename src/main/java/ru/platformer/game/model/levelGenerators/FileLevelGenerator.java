@@ -98,7 +98,7 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     private void createTank(int xCoordinate, int yCoordinate) {
-        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate), 1, 1);
+        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate), 1, 1, level, collisionDetector);
         tanks.add(tank);
         level.addGameObject(tank);
     }

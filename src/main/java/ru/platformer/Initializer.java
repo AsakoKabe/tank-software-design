@@ -6,7 +6,6 @@ import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.actions.move.MoveFactory;
 import ru.platformer.game.model.actions.shoot.ShootFactory;
 import ru.platformer.game.model.entityControllers.AIController;
-import ru.platformer.game.model.entityControllers.BulletController;
 import ru.platformer.game.model.entityControllers.PlayerController;
 import ru.platformer.game.model.objects.Level;
 
@@ -16,8 +15,7 @@ public class Initializer {
     public static void initKeyBoardMappings(
             PlayerController playerController,
             CollisionDetector collisionDetector,
-            Level level,
-            BulletController bulletController
+            Level level
     ) {
         playerController.addKeyActionFactoryMapping(
                 UP,
@@ -69,13 +67,13 @@ public class Initializer {
         );
         playerController.addKeyActionFactoryMapping(
                 SPACE,
-                new ShootFactory(level, bulletController)
+                new ShootFactory(level)
         );
     }
 
     public static void initAIEventMappings(
             AIController aiController, CollisionDetector collisionDetector,
-            Level level, BulletController bulletController
+            Level level
     ) {
         aiController.addActionFactoryByAIEvent(AIEvent.MoveUp, new MoveFactory(Direction.UP,
                 collisionDetector, level.getWidth(),
@@ -93,6 +91,6 @@ public class Initializer {
                 collisionDetector, level.getWidth(),
                 level.getHeight()
         ));
-        aiController.addActionFactoryByAIEvent(AIEvent.Shoot, new ShootFactory(level, bulletController));
+        aiController.addActionFactoryByAIEvent(AIEvent.Shoot, new ShootFactory(level));
     }
 }

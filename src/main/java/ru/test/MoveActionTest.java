@@ -7,7 +7,6 @@ import ru.platformer.game.Direction;
 import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.LevelListener;
 import ru.platformer.game.model.actions.move.MoveAction;
-import ru.platformer.game.model.actions.move.NonOverlappingMove;
 import ru.platformer.game.model.objects.Level;
 import ru.platformer.game.model.objects.Obstacle;
 import ru.platformer.game.model.objects.Tank;
@@ -24,14 +23,14 @@ public class MoveActionTest {
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelListeners.add(collisionDetector);
         Level level = new Level(levelListeners, 5, 5);
-        level.addGameObject(new Tank(new GridPoint2(0, 0), 0, 0));
-        level.addGameObject(new Tank(new GridPoint2(1, 1), 0, 0));
+        level.addGameObject(new Tank(new GridPoint2(0, 0), 0, 0, null, null));
+        level.addGameObject(new Tank(new GridPoint2(1, 1), 0, 0, null, null));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0);
+        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
         level.addGameObject(tank);
 
-        MoveAction moveAction = new MoveAction(new NonOverlappingMove(direction,
-                collisionDetector, level.getWidth(), level.getHeight()), tank
+        MoveAction moveAction = new MoveAction(tank, direction,
+                collisionDetector, level.getWidth(), level.getHeight()
         );
         moveAction.apply();
 
@@ -48,16 +47,16 @@ public class MoveActionTest {
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelListeners.add(collisionDetector);
         Level level = new Level(levelListeners, 5, 5);
-        level.addGameObject(new Tank(new GridPoint2(0, 0), 0, 0));
-        level.addGameObject(new Tank(new GridPoint2(1, 1), 0, 0));
+        level.addGameObject(new Tank(new GridPoint2(0, 0), 0, 0, null, null));
+        level.addGameObject(new Tank(new GridPoint2(1, 1), 0, 0, null, null));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));
-        level.addGameObject(new Tank(direction.getCoordinates(), 0, 0));
+        level.addGameObject(new Tank(direction.getCoordinates(), 0, 0, null, null));
         GridPoint2 tankStartCoordinates = new GridPoint2(0, 0);
-        Tank tank = new Tank(tankStartCoordinates, 0, 0);
+        Tank tank = new Tank(tankStartCoordinates, 0, 0, null, null);
         level.addGameObject(tank);
 
-        MoveAction moveAction = new MoveAction(new NonOverlappingMove(direction,
-                collisionDetector, level.getWidth(), level.getHeight()), tank);
+        MoveAction moveAction = new MoveAction(tank, direction,
+                collisionDetector, level.getWidth(), level.getHeight());
         moveAction.apply();
 
         float targetRotation = direction.getRotation();
