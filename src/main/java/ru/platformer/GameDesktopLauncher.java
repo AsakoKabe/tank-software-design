@@ -4,16 +4,25 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Interpolation;
 import org.awesome.ai.strategy.NotRecommendingAI;
 import org.javatuples.Quartet;
 import ru.platformer.game.Action;
 import ru.platformer.game.ActionManager;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.LevelGraphics;
-import ru.platformer.game.graphics.graphicsObjects.stategies.BulletGraphicsStrategy;
-import ru.platformer.game.graphics.graphicsObjects.stategies.ExplosionGraphicsStrategies;
-import ru.platformer.game.graphics.graphicsObjects.stategies.ObstacleGraphicsStrategy;
-import ru.platformer.game.graphics.graphicsObjects.stategies.TankGraphicsStrategy;
+import ru.platformer.game.graphics.graphicsObjects.LevelGraphicsBase;
+import ru.platformer.game.graphics.LevelGraphicsHealthBarDecorator;
+import ru.platformer.game.graphics.graphicsObjects.creationStategies.BulletGraphicsStrategy;
+import ru.platformer.game.graphics.graphicsObjects.creationStategies.ExplosionGraphicsStrategies;
+import ru.platformer.game.graphics.graphicsObjects.creationStategies.ObstacleGraphicsStrategy;
+import ru.platformer.game.graphics.graphicsObjects.creationStategies.TankGraphicsStrategy;
 import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Explosion;
 import ru.platformer.game.model.LevelListener;
@@ -25,11 +34,14 @@ import ru.platformer.game.model.objects.Bullet;
 import ru.platformer.game.model.objects.Level;
 import ru.platformer.game.model.objects.Obstacle;
 import ru.platformer.game.model.objects.Tank;
+import ru.platformer.util.TileMovement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static ru.platformer.util.GdxGameUtils.createSingleLayerMapRenderer;
+import static ru.platformer.util.GdxGameUtils.getSingleLayer;
 
 public class GameDesktopLauncher implements ApplicationListener {
     private LevelGraphics levelGraphics;
@@ -119,22 +131,35 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void createLevelGraphics() {
-        levelGraphics = new LevelGraphics();
+        Batch batch = new SpriteBatch();
+        TiledMap tiledMap = new TmxMapLoader().load("level.tmx");
+        MapRenderer levelRenderer = createSingleLayerMapRenderer(tiledMap, batch);
+        TiledMapTileLayer groundLayer = getSingleLayer(tiledMap);
+        TileMovement tileMovement = new TileMovement(groundLayer, Interpolation.smooth);
+
+        levelGraphics = new LevelGraphicsBase(
+                batch,
+                tiledMap,
+                levelRenderer,
+                groundLayer,
+                tileMovement
+        );
+        levelGraphics = new LevelGraphicsHealthBarDecorator(levelGraphics);
         levelGraphics.addGraphicsStrategyMapping(Tank.class, new TankGraphicsStrategy(
                 "images/tank_blue.png",
-                levelGraphics.getTileMovement()
+                tileMovement
         ));
         levelGraphics.addGraphicsStrategyMapping(Obstacle.class, new ObstacleGraphicsStrategy(
                 "images/greenTree.png",
-                levelGraphics.getGroundLayer()
+                groundLayer
         ));
         levelGraphics.addGraphicsStrategyMapping(Bullet.class, new BulletGraphicsStrategy(
                 "images/bullet.png",
-                levelGraphics.getTileMovement()
+                tileMovement
         ));
         levelGraphics.addGraphicsStrategyMapping(Explosion.class, new ExplosionGraphicsStrategies(
                 "images/explosion.png",
-                levelGraphics.getGroundLayer()
+                groundLayer
         ));
     }
 

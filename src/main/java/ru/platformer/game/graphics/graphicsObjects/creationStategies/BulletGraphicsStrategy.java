@@ -1,4 +1,4 @@
-package ru.platformer.game.graphics.graphicsObjects.stategies;
+package ru.platformer.game.graphics.graphicsObjects.creationStategies;
 
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.GameObjectGraphics;

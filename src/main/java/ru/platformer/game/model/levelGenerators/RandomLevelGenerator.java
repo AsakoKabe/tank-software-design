@@ -57,7 +57,7 @@ public class RandomLevelGenerator implements LevelGenerator {
 
     private void createTanks(Level level) {
         for (int i = 0; i < numTanks; i++) {
-            Tank tank = new Tank(createRandomCoordinates(), 1, 1, level, collisionDetector);
+            Tank tank = new Tank(createRandomCoordinates(), 10, 1, level, collisionDetector);
             if (collisionDetector.collisionExist(tank.getCurrentCoordinates())) {
                 continue;
             }
