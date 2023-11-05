@@ -17,8 +17,10 @@ import ru.platformer.game.Action;
 import ru.platformer.game.ActionManager;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.LevelGraphics;
+import ru.platformer.game.graphics.LevelGraphicsController;
+import ru.platformer.game.graphics.actions.toggle.ToggleActionFactory;
 import ru.platformer.game.graphics.graphicsObjects.LevelGraphicsBase;
-import ru.platformer.game.graphics.LevelGraphicsHealthBarDecorator;
+import ru.platformer.game.graphics.decorators.LevelGraphicsHealthBarDecorator;
 import ru.platformer.game.graphics.graphicsObjects.creationStategies.BulletGraphicsStrategy;
 import ru.platformer.game.graphics.graphicsObjects.creationStategies.ExplosionGraphicsStrategies;
 import ru.platformer.game.graphics.graphicsObjects.creationStategies.ObstacleGraphicsStrategy;
@@ -39,6 +41,7 @@ import ru.platformer.util.TileMovement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.badlogic.gdx.Input.Keys.L;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static ru.platformer.util.GdxGameUtils.createSingleLayerMapRenderer;
 import static ru.platformer.util.GdxGameUtils.getSingleLayer;
@@ -62,6 +65,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void create() {
+        actionManager = new ActionManager();
         createLevelGraphics();
         createLevel();
     }
@@ -86,8 +90,6 @@ public class GameDesktopLauncher implements ApplicationListener {
         level = levelPlayerAIObstacles.getValue0();
         Tank player = levelPlayerAIObstacles.getValue1();
         List<Tank> bots = levelPlayerAIObstacles.getValue2();
-
-        actionManager = new ActionManager();
 
         createPlayerController(collisionDetector, player);
         createAIRandomController(collisionDetector, bots);
@@ -145,6 +147,18 @@ public class GameDesktopLauncher implements ApplicationListener {
                 tileMovement
         );
         levelGraphics = new LevelGraphicsHealthBarDecorator(levelGraphics);
+        initGraphicsStrategies(tileMovement, groundLayer);
+        initLevelGraphicsController();
+    }
+
+    private void initLevelGraphicsController() {
+        LevelGraphicsController levelGraphicsController =
+                new LevelGraphicsController(levelGraphics);
+        levelGraphicsController.addKeyActionFactoryMapping(L, new ToggleActionFactory());
+        actionManager.addEntityActionController(levelGraphicsController);
+    }
+
+    private void initGraphicsStrategies(TileMovement tileMovement, TiledMapTileLayer groundLayer) {
         levelGraphics.addGraphicsStrategyMapping(Tank.class, new TankGraphicsStrategy(
                 "images/tank_blue.png",
                 tileMovement

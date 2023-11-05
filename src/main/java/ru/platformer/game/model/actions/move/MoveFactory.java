@@ -1,6 +1,6 @@
 package ru.platformer.game.model.actions.move;
 
-import ru.platformer.game.ActionFactory;
+import ru.platformer.game.model.actions.ActionFactory;
 import ru.platformer.game.Direction;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.CollisionDetector;

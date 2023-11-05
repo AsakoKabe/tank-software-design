@@ -1,12 +1,15 @@
-package ru.platformer.game.graphics;
+package ru.platformer.game.graphics.decorators;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapRenderer;
 import ru.platformer.game.GameObject;
+import ru.platformer.game.graphics.GameObjectGraphics;
+import ru.platformer.game.graphics.GraphicsStrategy;
+import ru.platformer.game.graphics.LevelGraphics;
 
 import java.util.Map;
 
-public abstract class LevelGraphicsDecorator implements LevelGraphics{
+public abstract class LevelGraphicsDecorator implements LevelGraphics {
     protected final LevelGraphics levelGraphics;
 
     public LevelGraphicsDecorator(LevelGraphics levelGraphics) {

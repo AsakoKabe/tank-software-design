@@ -1,22 +1,21 @@
-package ru.platformer.game.model.entityControllers;
+package ru.platformer.game.graphics;
 
 import com.badlogic.gdx.Gdx;
 import ru.platformer.game.Action;
+import ru.platformer.game.graphics.actions.GraphicsActionFactory;
 import ru.platformer.game.EntityController;
-import ru.platformer.game.GameObject;
-import ru.platformer.game.model.actions.ActionFactory;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayerController implements EntityController {
-    private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
-    private final GameObject gameObject;
+public class LevelGraphicsController implements EntityController {
+    private final LevelGraphics levelGraphics;
+    private final Map<Integer, GraphicsActionFactory> keyToActionFactory = new HashMap<>();
 
-    public PlayerController(GameObject player) {
-        this.gameObject = player;
+
+    public LevelGraphicsController(LevelGraphics levelGraphics) {
+        this.levelGraphics = levelGraphics;
     }
 
     public ArrayList<Action> generateActions(){
@@ -30,17 +29,16 @@ public class PlayerController implements EntityController {
         return actions;
     }
 
-    public void addKeyActionFactoryMapping(Integer key, ActionFactory actionFactory){
+    public void addKeyActionFactoryMapping(Integer key, GraphicsActionFactory actionFactory){
         keyToActionFactory.put(key, actionFactory);
     }
 
     private Action getAction() {
         for (Integer key : keyToActionFactory.keySet()) {
             if (Gdx.input.isKeyJustPressed(key)) {
-                return keyToActionFactory.get(key).create(gameObject);
+                return keyToActionFactory.get(key).create(levelGraphics);
             }
         }
         return null;
     }
-
 }
