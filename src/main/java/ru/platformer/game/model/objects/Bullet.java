@@ -11,7 +11,7 @@ import ru.platformer.util.GdxGameUtils;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 
-public class Bullet implements GameObject {
+public class Bullet implements GameObject, Colliding {
 
     private static final float MOVEMENT_STARTED = 0.f;
     private static final float MOVEMENT_COMPLETED = 1.f;
@@ -68,7 +68,7 @@ public class Bullet implements GameObject {
     }
 
     private boolean isHit() {
-        return collisionDetector.collisionExist(currentCoordinates);
+        return !collisionDetector.getObjectByCoordinates(currentCoordinates).equals(this);
     }
 
     private void moveTo() {
@@ -110,5 +110,10 @@ public class Bullet implements GameObject {
 
     public GridPoint2 getDestinationCoordinates() {
         return destinationCoordinates;
+    }
+
+    @Override
+    public boolean isBusyCoordinate(GridPoint2 coordinates) {
+        return currentCoordinates.equals(coordinates) || destinationCoordinates.equals(coordinates);
     }
 }
