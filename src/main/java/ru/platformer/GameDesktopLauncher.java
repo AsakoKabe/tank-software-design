@@ -17,7 +17,6 @@ import ru.platformer.game.Action;
 import ru.platformer.game.ActionManager;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.LevelGraphics;
-import ru.platformer.game.graphics.LevelGraphicsController;
 import ru.platformer.game.graphics.actions.toggle.ToggleActionFactory;
 import ru.platformer.game.graphics.graphicsObjects.LevelGraphicsBase;
 import ru.platformer.game.graphics.decorators.LevelGraphicsHealthBarDecorator;
@@ -102,7 +101,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private void createPlayerController(
             CollisionDetector collisionDetector, Tank player) {
 
-        KeyboardController keyboardController = new KeyboardController(player);
+        KeyboardController<GameObject> keyboardController = new KeyboardController<>(player);
         Initializer.initKeyBoardMappings(keyboardController, collisionDetector, level);
         actionManager.addEntityActionController(keyboardController);
     }
@@ -149,11 +148,12 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelGraphics = new LevelGraphicsHealthBarDecorator(levelGraphics);
         initGraphicsStrategies(tileMovement, groundLayer);
         initLevelGraphicsController();
+
     }
 
     private void initLevelGraphicsController() {
-        LevelGraphicsController levelGraphicsController =
-                new LevelGraphicsController(levelGraphics);
+        KeyboardController<LevelGraphics> levelGraphicsController =
+                new KeyboardController<>(levelGraphics);
         levelGraphicsController.addKeyActionFactoryMapping(L, new ToggleActionFactory());
         actionManager.addEntityActionController(levelGraphicsController);
     }

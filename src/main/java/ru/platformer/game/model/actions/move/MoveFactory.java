@@ -6,7 +6,7 @@ import ru.platformer.game.GameObject;
 import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Movable;
 
-public class MoveFactory implements ActionFactory {
+public class MoveFactory implements ActionFactory<GameObject> {
     private final Direction direction;
     private final CollisionDetector collisionDetector;
     private final int levelWidth;
