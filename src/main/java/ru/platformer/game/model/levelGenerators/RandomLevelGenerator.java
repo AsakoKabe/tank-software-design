@@ -13,6 +13,7 @@ import java.util.Random;
 
 
 public class RandomLevelGenerator implements LevelGenerator {
+    public static final float SPEED = 0.5f;
     private final int MAX_X_COORDINATE = 9;
     private final int MAX_Y_COORDINATE = 6;
     private final Random rand;
@@ -57,7 +58,8 @@ public class RandomLevelGenerator implements LevelGenerator {
 
     private void createTanks(Level level) {
         for (int i = 0; i < numTanks; i++) {
-            Tank tank = new Tank(createRandomCoordinates(), 100, 20, level, collisionDetector);
+            Tank tank = new Tank(createRandomCoordinates(), SPEED,  100, 10, level,
+                    collisionDetector);
             if (collisionDetector.collisionExist(tank.getCurrentCoordinates())) {
                 continue;
             }

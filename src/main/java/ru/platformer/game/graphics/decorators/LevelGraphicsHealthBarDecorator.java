@@ -29,10 +29,10 @@ public class LevelGraphicsHealthBarDecorator extends LevelGraphicsDecorator impl
         this.toggleOn = false;
     }
 
-    private static TextureRegion createBar(int health, Color color) {
-        Pixmap pixmap = new Pixmap(90 * health / 100, 20, Pixmap.Format.RGBA8888);
+    private static TextureRegion createBar(float health, Color color) {
+        Pixmap pixmap = new Pixmap((int) (90 * health / 100), 20, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
-        pixmap.fillRectangle(0, 0, 90 * health / 100, 20);
+        pixmap.fillRectangle(0, 0, (int) (90 * health / 100), 20);
         Texture texture = new Texture(pixmap);
         pixmap.dispose();
         TextureRegion healthBar = new TextureRegion(texture);
@@ -66,7 +66,7 @@ public class LevelGraphicsHealthBarDecorator extends LevelGraphicsDecorator impl
     }
 
 
-    private void drawHealthBar(Batch batch, Rectangle rectangle, int health) {
+    private void drawHealthBar(Batch batch, Rectangle rectangle, float health) {
         TextureRegion healthBgBar = createBar(100, Color.RED);
         TextureRegion healthLeftBar = createBar(health, Color.GREEN);
         Rectangle hpRectangle = new Rectangle(rectangle);

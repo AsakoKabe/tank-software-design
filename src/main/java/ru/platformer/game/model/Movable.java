@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Direction;
 
 public interface Movable {
-    float MOVEMENT_SPEED = 0.5f;
     float MOVEMENT_COMPLETED = 1f;
     int MOVEMENT_STARTED = 0;
 

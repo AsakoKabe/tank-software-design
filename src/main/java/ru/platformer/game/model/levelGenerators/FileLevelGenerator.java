@@ -19,6 +19,7 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class FileLevelGenerator implements LevelGenerator {
+    public static final float SPEED = 0.5f;
     private final String fileName;
     private final ArrayList<LevelListener> levelListeners;
     private Level level;
@@ -98,7 +99,8 @@ public class FileLevelGenerator implements LevelGenerator {
     }
 
     private void createTank(int xCoordinate, int yCoordinate) {
-        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate), 1, 1, level, collisionDetector);
+        Tank tank = new Tank(new GridPoint2(xCoordinate, yCoordinate), SPEED, 1, 1, level,
+                collisionDetector);
         tanks.add(tank);
         level.addGameObject(tank);
     }

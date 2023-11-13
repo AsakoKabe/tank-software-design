@@ -11,10 +11,12 @@ import static ru.platformer.util.GdxGameUtils.continueProgress;
 
 class TankTest {
 
+    public static final float SPEED = 0.5f;
+
     @ParameterizedTest
     @EnumSource(Direction.class)
     void testTankMoveToNewDirectionWithCoordinates(Direction direction) {
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
+        Tank tank = new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null);
 
         tank.moveToDirection(direction, false);
 
@@ -27,7 +29,7 @@ class TankTest {
     @EnumSource(Direction.class)
     void testTankMoveToNewDirectionWithOutCoordinates(Direction direction) {
         GridPoint2 startCoordinates = new GridPoint2(0, 0);
-        Tank tank = new Tank(startCoordinates, 0, 0, null, null);
+        Tank tank = new Tank(startCoordinates, SPEED, 0, 0, null, null);
 
         tank.moveToDirection(direction, true);
 
@@ -38,7 +40,7 @@ class TankTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     void testTankFinishedMovement(Direction direction) {
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
+        Tank tank = new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null);
         float deltaTime = 1f;
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
 
@@ -52,11 +54,12 @@ class TankTest {
     @ParameterizedTest
     @EnumSource(Direction.class)
     void testTankIsMoving(Direction direction) {
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
+        Tank tank = new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null);
         float deltaTime = 0.1f;
 
         tank.moveToDirection(direction, false);
-        float movementProgressExpected = continueProgress(tank.getMovementProgress(), deltaTime, Tank.MOVEMENT_SPEED);
+        float movementProgressExpected = continueProgress(tank.getMovementProgress(), deltaTime,
+                0.5f);
         tank.updateState(deltaTime);
 
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoveActionTest {
+
+    public static final float SPEED = 0.5f;
+
     @ParameterizedTest
     @EnumSource(Direction.class)
     public void testApplyingMoveActionWithCollisionChangeDestinationCoordinates(Direction direction) {
@@ -23,10 +26,10 @@ public class MoveActionTest {
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelListeners.add(collisionDetector);
         Level level = new Level(levelListeners, 5, 5);
-        level.addGameObject(new Tank(new GridPoint2(0, 0), 0, 0, null, null));
-        level.addGameObject(new Tank(new GridPoint2(1, 1), 0, 0, null, null));
+        level.addGameObject(new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null));
+        level.addGameObject(new Tank(new GridPoint2(1, 1), SPEED, 0, 0, null, null));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));
-        Tank tank = new Tank(new GridPoint2(0, 0), 0, 0, null, null);
+        Tank tank = new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null);
         level.addGameObject(tank);
 
         MoveAction moveAction = new MoveAction(tank, direction,
@@ -47,12 +50,12 @@ public class MoveActionTest {
         ArrayList<LevelListener> levelListeners = new ArrayList<>();
         levelListeners.add(collisionDetector);
         Level level = new Level(levelListeners, 5, 5);
-        level.addGameObject(new Tank(new GridPoint2(0, 0), 0, 0, null, null));
-        level.addGameObject(new Tank(new GridPoint2(1, 1), 0, 0, null, null));
+        level.addGameObject(new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null));
+        level.addGameObject(new Tank(new GridPoint2(1, 1), SPEED, 0, 0, null, null));
         level.addGameObject(new Obstacle(new GridPoint2(2, 0)));
-        level.addGameObject(new Tank(direction.getCoordinates(), 0, 0, null, null));
+        level.addGameObject(new Tank(direction.getCoordinates(), SPEED, 0, 0, null, null));
         GridPoint2 tankStartCoordinates = new GridPoint2(0, 0);
-        Tank tank = new Tank(tankStartCoordinates, 0, 0, null, null);
+        Tank tank = new Tank(tankStartCoordinates, SPEED, 0, 0, null, null);
         level.addGameObject(tank);
 
         MoveAction moveAction = new MoveAction(tank, direction,
