@@ -1,13 +1,17 @@
 package ru.platformer.game.graphics.graphicsObjects;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import ru.platformer.game.graphics.GameObjectGraphics;
+import ru.platformer.game.model.Damaged;
+import ru.platformer.game.model.Health;
 import ru.platformer.game.model.objects.Tank;
-import ru.platformer.util.TileMovement;
 import ru.platformer.util.GdxGameUtils;
+import ru.platformer.util.TileMovement;
 
 public class TankGraphics implements GameObjectGraphics {
     private final Texture texture;
@@ -24,7 +28,7 @@ public class TankGraphics implements GameObjectGraphics {
         this.tileMovement = tileMovement;
     }
 
-    public void draw(Batch batch){
+    public void draw(Batch batch) {
         tileMovement.moveRectangleBetweenTileCenters(
                 rectangle,
                 tank.getCurrentCoordinates(),
@@ -34,7 +38,12 @@ public class TankGraphics implements GameObjectGraphics {
         GdxGameUtils.drawTextureRegionUnscaled(batch, textureRegion, rectangle, tank.getRotation());
     }
 
-    public void dispose(){
+    @Override
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void dispose() {
         texture.dispose();
     }
 

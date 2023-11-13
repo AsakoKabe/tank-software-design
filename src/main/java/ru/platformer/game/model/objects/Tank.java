@@ -8,7 +8,7 @@ import ru.platformer.util.GdxGameUtils;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 
-public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding {
+public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding, Health {
 
     private final Level level;
     private final CollisionDetector collisionDetector;
@@ -122,4 +122,8 @@ public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding {
         this.healthPoint -= damage;
     }
 
+    @Override
+    public int getHealth() {
+        return healthPoint;
+    }
 }

@@ -27,7 +27,8 @@ public class MoveAction implements Action {
         this.direction = direction;
         this.collisionDetector = collisionDetector;
         this.levelWidth = levelWidth;
-        this.levelHeight = levelHeight;    }
+        this.levelHeight = levelHeight;
+    }
 
     public void apply() {
         preprocessingCoordinates(movable);

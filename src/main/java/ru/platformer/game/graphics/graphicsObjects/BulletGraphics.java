@@ -35,6 +35,11 @@ public class BulletGraphics implements GameObjectGraphics {
         GdxGameUtils.drawTextureRegionUnscaled(batch, textureRegion, rectangle, bullet.getRotation());
     }
 
+    @Override
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
     public void dispose(){
         texture.dispose();
     }
