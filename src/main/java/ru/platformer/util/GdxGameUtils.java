@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer.util;
+package ru.platformer.util;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -98,5 +98,9 @@ public final class GdxGameUtils {
                 .setWidth(tileWidth)
                 .setHeight(tileHeight)
                 .getCenter(new Vector2());
+    }
+
+    public static boolean collides(GridPoint2 object1, GridPoint2 object2) {
+        return object1.equals(object2);
     }
 }
