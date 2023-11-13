@@ -6,66 +6,66 @@ import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.actions.move.MoveFactory;
 import ru.platformer.game.model.actions.shoot.ShootFactory;
 import ru.platformer.game.model.entityControllers.AIController;
-import ru.platformer.game.model.entityControllers.PlayerController;
+import ru.platformer.game.model.entityControllers.KeyboardController;
 import ru.platformer.game.model.objects.Level;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
 public class Initializer {
     public static void initKeyBoardMappings(
-            PlayerController playerController,
+            KeyboardController keyboardController,
             CollisionDetector collisionDetector,
             Level level
     ) {
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 UP,
                 new MoveFactory(Direction.UP, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 W,
                 new MoveFactory(Direction.UP, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 LEFT,
                 new MoveFactory(Direction.LEFT, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 A,
                 new MoveFactory(Direction.LEFT, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 DOWN,
                 new MoveFactory(Direction.DOWN, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 S,
                 new MoveFactory(Direction.DOWN, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 RIGHT,
                 new MoveFactory(Direction.RIGHT, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 D,
                 new MoveFactory(Direction.RIGHT, collisionDetector, level.getWidth(),
                         level.getHeight()
                 )
         );
-        playerController.addKeyActionFactoryMapping(
+        keyboardController.addKeyActionFactoryMapping(
                 SPACE,
                 new ShootFactory(level)
         );

@@ -3,7 +3,6 @@ package ru.platformer.game.model.actions.move;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Action;
 import ru.platformer.game.Direction;
-import ru.platformer.game.GameObject;
 import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Movable;
 
@@ -32,7 +31,10 @@ public class MoveAction implements Action {
 
     public void apply() {
         preprocessingCoordinates(movable);
-        movable.moveToDirection(direction, coordinatesReset);
+        if (!coordinatesReset){
+            movable.moveTo(direction);
+        }
+        movable.rotate(direction);
     }
 
     private void preprocessingCoordinates(Movable movable) {

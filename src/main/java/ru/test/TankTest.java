@@ -18,7 +18,7 @@ class TankTest {
     void testTankMoveToNewDirectionWithCoordinates(Direction direction) {
         Tank tank = new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null);
 
-        tank.moveToDirection(direction, false);
+        tank.moveTo(direction);
 
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
         assertEquals(targetCoordinates, tank.getDestinationCoordinates());
@@ -31,7 +31,7 @@ class TankTest {
         GridPoint2 startCoordinates = new GridPoint2(0, 0);
         Tank tank = new Tank(startCoordinates, SPEED, 0, 0, null, null);
 
-        tank.moveToDirection(direction, true);
+        tank.moveTo(direction);
 
         assertEquals(startCoordinates, tank.getDestinationCoordinates());
         assertEquals(direction.getRotation(), tank.getRotation());
@@ -44,7 +44,7 @@ class TankTest {
         float deltaTime = 1f;
         GridPoint2 targetCoordinates = direction.applyCoordinates(tank.getCurrentCoordinates());
 
-        tank.moveToDirection(direction, false);
+        tank.moveTo(direction);
         tank.updateState(deltaTime);
 
         assertEquals(targetCoordinates, tank.getCurrentCoordinates());
@@ -57,7 +57,7 @@ class TankTest {
         Tank tank = new Tank(new GridPoint2(0, 0), SPEED, 0, 0, null, null);
         float deltaTime = 0.1f;
 
-        tank.moveToDirection(direction, false);
+        tank.moveTo(direction);
         float movementProgressExpected = continueProgress(tank.getMovementProgress(), deltaTime,
                 0.5f);
         tank.updateState(deltaTime);

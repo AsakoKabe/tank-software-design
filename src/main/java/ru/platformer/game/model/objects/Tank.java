@@ -66,11 +66,15 @@ public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding, H
 
 
     @Override
-    public void moveToDirection(Direction direction, boolean onlyRotation) {
+    public void moveTo(Direction direction) {
         if (isNotMoving()) {
-            if (!onlyRotation) {
-                destinationCoordinates = direction.applyCoordinates(currentCoordinates);
-            }
+            destinationCoordinates = direction.applyCoordinates(currentCoordinates);
+        }
+    }
+
+    @Override
+    public void rotate(Direction direction) {
+        if (isNotMoving()) {
             this.direction = direction;
             resetMovementProgress();
         }
@@ -94,7 +98,7 @@ public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding, H
     }
 
     @Override
-    public void createBullet() {
+    public void shoot() {
         state.shoot();
     }
 

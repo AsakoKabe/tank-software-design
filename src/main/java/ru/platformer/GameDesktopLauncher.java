@@ -21,14 +21,14 @@ import ru.platformer.game.graphics.LevelGraphicsController;
 import ru.platformer.game.graphics.actions.toggle.ToggleActionFactory;
 import ru.platformer.game.graphics.graphicsObjects.LevelGraphicsBase;
 import ru.platformer.game.graphics.decorators.LevelGraphicsHealthBarDecorator;
-import ru.platformer.game.graphics.graphicsObjects.creationStategies.BulletGraphicsStrategy;
+import ru.platformer.game.graphics.graphicsObjects.creationStategies.BulletGraphicsFactory;
 import ru.platformer.game.graphics.graphicsObjects.creationStategies.ExplosionGraphicsStrategies;
-import ru.platformer.game.graphics.graphicsObjects.creationStategies.ObstacleGraphicsStrategy;
-import ru.platformer.game.graphics.graphicsObjects.creationStategies.TankGraphicsStrategy;
+import ru.platformer.game.graphics.graphicsObjects.creationStategies.ObstacleGraphicsFactory;
+import ru.platformer.game.graphics.graphicsObjects.creationStategies.TankGraphicsFactory;
 import ru.platformer.game.model.CollisionDetector;
 import ru.platformer.game.model.Explosion;
 import ru.platformer.game.model.LevelListener;
-import ru.platformer.game.model.entityControllers.PlayerController;
+import ru.platformer.game.model.entityControllers.KeyboardController;
 import ru.platformer.game.model.entityControllers.aiControllers.AwesomeAIControllerAdapter;
 import ru.platformer.game.model.entityControllers.aiControllers.RandomAIController;
 import ru.platformer.game.model.levelGenerators.RandomLevelGenerator;
@@ -102,9 +102,9 @@ public class GameDesktopLauncher implements ApplicationListener {
     private void createPlayerController(
             CollisionDetector collisionDetector, Tank player) {
 
-        PlayerController playerController = new PlayerController(player);
-        Initializer.initKeyBoardMappings(playerController, collisionDetector, level);
-        actionManager.addEntityActionController(playerController);
+        KeyboardController keyboardController = new KeyboardController(player);
+        Initializer.initKeyBoardMappings(keyboardController, collisionDetector, level);
+        actionManager.addEntityActionController(keyboardController);
     }
 
     private void createAIRandomController(
@@ -159,15 +159,15 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void initGraphicsStrategies(TileMovement tileMovement, TiledMapTileLayer groundLayer) {
-        levelGraphics.addGraphicsStrategyMapping(Tank.class, new TankGraphicsStrategy(
+        levelGraphics.addGraphicsStrategyMapping(Tank.class, new TankGraphicsFactory(
                 "images/tank_blue.png",
                 tileMovement
         ));
-        levelGraphics.addGraphicsStrategyMapping(Obstacle.class, new ObstacleGraphicsStrategy(
+        levelGraphics.addGraphicsStrategyMapping(Obstacle.class, new ObstacleGraphicsFactory(
                 "images/greenTree.png",
                 groundLayer
         ));
-        levelGraphics.addGraphicsStrategyMapping(Bullet.class, new BulletGraphicsStrategy(
+        levelGraphics.addGraphicsStrategyMapping(Bullet.class, new BulletGraphicsFactory(
                 "images/bullet.png",
                 tileMovement
         ));

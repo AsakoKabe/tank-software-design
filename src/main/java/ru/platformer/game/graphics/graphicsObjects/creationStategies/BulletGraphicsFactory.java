@@ -2,16 +2,16 @@ package ru.platformer.game.graphics.graphicsObjects.creationStategies;
 
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.GameObjectGraphics;
-import ru.platformer.game.graphics.GraphicsStrategy;
+import ru.platformer.game.graphics.GraphicsFactory;
 import ru.platformer.game.graphics.graphicsObjects.BulletGraphics;
 import ru.platformer.game.model.objects.Bullet;
 import ru.platformer.util.TileMovement;
 
-public class BulletGraphicsStrategy implements GraphicsStrategy {
+public class BulletGraphicsFactory implements GraphicsFactory {
     private final String fileTexture;
     private final TileMovement tileMovement;
 
-    public BulletGraphicsStrategy(String fileTexture, TileMovement tileMovement) {
+    public BulletGraphicsFactory(String fileTexture, TileMovement tileMovement) {
         this.fileTexture = fileTexture;
         this.tileMovement = tileMovement;
     }

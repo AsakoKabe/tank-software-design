@@ -44,12 +44,12 @@ public class Bullet implements GameObject, Colliding {
 
     @Override
     public void updateState(float deltaTime) {
-        ifHit();
+        hit();
         moveTo();
         updateMovementState(deltaTime);
     }
 
-    private void ifHit() {
+    private void hit() {
         if (isHit()){
             level.deleteGameObject(this);
             dealDamage();

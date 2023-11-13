@@ -12,7 +12,8 @@ public interface Movable {
 
     Direction getDirection();
 
-    void moveToDirection(Direction direction, boolean onlyRotation);
+    void moveTo(Direction direction);
+    void rotate(Direction direction);
 
 
 }

@@ -3,15 +3,15 @@ package ru.platformer.game.graphics.graphicsObjects.creationStategies;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.GameObjectGraphics;
-import ru.platformer.game.graphics.GraphicsStrategy;
+import ru.platformer.game.graphics.GraphicsFactory;
 import ru.platformer.game.graphics.graphicsObjects.ObstacleGraphics;
 import ru.platformer.game.model.objects.Obstacle;
 
-public class ObstacleGraphicsStrategy implements GraphicsStrategy {
+public class ObstacleGraphicsFactory implements GraphicsFactory {
     private final String fileTexture;
     private final TiledMapTileLayer tiledMapTileLayer;
 
-    public ObstacleGraphicsStrategy(String fileTexture, TiledMapTileLayer tiledMapTileLayer) {
+    public ObstacleGraphicsFactory(String fileTexture, TiledMapTileLayer tiledMapTileLayer) {
         this.fileTexture = fileTexture;
         this.tiledMapTileLayer = tiledMapTileLayer;
     }

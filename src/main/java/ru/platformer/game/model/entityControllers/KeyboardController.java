@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayerController implements EntityController {
+public class KeyboardController implements EntityController {
     private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
     private final GameObject gameObject;
 
-    public PlayerController(GameObject player) {
+    public KeyboardController(GameObject player) {
         this.gameObject = player;
     }
 

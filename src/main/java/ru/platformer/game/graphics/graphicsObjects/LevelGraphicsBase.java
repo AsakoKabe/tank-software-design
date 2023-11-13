@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.graphics.GameObjectGraphics;
-import ru.platformer.game.graphics.GraphicsStrategy;
+import ru.platformer.game.graphics.GraphicsFactory;
 import ru.platformer.game.graphics.LevelGraphics;
 import ru.platformer.game.model.LevelListener;
 import ru.platformer.util.TileMovement;
@@ -27,7 +27,7 @@ public class LevelGraphicsBase implements LevelGraphics, LevelListener {
     private final Map<GameObject, GameObjectGraphics> graphicsByGameObject = new LinkedHashMap<>();
     ;
 
-    private final Map<Class<? extends GameObject>, GraphicsStrategy> graphicsStrategyByGameObject = new HashMap<>();
+    private final Map<Class<? extends GameObject>, GraphicsFactory> graphicsStrategyByGameObject = new HashMap<>();
 
 
     public LevelGraphicsBase(
@@ -47,9 +47,9 @@ public class LevelGraphicsBase implements LevelGraphics, LevelListener {
     @Override
     public void addGraphicsStrategyMapping(
             Class<? extends GameObject> clazz,
-            GraphicsStrategy graphicsStrategy
+            GraphicsFactory graphicsFactory
     ) {
-        graphicsStrategyByGameObject.put(clazz, graphicsStrategy);
+        graphicsStrategyByGameObject.put(clazz, graphicsFactory);
     }
 
     @Override
