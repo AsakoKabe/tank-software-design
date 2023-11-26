@@ -43,4 +43,11 @@ public class MediumTank implements TankState {
             level.addGameObject(bullet);
         }
     }
+
+    @Override
+    public void takeDamaged(int damage) {
+        if (tank.getHealthProportion() <= 0.15) {
+            tank.setState(new HeavyTank(tank));
+        }
+    }
 }

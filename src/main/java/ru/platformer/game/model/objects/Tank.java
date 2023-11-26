@@ -17,7 +17,6 @@ import static com.badlogic.gdx.math.MathUtils.isEqual;
 public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding, Health {
 
     private final Level level;
-    private final CollisionDetector collisionDetector;
     private final GridPoint2 currentCoordinates;
     private final int damage;
     private final float speed;
@@ -44,7 +43,6 @@ public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding, H
         this.maxHealthPoint = healthPoint;
         this.damage = damage;
         this.level = level;
-        this.collisionDetector = collisionDetector;
         this.speed = speed;
         this.state = new LightTank(level, this, collisionDetector);
     }
@@ -104,20 +102,16 @@ public class Tank implements GameObject, Movable, Shooter, Damaged, Colliding, H
 
     @Override
     public void takeDamage(int damage) {
-        this.healthPoint -= damage;
-        changeStateByHealth();
+        healthPoint -= damage;
+        state.takeDamaged(damage);
     }
 
-    private void changeStateByHealth() {
-        float proportion = healthPoint / maxHealthPoint;
-        if (proportion >= 0.7){
-            state = new LightTank(level, this, collisionDetector);
-        } else if ((0.15 <= proportion) && (proportion < 0.7)){
-            state = new MediumTank(level, this, collisionDetector);
-        }
-        else {
-            state = new HeavyTank(this);
-        }
+    public float getHealthProportion(){
+        return healthPoint / maxHealthPoint;
+    }
+
+    public void setState(TankState state) {
+        this.state = state;
     }
 
     private boolean isDead() {

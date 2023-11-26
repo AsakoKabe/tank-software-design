@@ -44,4 +44,11 @@ public class LightTank implements TankState {
             level.addGameObject(bullet);
         }
     }
+
+    @Override
+    public void takeDamaged(int damage) {
+        if ((0.15 <= tank.getHealthProportion()) && (tank.getHealthProportion() < 0.7)) {
+            tank.setState(new MediumTank(level, tank, collisionDetector));
+        }
+    }
 }

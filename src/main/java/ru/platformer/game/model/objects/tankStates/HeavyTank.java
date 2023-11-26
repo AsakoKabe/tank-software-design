@@ -27,4 +27,9 @@ public class HeavyTank implements TankState {
     public void shoot() {
 //        dont shoot
     }
+
+    @Override
+    public void takeDamaged(int damage) {
+        tank.takeDamage(damage);
+    }
 }
