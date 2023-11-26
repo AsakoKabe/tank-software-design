@@ -14,6 +14,8 @@ import static org.mockito.Mockito.mock;
 
 class CollisionDetectorTest {
 
+    public static final float SPEED = 0.5f;
+
     @Test
     void collisionExistForAlreadyExistGameObject() {
         CollisionDetector collisionDetector = new CollisionDetector();
@@ -21,7 +23,7 @@ class CollisionDetectorTest {
         levelListeners.add(collisionDetector);
         Level level = new Level(levelListeners, 0, 0);
         GridPoint2 tank1Coordinates = new GridPoint2(0, 0);
-        Tank tank1 = new Tank(tank1Coordinates, 0, 0, null, null);
+        Tank tank1 = new Tank(tank1Coordinates, SPEED, 0, 0, null, null);
         GridPoint2 obstacleCoordinates = new GridPoint2(1, 1);
         Obstacle obstacle1 = new Obstacle(obstacleCoordinates);
 

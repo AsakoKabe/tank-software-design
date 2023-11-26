@@ -3,20 +3,19 @@ package ru.platformer.game.model.entityControllers;
 import com.badlogic.gdx.Gdx;
 import ru.platformer.game.Action;
 import ru.platformer.game.EntityController;
-import ru.platformer.game.GameObject;
-import ru.platformer.game.ActionFactory;
+import ru.platformer.game.model.actions.ActionFactory;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayerController implements EntityController {
-    private final Map<Integer, ActionFactory> keyToActionFactory = new HashMap<>();
-    private final GameObject gameObject;
+public class KeyboardController<T> implements EntityController {
+    private final Map<Integer, ActionFactory<T>> keyToActionFactory = new HashMap<>();
+    private final T controlledObject;
 
-    public PlayerController(GameObject player) {
-        this.gameObject = player;
+    public KeyboardController(T player) {
+        this.controlledObject = player;
     }
 
     public ArrayList<Action> generateActions(){
@@ -30,14 +29,14 @@ public class PlayerController implements EntityController {
         return actions;
     }
 
-    public void addKeyActionFactoryMapping(Integer key, ActionFactory actionFactory){
+    public void addKeyActionFactoryMapping(Integer key, ActionFactory<T> actionFactory){
         keyToActionFactory.put(key, actionFactory);
     }
 
     private Action getAction() {
         for (Integer key : keyToActionFactory.keySet()) {
             if (Gdx.input.isKeyJustPressed(key)) {
-                return keyToActionFactory.get(key).create(gameObject);
+                return keyToActionFactory.get(key).create(controlledObject);
             }
         }
         return null;

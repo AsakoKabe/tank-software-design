@@ -32,6 +32,11 @@ public class ObstacleGraphics implements GameObjectGraphics {
         GdxGameUtils.drawTextureRegionUnscaled(batch, textureRegion, rectangle, 0f);
     }
 
+    @Override
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
     public void dispose(){
         texture.dispose();
     }

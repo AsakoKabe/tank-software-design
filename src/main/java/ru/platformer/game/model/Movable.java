@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import ru.platformer.game.Direction;
 
 public interface Movable {
-    float MOVEMENT_SPEED = 0.5f;
     float MOVEMENT_COMPLETED = 1f;
     int MOVEMENT_STARTED = 0;
 
@@ -13,7 +12,8 @@ public interface Movable {
 
     Direction getDirection();
 
-    void moveToDirection(Direction direction, boolean onlyRotation);
+    void moveTo(Direction direction);
+    void rotate(Direction direction);
 
 
 }

@@ -6,7 +6,7 @@ import org.awesome.ai.state.movable.Actor;
 import org.awesome.ai.strategy.NotRecommendingAI;
 import ru.platformer.game.AIEvent;
 import ru.platformer.game.Action;
-import ru.platformer.game.ActionFactory;
+import ru.platformer.game.model.actions.ActionFactory;
 import ru.platformer.game.GameObject;
 import ru.platformer.game.model.entityControllers.AIController;
 import ru.platformer.game.EntityController;
